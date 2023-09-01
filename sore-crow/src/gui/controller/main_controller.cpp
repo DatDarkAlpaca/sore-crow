@@ -160,11 +160,6 @@ namespace sore
 
 		qApp->setStyleSheet(m_Stylesheet->styleSheet());
 
-		// Font:
-		QFont appFont;
-		appFont.setFamily("Krub");
-		appFont.setPointSizeF(50);
-		qApp->setFont(appFont);
 	}
 
 	void MainController::configureActions()
