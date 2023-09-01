@@ -21,13 +21,6 @@
     <item>
      <layout class="QVBoxLayout" name="rightLayout">
       <item>
-       <widget class="QLabel" name="vocabularyLabel">
-        <property name="text">
-         <string>Select a subtitle from an episode</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QLabel" name="descriptionLabel">
         <property name="text">
          <string/>
@@ -162,20 +155,20 @@
     </item>
    </layout>
   </widget>
-  <widget class="QDockWidget" name="searchDockWidget">
+  <widget class="sore::QHideableDockWidget" name="subtitleDockWidget">
    <property name="floating">
     <bool>false</bool>
    </property>
    <property name="features">
-    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+    <set>QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
    </property>
    <property name="windowTitle">
-    <string>Word Table</string>
+    <string>Subtitle Viewer</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>1</number>
    </attribute>
-   <widget class="QWidget" name="searchDockWidgetContents">
+   <widget class="QWidget" name="subtitleDockWidgetContents">
     <layout class="QVBoxLayout" name="verticalLayout">
      <property name="leftMargin">
       <number>0</number>
@@ -209,12 +202,12 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="episodesDockWidget">
+  <widget class="sore::QHideableDockWidget" name="episodesDockWidget">
    <property name="features">
-    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+    <set>QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
    </property>
    <property name="windowTitle">
-    <string>Episodes</string>
+    <string>Episode List</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>1</number>
@@ -238,18 +231,6 @@
      </item>
     </layout>
    </widget>
-  </widget>
-  <widget class="QDockWidget" name="vocabularyDockWidget">
-   <property name="features">
-    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
-   </property>
-   <property name="windowTitle">
-    <string>Vocabulary Lookup</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>8</number>
-   </attribute>
-   <widget class="QWidget" name="vocabularyDockWidgetContents"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -291,7 +272,15 @@
     <addaction name="menuAudioTrack"/>
     <addaction name="menuAudioDevice"/>
    </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionEpisodeList"/>
+    <addaction name="actionSubtitleViewer"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuView"/>
    <addaction name="menuAudio"/>
   </widget>
   <action name="actionNewProject">
@@ -325,12 +314,28 @@
     <string>empty</string>
    </property>
   </action>
+  <action name="actionEpisodeList">
+   <property name="text">
+    <string>Episode List</string>
+   </property>
+  </action>
+  <action name="actionSubtitleViewer">
+   <property name="text">
+    <string>Subtitle Viewer</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
    <class>QVideoWidget</class>
    <extends>QWidget</extends>
    <header>qvideowidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>sore::QHideableDockWidget</class>
+   <extends>QDockWidget</extends>
+   <header>gui/widgets/QHideableDockWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
