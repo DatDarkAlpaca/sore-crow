@@ -46,6 +46,11 @@ namespace sore
     private:
         void handleVolumePositionChange();
 
+    // Controllers:
+        void setCurrentDurationLabel(long long duration);
+
+        void setTotalDurationLabel(long long duration);
+
     // Buttons:
     private:
         void togglePlayButtonIcon(bool togglePlayingIcon);

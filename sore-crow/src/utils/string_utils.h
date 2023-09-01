@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <sstream>
 #include <algorithm>
 
 namespace sore
@@ -20,5 +21,35 @@ namespace sore
         });
 
         return temp;
+    }
+
+    inline std::string getDurationString(long long duration)
+    {
+        constexpr long long msPerSecond = 1000;
+        constexpr long long msPerMinute = msPerSecond * 60;
+        constexpr long long msPerHour = msPerMinute * 60;
+        constexpr long long msPerDay = msPerHour * 24;
+
+        long long days = duration / msPerDay;
+        duration %= msPerDay;
+        long long hours = duration / msPerHour;
+        duration %= msPerHour;
+        long long minutes = duration / msPerMinute;
+        duration %= msPerMinute;
+        long long seconds = duration / msPerSecond;
+
+        std::stringstream formattedTime;
+        formattedTime << std::setfill('0');
+
+        if (days > 0)
+            formattedTime << std::setw(2) << days << ":";
+
+        if (hours > 0 || days > 0)
+            formattedTime << std::setw(2) << hours << ":";
+
+        formattedTime << std::setw(2) << minutes << ":";
+        formattedTime << std::setw(2) << seconds;
+
+        return formattedTime.str();
     }
 }

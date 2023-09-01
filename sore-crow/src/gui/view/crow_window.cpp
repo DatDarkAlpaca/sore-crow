@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "crow_window.h"
+#include "utils/string_utils.h"
 
 namespace sore
 {
@@ -57,8 +58,12 @@ namespace sore
     {
         QObject::connect(episodeWidget, &EpisodeWidget::episodeClicked, [this, episodeFilepath]() {
             setVideo(episodeFilepath);
-            setVideoSliderMaximum(m_MediaPlayer->duration());
+            long long duration = m_MediaPlayer->duration();
+            
+            setVideoSliderMaximum(duration);
+            setTotalDurationLabel(duration);
             togglePlayButtonIcon(false);
+
             m_MediaPlayer->play();
         });
     }
@@ -94,11 +99,13 @@ namespace sore
         QObject::connect(m_MediaPlayer, &QMediaPlayer::positionChanged, [&](long long position) {
             ui.playerSlider->blockSignals(true);
             ui.playerSlider->setValue(position);
+            setCurrentDurationLabel(position);
             ui.playerSlider->blockSignals(false);
         });
 
         QObject::connect(ui.playerSlider, &QSlider::valueChanged, [&](long long position) {
             m_MediaPlayer->setPosition(position);
+            setCurrentDurationLabel(position);
         });
     }
 
@@ -112,6 +119,16 @@ namespace sore
         QObject::connect(ui.volumeSlider, &QSlider::valueChanged, [&](int position) {
             m_AudioOutput->setVolume(position / 100.f);
         });
+    }
+
+    void CrowWindow::setCurrentDurationLabel(long long duration)
+    {
+        ui.currentPositionLabel->setText(getDurationString(duration).c_str());
+    }
+
+    void CrowWindow::setTotalDurationLabel(long long duration)
+    {
+        ui.totalDurationLabel->setText(getDurationString(duration).c_str());
     }
 
     void CrowWindow::togglePlayButtonIcon(bool togglePlayingIcon)
