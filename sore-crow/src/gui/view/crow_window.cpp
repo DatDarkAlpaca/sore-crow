@@ -25,6 +25,8 @@ namespace sore
         handleNextButtonClick();
 
         populateAudioDevice();
+
+        handleShowEpisodeListDock();
     }
 
     void CrowWindow::updateData(const ProjectData& data)
@@ -178,6 +180,20 @@ namespace sore
 
             ui.menuAudioDevice->addAction(action);
         }
+    }
+
+    void CrowWindow::handleShowEpisodeListDock()
+    {
+        QObject::connect(ui.actionEpisodeList, &QAction::triggered, [&]() {
+            ui.episodesDockWidget->show();
+        });
+    }
+
+    void CrowWindow::handleShowSubtitleViewerDock()
+    {
+        QObject::connect(ui.actionSubtitleViewer, &QAction::triggered, [&]() {
+            ui.subtitleDockWidget->show();
+        });
     }
 
     void CrowWindow::handleVolumePositionChange()

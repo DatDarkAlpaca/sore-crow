@@ -35,10 +35,13 @@
     <QtMoc Include="vendor\qcss\src\QtAdvancedStylesheet.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\gui\view\episode_widget.h">
+    <QtMoc Include="src\gui\widgets\episode_widget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\gui\view\dialog\create_project_dialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gui\widgets\QHideableDockWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -64,7 +67,7 @@
     <ClCompile Include="src\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\view\episode_widget.cpp">
+    <ClCompile Include="src\gui\widgets\episode_widget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\view\dialog\create_project_dialog.cpp">

@@ -4,7 +4,7 @@
 #include <QAudioOutput>
 
 #include "ui_crow_window.h"
-#include "gui/view/episode_widget.h"
+#include "gui/widgets/episode_widget.h"
 #include "core/project/project_data.h"
 
 namespace sore
@@ -50,6 +50,10 @@ namespace sore
         void populateAudioTrackAction();
 
         void populateAudioDevice();
+
+        void handleShowEpisodeListDock();
+
+        void handleShowSubtitleViewerDock();
 
     // Audio:
     private:
