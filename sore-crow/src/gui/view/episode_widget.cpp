@@ -19,7 +19,7 @@ namespace sore
 
 	void EpisodeWidget::setEpisodeThumbnail(const std::string& episodePath)
 	{
-		// TODO: implement
+		// TODO: implement	
 	}
 
 	void EpisodeWidget::setEpisodeName(const std::string& episodePath)

@@ -23,6 +23,8 @@ namespace sore
         handleStopButtonClick();
         handlePreviousButtonClick();
         handleNextButtonClick();
+
+        populateAudioDevice();
     }
 
     void CrowWindow::updateData(const ProjectData& data)
@@ -63,6 +65,9 @@ namespace sore
             setVideoSliderMaximum(duration);
             setTotalDurationLabel(duration);
             togglePlayButtonIcon(false);
+
+            toggleAudioTrackAction(true);
+            populateAudioTrackAction();
 
             m_MediaPlayer->play();
         });
@@ -112,6 +117,49 @@ namespace sore
     inline bool CrowWindow::hasVideoSource()
     {
         return !m_MediaPlayer->source().isEmpty();
+    }
+
+    void CrowWindow::toggleAudioTrackAction(bool value)
+    {
+        ui.menuAudioTrack->setEnabled(value);
+    }
+
+    void CrowWindow::populateAudioTrackAction()
+    {
+        auto tracks = m_MediaPlayer->audioTracks();
+
+        ui.menuAudioTrack->clear();
+
+        for (size_t i = 0; i < tracks.size(); ++i)
+        {
+            auto title = tracks[i].value(QMediaMetaData::Title);
+
+            QAction* action = new QAction(ui.menuAudioTrack);
+            action->setText(title.toString());
+            
+            ui.menuAudioTrack->addAction(action);
+
+            QObject::connect(action, &QAction::triggered, [&, i]() {
+                m_MediaPlayer->setActiveAudioTrack(i);
+            });
+        }
+    }
+
+    void CrowWindow::populateAudioDevice()
+    {
+        ui.menuAudioDevice->clear();
+
+        for (const auto& outputDevice : QMediaDevices::audioOutputs())
+        {
+            QAction* action = new QAction(ui.menuAudioDevice);
+            action->setText(outputDevice.description());
+
+            QObject::connect(action, &QAction::triggered, [&, outputDevice]() {
+                m_AudioOutput->setDevice(outputDevice);
+            });
+
+            ui.menuAudioDevice->addAction(action);
+        }
     }
 
     void CrowWindow::handleVolumePositionChange()

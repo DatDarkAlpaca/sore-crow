@@ -42,6 +42,13 @@ namespace sore
 
         inline bool hasVideoSource();
 
+    // Actions:
+        void toggleAudioTrackAction(bool value);
+
+        void populateAudioTrackAction();
+
+        void populateAudioDevice();
+
     // Audio:
     private:
         void handleVolumePositionChange();

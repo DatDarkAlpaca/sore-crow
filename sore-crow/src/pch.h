@@ -25,6 +25,8 @@
 #include <QFileDialog>
 #include <QMediaPlayer>
 #include <QAudioOutput>
+#include <QAudioDevice>
+#include <QMediaDevices>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QMainWindow>

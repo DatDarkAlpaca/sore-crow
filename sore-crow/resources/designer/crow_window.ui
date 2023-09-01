@@ -269,41 +269,31 @@
     <addaction name="separator"/>
     <addaction name="actionClose"/>
    </widget>
+   <widget class="QMenu" name="menuAudio">
+    <property name="title">
+     <string>Audio</string>
+    </property>
+    <widget class="QMenu" name="menuAudioTrack">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="title">
+      <string>Audio track...</string>
+     </property>
+     <addaction name="actionPlaceholderAudio"/>
+    </widget>
+    <widget class="QMenu" name="menuAudioDevice">
+     <property name="title">
+      <string>Audio device...</string>
+     </property>
+     <addaction name="actionDevicePlaceholder"/>
+    </widget>
+    <addaction name="menuAudioTrack"/>
+    <addaction name="menuAudioDevice"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuAudio"/>
   </widget>
-  <action name="action_quit">
-   <property name="text">
-    <string>Quit</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Q</string>
-   </property>
-  </action>
-  <action name="action_add_subtitle_file">
-   <property name="text">
-    <string>Add subtitle file...</string>
-   </property>
-  </action>
-  <action name="action_choose_audio_track">
-   <property name="text">
-    <string>Subtitle track...</string>
-   </property>
-  </action>
-  <action name="actionAudio_track">
-   <property name="text">
-    <string>Audio track...</string>
-   </property>
-  </action>
-  <action name="actionAudio_device">
-   <property name="text">
-    <string>Audio device...</string>
-   </property>
-  </action>
-  <action name="actionStereo_mode">
-   <property name="text">
-    <string>Stereo mode...</string>
-   </property>
-  </action>
   <action name="actionNewProject">
    <property name="text">
     <string>New</string>
@@ -323,6 +313,16 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="actionPlaceholderAudio">
+   <property name="text">
+    <string>test</string>
+   </property>
+  </action>
+  <action name="actionDevicePlaceholder">
+   <property name="text">
+    <string>empty</string>
    </property>
   </action>
  </widget>
