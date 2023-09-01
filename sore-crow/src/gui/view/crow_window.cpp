@@ -59,14 +59,19 @@ namespace sore
     void CrowWindow::handleEpisodeClicked(EpisodeWidget* episodeWidget, const std::string& episodeFilepath)
     {
         QObject::connect(episodeWidget, &EpisodeWidget::episodeClicked, [this, episodeFilepath]() {
+
+            if (videoSource() == QUrl::fromLocalFile(episodeFilepath.c_str()))
+                return;
+
             setVideo(episodeFilepath);
             long long duration = m_MediaPlayer->duration();
             
             setVideoSliderMaximum(duration);
             setTotalDurationLabel(duration);
-            togglePlayButtonIcon(false);
 
+            togglePlayButtonIcon(false);
             toggleAudioTrackAction(true);
+
             populateAudioTrackAction();
 
             m_MediaPlayer->play();
@@ -114,9 +119,14 @@ namespace sore
         });
     }
 
-    inline bool CrowWindow::hasVideoSource()
+    inline bool CrowWindow::hasVideoSource() const
     {
         return !m_MediaPlayer->source().isEmpty();
+    }
+
+    QUrl CrowWindow::videoSource() const
+    {
+        return m_MediaPlayer->source();
     }
 
     void CrowWindow::toggleAudioTrackAction(bool value)
@@ -136,7 +146,11 @@ namespace sore
 
             QAction* action = new QAction(ui.menuAudioTrack);
             action->setText(title.toString());
-            
+            action->setCheckable(true);
+
+            if (m_MediaPlayer->activeAudioTrack() == i)
+                action->setChecked(true);
+
             ui.menuAudioTrack->addAction(action);
 
             QObject::connect(action, &QAction::triggered, [&, i]() {
@@ -153,6 +167,10 @@ namespace sore
         {
             QAction* action = new QAction(ui.menuAudioDevice);
             action->setText(outputDevice.description());
+            action->setCheckable(true);
+
+            if (outputDevice == QMediaDevices::defaultAudioOutput())
+                action->setChecked(true);
 
             QObject::connect(action, &QAction::triggered, [&, outputDevice]() {
                 m_AudioOutput->setDevice(outputDevice);

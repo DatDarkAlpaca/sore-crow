@@ -40,7 +40,9 @@ namespace sore
 
         void handleVideoPositionChange();
 
-        inline bool hasVideoSource();
+        inline bool hasVideoSource() const;
+
+        QUrl videoSource() const;
 
     // Actions:
         void toggleAudioTrackAction(bool value);
