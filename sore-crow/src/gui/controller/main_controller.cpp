@@ -123,6 +123,8 @@ namespace sore
 		auto correctedProjectFiles = getFilesInDir(projectData.episodeFolderName);
 		auto correctedSubtitleFiles = getFilesInDir(projectData.episodeFolderName);
 
+		projectData.sourceMetadata.id = generateUUID();
+
 		// Iterate over episodes and subtitles to generate metadata:
 		for (size_t i = 0; i < correctedProjectFiles.size(); ++i)
 		{
