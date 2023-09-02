@@ -1,0 +1,15 @@
+<RCC>
+  <qresource prefix="main">
+    <file>icons/next.png</file>
+    <file>icons/pause.png</file>
+    <file>icons/play.png</file>
+    <file>icons/previous.png</file>
+    <file>icons/stop.png</file>
+    <file>icons/subtitles.png</file>
+    <file>icons/volume_full.png</file>
+    <file>icons/volume_minus.png</file>
+    <file>icons/volume_none.png</file>
+    <file>icons/volume_plus.png</file>
+    <file>icons/volume_two.png</file>
+  </qresource>
+</RCC>

@@ -19,7 +19,6 @@ namespace sore
         layout()->addWidget(statusBar);
 
         setupLabels();
-        setupIcons();
 
         handleLocationTextChange();
         handleLocationBtn();
@@ -63,12 +62,6 @@ namespace sore
         ui.sourcesLabel->setStyleSheet("font-family: Krub; font-size: 24px;");
     }
     
-    void CreateProjectDialog::setupIcons()
-    {
-        ui.locationBtn->setText("");
-        ui.locationBtn->setIcon(QIcon("C:/Users/paulo/Projects/sore-crow/sore-crow/resources/icons/ryan/search.png"));
-    }
-
     void CreateProjectDialog::handleLocationTextChange()
     {
         QObject::connect(ui.locationInput, &QLineEdit::textChanged, [&](const QString& location) {

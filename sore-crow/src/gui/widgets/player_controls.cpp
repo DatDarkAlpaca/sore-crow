@@ -9,7 +9,6 @@ namespace sore
 	{
 		ui.setupUi(this);
 
-		setupIcons();
 		setupAudioSlider();
 
 		onPlayerSliderPositionChanged();
@@ -17,11 +16,10 @@ namespace sore
 
 	void PlayerControlsWidget::togglePlayButtonIcon(bool togglePlayingIcon)
 	{
-		// TODO: relative paths
 		if (togglePlayingIcon)
-			ui.playVideoBtn->setIcon(QIcon("C:/Users/paulo/Projects/sore-crow/sore-crow/resources/icons/play.png"));
+			ui.playVideoBtn->setIcon(QIcon(":/main/icons/play.png"));
 		else
-			ui.playVideoBtn->setIcon(QIcon("C:/Users/paulo/Projects/sore-crow/sore-crow/resources/icons/pause.png"));
+			ui.playVideoBtn->setIcon(QIcon(":/main/icons/pause.png"));
 	}
 
 	void PlayerControlsWidget::setVideoSliderPosition(long long position)
@@ -61,19 +59,5 @@ namespace sore
 		ui.volumeSlider->setMaximum(100);
 		ui.volumeSlider->setMinimum(0);
 		ui.volumeSlider->setValue(50);
-	}
-
-	void PlayerControlsWidget::setupIcons()
-	{
-		ui.playVideoBtn->setText("");
-		ui.stopVideoBtn->setText("");
-		ui.previousBtn->setText("");
-		ui.nextBtn->setText("");
-
-		// TODO: set relative paths when the file system is ready
-		ui.playVideoBtn->setIcon(QIcon("C:/Users/paulo/Projects/sore-crow/sore-crow/resources/icons/play.png"));
-		ui.stopVideoBtn->setIcon(QIcon("C:/Users/paulo/Projects/sore-crow/sore-crow/resources/icons/stop.png"));
-		ui.previousBtn->setIcon(QIcon("C:/Users/paulo/Projects/sore-crow/sore-crow/resources/icons/previous.png"));
-		ui.nextBtn->setIcon(QIcon("C:/Users/paulo/Projects/sore-crow/sore-crow/resources/icons/next.png"));
 	}
 }

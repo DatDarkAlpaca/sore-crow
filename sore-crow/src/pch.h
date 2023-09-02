@@ -21,6 +21,7 @@
 #include <nlohmann/json.hpp>
 
 #include <QFileInfo>
+#include <QMessageBox>
 #include <QMouseEvent>
 #include <QFileDialog>
 #include <QMediaPlayer>

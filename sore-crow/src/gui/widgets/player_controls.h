@@ -34,8 +34,6 @@ namespace sore
 	private:
 		void setupAudioSlider();
 
-		void setupIcons();
-
 	public:
 		Ui::PlayerControls ui;
 	};

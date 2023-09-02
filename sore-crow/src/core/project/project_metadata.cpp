@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "metadata.h"
 #include "project_data.h"
+
 #include "utils/uuid_utils.h"
 #include "utils/string_utils.h"
 #include "core/macros/macros.h"
+#include "core/logger/logger.h"
 
 namespace sore
 {
@@ -14,17 +16,16 @@ namespace sore
         std::ifstream file(filepath);
         if (file.bad())
         {
-            // TODO: logging.
+            CrownsoleLogger::log("Failed to retrieve project data from " + filepath + ".", Severity::ERROR);
             return {};
         }
 
         if (!endsWith(filepath, Macros::ProjectExtension))
         {
-            // TODO: logging
+            CrownsoleLogger::log("This project file ends in the wrong extension.", Severity::ERROR);
             return {};
         }
 
-        // TODO: json error logging.
         json data = json::parse(file);
         json header = data["header"];
         json source = data["source"];

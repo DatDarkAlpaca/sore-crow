@@ -5,6 +5,10 @@
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Deploy|x64">
+      <Configuration>Deploy</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
@@ -15,6 +19,7 @@
     <Keyword>QtVS_v304</Keyword>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0.22000.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0.22000.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'">10.0.22000.0</WindowsTargetPlatformVersion>
     <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -23,6 +28,10 @@
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
@@ -42,6 +51,14 @@
     <QtInstall>6.5.2_msvc2019_64</QtInstall>
     <QtModules>core;gui;widgets;multimedia;svg;multimediawidgets </QtModules>
     <QtBuildConfig>release</QtBuildConfig>
+    <QMakeCodeLines>DESTDIR =$(IntDir)qmake\temp;$(QMakeExtraArgs)</QMakeCodeLines>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'" Label="QtSettings">
+    <QtInstall>6.5.2_msvc2019_64</QtInstall>
+    <QtModules>core;gui;widgets;multimedia;svg;multimediawidgets </QtModules>
+    <QtBuildConfig>release</QtBuildConfig>
+    <QMakeCodeLines>DESTDIR =$(IntDir)qmake\temp;$(QMakeExtraArgs)</QMakeCodeLines>
+    <QtDeploy>true</QtDeploy>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <IncludePath>$(ProjectDir)src;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
@@ -49,6 +66,11 @@
     <IntDir>$(SolutionDir)intermediate\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <IncludePath>$(ProjectDir)src;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)intermediate\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'">
     <IncludePath>$(ProjectDir)src;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)intermediate\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
@@ -66,6 +88,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(QtMsBuild)\Qt.props" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Label="Vcpkg">
     <VcpkgEnableManifest>true</VcpkgEnableManifest>
@@ -75,6 +101,10 @@
     <VcpkgUseStatic>false</VcpkgUseStatic>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <VcpkgInstalledDir>$(SolutionDir)/vcpkg_installed</VcpkgInstalledDir>
+    <VcpkgUseStatic>false</VcpkgUseStatic>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'" Label="Vcpkg">
     <VcpkgInstalledDir>$(SolutionDir)/vcpkg_installed</VcpkgInstalledDir>
     <VcpkgUseStatic>false</VcpkgUseStatic>
   </PropertyGroup>
@@ -92,7 +122,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)vendor;$(ProjectDir)vendor/qcss/src;$(ProjectDir)vendor/srt-parser;$(ProjectDir)vendor/uuid_v4;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)vendor;$(ProjectDir)vendor/qcss/src;$(ProjectDir)vendor/srt-parser;$(ProjectDir)vendor/uuid_v4;%(AdditionalIncludeDirectories);$(Qt_INCLUDEPATH_)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -101,6 +131,21 @@
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)vendor;$(ProjectDir)vendor/qcss/src;$(ProjectDir)vendor/srt-parser;$(ProjectDir)vendor/uuid_v4;%(AdditionalIncludeDirectories);$(Qt_INCLUDEPATH_)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /S /Y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
@@ -126,6 +171,18 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'" Label="Configuration">
+    <ClCompile>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <Optimization>MaxSpeed</Optimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\core\project\project_metadata.cpp" />
     <ClCompile Include="src\gui\controller\main_controller.cpp" />
@@ -136,7 +193,9 @@
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'">%(Filename).moc</QtMocFileName>
     </ClCompile>
     <ClCompile Include="src\gui\widgets\player_controls.cpp" />
     <ClCompile Include="src\pch.cpp">
@@ -144,7 +203,10 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'">
       </PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="vendor\qcss\src\QtAdvancedStylesheet.cpp" />
@@ -161,7 +223,7 @@
     <ClInclude Include="src\gui\controller\main_controller.h" />
     <ClInclude Include="src\crow_app.h" />
     <ClInclude Include="src\core\project\project_data.h" />
-    <ClInclude Include="src\gui\data\global_data.h" />
+    <ClInclude Include="src\core\global_data.h" />
     <ClInclude Include="src\gui\view\dialog\create_project_dialog_data.h" />
     <QtMoc Include="src\gui\widgets\episode_widget.h" />
     <QtMoc Include="src\gui\view\dialog\create_project_dialog.h" />
@@ -184,16 +246,20 @@
     <QtMoc Include="src\gui\view\splash_window\splash_window.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="resources\designer\create_project_dialog.ui" />
-    <QtUic Include="resources\designer\crownsole.ui" />
-    <QtUic Include="resources\designer\crow_window.ui" />
-    <QtUic Include="resources\designer\episode.ui" />
-    <QtUic Include="resources\designer\player_controls.ui" />
-    <QtUic Include="resources\designer\splash_window.ui" />
+    <QtUic Include="res\designer\create_project_dialog.ui" />
+    <QtUic Include="res\designer\crownsole.ui" />
+    <QtUic Include="res\designer\crow_window.ui" />
+    <QtUic Include="res\designer\episode.ui" />
+    <QtUic Include="res\designer\player_controls.ui" />
+    <QtUic Include="res\designer\splash_window.ui" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.gitignore" />
     <None Include="vcpkg.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="res\create_project_dialog_resource.qrc" />
+    <QtRcc Include="res\player_controls_resources.qrc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

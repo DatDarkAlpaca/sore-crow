@@ -22,8 +22,6 @@ namespace sore
     private:
         void setupLabels();
 
-        void setupIcons();
-
     private:
         void handleLocationTextChange();
 

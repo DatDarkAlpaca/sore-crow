@@ -17,9 +17,9 @@ namespace sore
 		void execute();
 
 	private slots:
-		ProjectData handleOpenProject();
+		ProjectData onOpenProject();
 
-		ProjectData handleCreateProject();
+		ProjectData onCreateProject();
 
 	private:
 		void configureStylesheet();

@@ -147,27 +147,27 @@
     <ClInclude Include="src\core\logger\severity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\data\global_data.h">
+    <ClInclude Include="src\core\global_data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="resources\designer\crow_window.ui">
+    <QtUic Include="res\designer\crow_window.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="resources\designer\splash_window.ui">
+    <QtUic Include="res\designer\splash_window.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="resources\designer\episode.ui">
+    <QtUic Include="res\designer\episode.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="resources\designer\create_project_dialog.ui">
+    <QtUic Include="res\designer\create_project_dialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="resources\designer\player_controls.ui">
+    <QtUic Include="res\designer\player_controls.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="resources\designer\crownsole.ui">
+    <QtUic Include="res\designer\crownsole.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -176,5 +176,13 @@
     <None Include="..\.gitignore">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="res\create_project_dialog_resource.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <QtRcc Include="res\player_controls_resources.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
   </ItemGroup>
 </Project>

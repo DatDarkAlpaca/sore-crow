@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "main_controller.h"
-#include "gui/data/global_data.h"
+#include "core/global_data.h"
+#include "core/logger/logger.h"
 
 #include "utils/dialog.h"
 #include "utils/uuid_utils.h"
@@ -27,26 +28,36 @@ namespace sore
 		m_SplashWindow.show();
 	}
 
-	ProjectData MainController::handleOpenProject()
+	ProjectData MainController::onOpenProject()
 	{
 		std::string projectFile = openProjectFileDialog();
+
+		// TODO: move to utils.
+		auto errorBox = [&](const std::string& errorMessage) -> void {
+			QMessageBox msgBox;
+			msgBox.setWindowTitle("Sore Crow");
+			msgBox.setDefaultButton(QMessageBox::Ok);
+			msgBox.setText(errorMessage.c_str());
+			msgBox.exec();
+		};
+
 		if (projectFile.empty())
-		{
-			qDebug() << "Invalid project filepath.";
 			return {};
-		}
 
 		ProjectData projectData = getProjectData(projectFile);
 		if (!projectData.valid())
 		{
-			qDebug() << "The selected document is not a valid project file.";
+			QString error("This project file is invalid or corrupted.");
+			error = error.arg(projectFile.c_str());
+			errorBox(error.toStdString());
+
 			return {};
 		}
 
 		return projectData;
 	}
 
-	ProjectData MainController::handleCreateProject()
+	ProjectData MainController::onCreateProject()
 	{
 		namespace fs = std::filesystem;
 
@@ -115,11 +126,11 @@ namespace sore
 
 	void MainController::configureStylesheet()
 	{
+		Data::initialize();
 		m_Stylesheet = new acss::QtAdvancedStylesheet();
 
-		// Todo: organize the style and output files in a separate handler.
-		m_Stylesheet->setStylesDirPath("C:/Users/paulo/Projects/sore-crow/sore-crow/resources/styles");
-		m_Stylesheet->setOutputDirPath("C:/Users/paulo/Projects/sore-crow/sore-crow/resources/output");
+		m_Stylesheet->setStylesDirPath(StylePath.c_str());
+		m_Stylesheet->setOutputDirPath(StyleOutputPath.c_str());
 		m_Stylesheet->setCurrentStyle("crow_material");
 
 		m_Stylesheet->setCurrentTheme("dark_purple");
@@ -135,7 +146,7 @@ namespace sore
 	{
 		// [Splash Window] Open Project:
 		QObject::connect(m_SplashWindow.ui.openProjectBtn, &QPushButton::released, [&]() {
-			auto projectData = handleOpenProject();
+			auto projectData = onOpenProject();
 			if (!projectData.valid())
 				return;
 
@@ -148,7 +159,7 @@ namespace sore
 
 		// [Splash Window] Create Project:
 		QObject::connect(m_SplashWindow.ui.createProjectBtn, &QPushButton::released, [&]() {
-			auto projectData = handleCreateProject();
+			auto projectData = onCreateProject();
 			if (!projectData.valid())
 				return;
 
@@ -161,7 +172,7 @@ namespace sore
 
 		// [Main Window] Open Project:
 		QObject::connect(m_CrowWindow.ui.actionOpenProject, &QAction::triggered, [&]() {
-			auto projectData = handleOpenProject();
+			auto projectData = onOpenProject();
 			if (!projectData.valid())
 				return;
 

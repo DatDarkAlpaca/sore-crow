@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>641</width>
-    <height>397</height>
+    <width>685</width>
+    <height>508</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -68,7 +68,11 @@
        <item>
         <widget class="QPushButton" name="locationBtn">
          <property name="text">
-          <string>S</string>
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../create_project_dialog_resource.qrc">
+           <normaloff>:/main/icons/ryan/search.png</normaloff>:/main/icons/ryan/search.png</iconset>
          </property>
         </widget>
        </item>
@@ -166,6 +170,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../create_project_dialog_resource.qrc"/>
+ </resources>
  <connections/>
 </ui>
