@@ -119,7 +119,6 @@ namespace sore
 
     void CrowWindow::populateAudioTrackAction()
     {
-        // TODO: fix the bug where all actions get selected.
         auto tracks = m_MediaHandler->audioTracks();
 
         ui.menuAudioTrack->clear();
@@ -139,7 +138,7 @@ namespace sore
                 if (!checked)
                     action->setChecked(true);
 
-                for (const auto& audioAction : ui.menuAudioDevice->actions())
+                for (const auto& audioAction : ui.menuAudioTrack->actions())
                 {
                     if (audioAction != action)
                         audioAction->setChecked(false);
@@ -154,7 +153,6 @@ namespace sore
 
     void CrowWindow::populateAudioDevice()
     {
-        // TODO: fix the bug where all actions get selected.
         ui.menuAudioDevice->clear();
 
         for (const auto& outputDevice : QMediaDevices::audioOutputs())
