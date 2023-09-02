@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "main_controller.h"
+#include "gui/data/global_data.h"
 
 #include "utils/dialog.h"
 #include "utils/uuid_utils.h"
@@ -124,6 +125,8 @@ namespace sore
 		m_Stylesheet->setCurrentTheme("dark_purple");
 		m_Stylesheet->updateStylesheet();
 
+		globalData.isStylesheetDark = m_Stylesheet->isCurrentThemeDark();
+
 		qApp->setStyleSheet(m_Stylesheet->styleSheet());
 
 	}
@@ -137,8 +140,7 @@ namespace sore
 				return;
 
 			m_CrowWindow.clearData();
-			m_CrowWindowData.currentProject = projectData;
-			m_CrowWindow.updateData(m_CrowWindowData.currentProject);
+			m_CrowWindow.updateData(projectData);
 
 			m_SplashWindow.hide();
 			m_CrowWindow.show();
@@ -151,8 +153,7 @@ namespace sore
 				return;
 
 			m_CrowWindow.clearData();
-			m_CrowWindowData.currentProject = projectData;
-			m_CrowWindow.updateData(m_CrowWindowData.currentProject);
+			m_CrowWindow.updateData(projectData);
 
 			m_SplashWindow.hide();
 			m_CrowWindow.show();
@@ -165,8 +166,7 @@ namespace sore
 				return;
 
 			m_CrowWindow.clearData();
-			m_CrowWindowData.currentProject = projectData;
-			m_CrowWindow.updateData(m_CrowWindowData.currentProject);
+			m_CrowWindow.updateData(projectData);
 		});
 	}
 }

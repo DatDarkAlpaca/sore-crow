@@ -1,7 +1,6 @@
 #pragma once
-#include "gui/view/crow_window.h"
-#include "gui/view/splash_window.h"
-#include "gui/data/crow_window_data.h"
+#include "gui/view/crow_window/crow_window.h"
+#include "gui/view/splash_window/splash_window.h"
 
 #include <QtAdvancedStylesheet.h>
 
@@ -31,7 +30,6 @@ namespace sore
 		acss::QtAdvancedStylesheet* m_Stylesheet;
 
 	private:
-		CrowWindowData m_CrowWindowData;
 		SplashWindow m_SplashWindow;
 		CrowWindow m_CrowWindow;
 	};

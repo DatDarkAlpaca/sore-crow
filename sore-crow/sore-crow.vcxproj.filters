@@ -23,15 +23,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="src\gui\view\crow_window.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <ClCompile Include="src\gui\view\crow_window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <QtMoc Include="src\gui\view\splash_window.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="vendor\qcss\src\QtAdvancedStylesheet.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -44,15 +35,36 @@
     <QtMoc Include="src\gui\widgets\QHideableDockWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\gui\view\crow_window\crow_window.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gui\objects\crow_video.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gui\view\splash_window\splash_window.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gui\widgets\player_controls.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gui\objects\player_controls_media_events.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gui\widgets\episode_list_widget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\core\logger\logger.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gui\widgets\crownsole\crownsole.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\crow_app.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\view\splash_window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="vendor\qcss\src\QtAdvancedStylesheet.cpp">
@@ -71,6 +83,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\view\dialog\create_project_dialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\view\splash_window\splash_window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\view\crow_window\crow_window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\widgets\player_controls.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\widgets\episode_list_widget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -105,9 +129,6 @@
     <ClInclude Include="vendor\srt-parser\srtparser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\data\crow_window_data.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\utils\video_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -117,10 +138,16 @@
     <ClInclude Include="src\utils\extension_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\data\create_project_dialog_data.h">
+    <ClInclude Include="src\gui\view\dialog\create_project_dialog_data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\utils\uuid_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\logger\severity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\data\global_data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -135,6 +162,12 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="resources\designer\create_project_dialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="resources\designer\player_controls.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="resources\designer\crownsole.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

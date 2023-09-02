@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>956</width>
-    <height>562</height>
+    <width>699</width>
+    <height>401</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,13 +21,6 @@
     <item>
      <layout class="QVBoxLayout" name="rightLayout">
       <item>
-       <widget class="QLabel" name="descriptionLabel">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QVideoWidget" name="videoPlayer" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -38,118 +31,14 @@
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="playerLayout">
-        <item>
-         <widget class="QLabel" name="currentPositionLabel">
-          <property name="text">
-           <string>0:00</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSlider" name="playerSlider">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="totalDurationLabel">
-          <property name="text">
-           <string>0:00</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="controlLayout">
-        <item>
-         <widget class="QPushButton" name="previousBtn">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>PR</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="playVideoBtn">
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>P</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="stopVideoBtn">
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>S</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="nextBtn">
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>FR</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="controlSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QLabel" name="volumeLabel">
-          <property name="text">
-           <string>Volume:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSlider" name="volumeSlider">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="sore::PlayerControlsWidget" name="playerControls" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -227,7 +116,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QListWidget" name="episodesList"/>
+      <widget class="sore::EpisodeListWidget" name="episodesWidget"/>
      </item>
     </layout>
    </widget>
@@ -237,7 +126,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>956</width>
+     <width>699</width>
      <height>22</height>
     </rect>
    </property>
@@ -282,6 +171,36 @@
    <addaction name="menuFile"/>
    <addaction name="menuView"/>
    <addaction name="menuAudio"/>
+  </widget>
+  <widget class="sore::QHideableDockWidget" name="crownsoleDockWidget">
+   <property name="windowTitle">
+    <string>Crownsole</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="crownsoleDockWidgetContents">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="sore::Crownsole" name="crownsole" native="true"/>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <action name="actionNewProject">
    <property name="text">
@@ -336,6 +255,23 @@
    <class>sore::QHideableDockWidget</class>
    <extends>QDockWidget</extends>
    <header>gui/widgets/QHideableDockWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>sore::PlayerControlsWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/widgets/player_controls.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>sore::EpisodeListWidget</class>
+   <extends>QListWidget</extends>
+   <header>gui/widgets/Episode_list_widget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>sore::Crownsole</class>
+   <extends>QWidget</extends>
+   <header>gui/widgets/crownsole/crownsole.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
