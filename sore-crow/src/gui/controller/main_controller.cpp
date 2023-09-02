@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "main_controller.h"
+#include "gui/data/global_data.h"
 
 #include "utils/dialog.h"
 #include "utils/uuid_utils.h"
@@ -123,6 +124,8 @@ namespace sore
 
 		m_Stylesheet->setCurrentTheme("dark_purple");
 		m_Stylesheet->updateStylesheet();
+
+		globalData.isStylesheetDark = m_Stylesheet->isCurrentThemeDark();
 
 		qApp->setStyleSheet(m_Stylesheet->styleSheet());
 

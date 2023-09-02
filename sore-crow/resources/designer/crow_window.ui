@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>676</width>
+    <width>699</width>
     <height>401</height>
    </rect>
   </property>
@@ -126,7 +126,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>676</width>
+     <width>699</width>
      <height>22</height>
     </rect>
    </property>
@@ -171,6 +171,36 @@
    <addaction name="menuFile"/>
    <addaction name="menuView"/>
    <addaction name="menuAudio"/>
+  </widget>
+  <widget class="sore::QHideableDockWidget" name="crownsoleDockWidget">
+   <property name="windowTitle">
+    <string>Crownsole</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="crownsoleDockWidgetContents">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="sore::Crownsole" name="crownsole" native="true"/>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <action name="actionNewProject">
    <property name="text">
@@ -237,6 +267,12 @@
    <class>sore::EpisodeListWidget</class>
    <extends>QListWidget</extends>
    <header>gui/widgets/Episode_list_widget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>sore::Crownsole</class>
+   <extends>QWidget</extends>
+   <header>gui/widgets/crownsole/crownsole.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -53,6 +53,12 @@
     <QtMoc Include="src\gui\widgets\episode_list_widget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\core\logger\logger.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gui\widgets\crownsole\crownsole.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -138,6 +144,12 @@
     <ClInclude Include="src\utils\uuid_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\logger\severity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\data\global_data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="resources\designer\crow_window.ui">
@@ -153,6 +165,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="resources\designer\player_controls.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="resources\designer\crownsole.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

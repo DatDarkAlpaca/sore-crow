@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "crow_window.h"
+#include "core/logger/logger.h"
 
 namespace sore
 {
@@ -7,6 +8,9 @@ namespace sore
         : QMainWindow(parent)
     {
         ui.setupUi(this);
+
+        // Crownsole:
+        CrownsoleLogger::setConsoleWidget(ui.crownsole);
 
         // Video Controller:
         m_MediaHandler = new CrowMediaHandler(this);
