@@ -32,8 +32,6 @@ namespace sore
 
         void handleEpisodesChanged();
 
-        void handleSubtitlesChanged();
-
         void handleValidation();
 
     private:
@@ -42,14 +40,12 @@ namespace sore
     signals:
         void episodesChanged();
 
-        void subtitlesChanged();
-
     private:
         Ui::CreateProjectDialog ui;
         QStatusBar* statusBar;
 
     private:
-        std::vector<std::string> m_Subtitles, m_Episodes;
+        std::vector<std::string> m_Episodes;
         std::string m_CurrentFilepath;
     };
 }

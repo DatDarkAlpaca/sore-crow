@@ -55,18 +55,12 @@ namespace sore
 
 		auto dialogData = dialog.getData();
 
-		if (dialogData.episodePaths.size() != dialogData.subtitlesPaths.size())
-		{
-			qDebug() << "Invalid matchup for episodes and subtitles. This is not yet supported.";
-			return {};
-		}
-
 		ProjectData projectData;
 		projectData.projectName = dialogData.projectName;
 		projectData.rootFolder = dialogData.projectRootFolder;
 
 		// Check for existing supported episode and subtitle folders:
-		fs::path episodesFolder, subtitleFolder;
+		fs::path episodesFolder;
 		for (const auto filepath : getFilesInDir(dialogData.projectRootFolder))
 		{
 			QFileInfo fileInfo(filepath.c_str());
@@ -77,12 +71,6 @@ namespace sore
 			{
 				fs::path episodesPath(filepath);
 				episodesFolder = episodesPath;
-			}
-
-			if (isValidSubtitlesDirectory(filepath))
-			{
-				fs::path subtitlesPath(filepath);
-				subtitleFolder = subtitlesPath;
 			}
 		}
 
@@ -95,14 +83,6 @@ namespace sore
 			fs::create_directory(episodesFolder);
 		}
 
-		if (subtitleFolder.empty())
-		{
-			fs::path rootPath(projectData.rootFolder);
-			fs::path subtitlesFolderPath(Macros::AcceptableSubtitleFolderNames.front());
-			subtitleFolder = rootPath / subtitlesFolderPath;
-			fs::create_directory(rootPath / subtitlesFolderPath);
-		}
-
 		// Move all episodes to the appropriate folder:
 		for (const auto& episodePath : dialogData.episodePaths)
 		{
@@ -110,14 +90,7 @@ namespace sore
 			fs::rename(previousFilepath, episodesFolder / previousFilepath.filename());
 		}
 
-		for (const auto& subtitlePath : dialogData.subtitlesPaths)
-		{
-			fs::path previousFilepath(subtitlePath);
-			fs::rename(previousFilepath, subtitleFolder / previousFilepath.filename());
-		}
-
 		projectData.episodeFolderName = episodesFolder.string();
-		projectData.subtitleFolderName = subtitleFolder.string();
 
 		// Get files inside folders:
 		auto correctedProjectFiles = getFilesInDir(projectData.episodeFolderName);
@@ -129,18 +102,9 @@ namespace sore
 		for (size_t i = 0; i < correctedProjectFiles.size(); ++i)
 		{
 			EpisodeMetadata episode;
-			SubtitleMetadata subtitle;
 			episode.id = generateUUID();
-			subtitle.id = generateUUID();
-
-			episode.subtitleID = subtitle.id;
-			subtitle.episodeID = episode.id;
-
 			episode.filename = correctedProjectFiles[i];
-			subtitle.filename = correctedSubtitleFiles[i];
-
 			projectData.sourceMetadata.episodes.push_back(episode);
-			projectData.sourceMetadata.subtitles.push_back(subtitle);
 		}
 
 		createProjectFile(projectData);

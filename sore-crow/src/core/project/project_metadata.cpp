@@ -35,19 +35,7 @@ namespace sore
         {        
             episodeMetadata.push_back ({
                 episodeData["id"],
-                episodeData["subtitle_id"],
                 episodeData["filename"],
-            });
-        }
-
-        // Subtitles:
-        std::vector<SubtitleMetadata> subtitleMetadata;
-        for (const auto& subtitleData : source["subtitles"])
-        {
-            subtitleMetadata.push_back ({
-                subtitleData["id"],
-                subtitleData["episode_id"],
-                subtitleData["filename"],
             });
         }
 
@@ -55,7 +43,6 @@ namespace sore
         ProjectSourceMetadata sourceMetadata;
         sourceMetadata.id = source["id"];
         sourceMetadata.episodes = episodeMetadata;
-        sourceMetadata.subtitles = subtitleMetadata;
 
         // Project:
         ProjectData projectData;
@@ -63,7 +50,6 @@ namespace sore
         projectData.projectName = header["project_name"];
         projectData.rootFolder = header["project_root_folder"];
         projectData.episodeFolderName = header["project_episode_folder"];
-        projectData.subtitleFolderName = header["project_subtitle_folder"];
         projectData.sourceMetadata = sourceMetadata;
 
 		return projectData;
@@ -83,7 +69,6 @@ namespace sore
             { "project_name", data.projectName },
             { "project_root_folder", data.rootFolder },
             { "project_episode_folder", data.episodeFolderName },
-            { "project_subtitle_folder", data.subtitleFolderName }
         };
         projectFile["source"] = {};
         projectFile["source"]["id"] = generateUUID();
@@ -93,22 +78,10 @@ namespace sore
         {
             episodes.push_back({
                 { "id", episode.id },
-                { "subtitle_id", episode.subtitleID },
                 { "filename", episode.filename },
             });
         }
         projectFile["source"]["episodes"] = episodes;
-
-        auto subtitles = nlohmann::json::array();
-        for (const auto& subtitle : data.sourceMetadata.subtitles)
-        {
-            subtitles.push_back({
-                { "id", subtitle.id },
-                { "episode_id", subtitle.episodeID },
-                { "filename", subtitle.filename },
-            });
-        }
-        projectFile["source"]["subtitles"] = subtitles;
 
         std::string projectFilename = data.projectName + "." + Macros::ProjectExtension;
         fs::path projectFilePath = fs::path(data.rootFolder) / fs::path(projectFilename);

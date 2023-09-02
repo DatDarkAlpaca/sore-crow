@@ -31,15 +31,4 @@ namespace sore
 
 		return false;
 	}
-
-	inline bool isValidSubtitlesDirectory(const std::string& directory)
-	{
-		for (const auto& supportedSubtitleFolderName: Macros::AcceptableSubtitleFolderNames)
-		{
-			if (endsWith(lowerString(directory), supportedSubtitleFolderName))
-				return true;
-		}
-
-		return false;
-	}
 }

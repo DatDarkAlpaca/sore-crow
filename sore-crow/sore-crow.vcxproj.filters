@@ -90,9 +90,6 @@
     <ClInclude Include="src\utils\dialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\project\subtitle_data.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>

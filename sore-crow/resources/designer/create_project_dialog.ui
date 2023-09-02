@@ -28,10 +28,13 @@
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>176</height>
+         <height>35</height>
         </size>
        </property>
       </spacer>
@@ -98,20 +101,6 @@
          </item>
         </layout>
        </item>
-       <item>
-        <layout class="QVBoxLayout" name="subtitlesLayout">
-         <item>
-          <widget class="QLabel" name="subtitlesLabel">
-           <property name="text">
-            <string>Subtitles found</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QListWidget" name="subtitlesList"/>
-         </item>
-        </layout>
-       </item>
       </layout>
      </item>
     </layout>
@@ -124,7 +113,7 @@
      <item>
       <widget class="QLabel" name="atentionLabel">
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#d91b1b;&quot;&gt;Atention&lt;/span&gt;: Your files will be moved to different folders.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#d91b1b;&quot;&gt;Atention&lt;/span&gt;: Your videos may be moved to a different folder.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="textFormat">
         <enum>Qt::RichText</enum>

@@ -9,6 +9,5 @@ namespace sore
         std::string projectName;
         std::string projectRootFolder;
         std::vector<std::string> episodePaths;
-        std::vector<std::string> subtitlesPaths;
     };
 }

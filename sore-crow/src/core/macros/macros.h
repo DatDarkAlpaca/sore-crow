@@ -8,10 +8,6 @@ namespace sore
 	{
 		constexpr static inline const char* version = "0.1";
 
-		constexpr static inline std::array<const char*, 2> AcceptableSubtitleFolderNames = {
-			"subtitles", "subtitle"
-		};
-
 		constexpr static inline std::array<const char*, 2> AcceptableEpisodeFolderNames = {
 			"episodes", "episode"
 		};

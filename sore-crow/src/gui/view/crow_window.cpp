@@ -153,11 +153,20 @@ namespace sore
             if (m_MediaPlayer->activeAudioTrack() == i)
                 action->setChecked(true);
 
-            ui.menuAudioTrack->addAction(action);
+            QObject::connect(action, &QAction::triggered, [&, action, i](bool checked) {
+                if (!checked)
+                    action->setChecked(true);
 
-            QObject::connect(action, &QAction::triggered, [&, i]() {
+                for (const auto& audioAction : ui.menuAudioDevice->actions())
+                {
+                    if (audioAction != action)
+                        audioAction->setChecked(false);
+                }
+
                 m_MediaPlayer->setActiveAudioTrack(i);
             });
+
+            ui.menuAudioTrack->addAction(action);
         }
     }
 
@@ -174,7 +183,16 @@ namespace sore
             if (outputDevice == QMediaDevices::defaultAudioOutput())
                 action->setChecked(true);
 
-            QObject::connect(action, &QAction::triggered, [&, outputDevice]() {
+            QObject::connect(action, &  QAction::triggered, [&, action, outputDevice](bool checked) {
+                if (!checked)
+                    action->setChecked(true);
+
+                for (const auto& audioAction : ui.menuAudioDevice->actions())
+                {
+                    if(audioAction != action)
+                        audioAction->setChecked(false);
+                }
+
                 m_AudioOutput->setDevice(outputDevice);
             });
 
@@ -265,6 +283,7 @@ namespace sore
 
             EpisodeWidget* episodeWidget = static_cast<EpisodeWidget*>(ui.episodesList->itemWidget(next));
 
+            // TODO: improve a way to remove this linkage between widget and data
             setVideo(episodeWidget->getEpisodeFilepath());
             m_MediaPlayer->play();
         });
@@ -290,6 +309,7 @@ namespace sore
 
             EpisodeWidget* episodeWidget = static_cast<EpisodeWidget*>(ui.episodesList->itemWidget(next));
 
+            // TODO: improve a way to remove this linkage between widget and data
             setVideo(episodeWidget->getEpisodeFilepath());
             m_MediaPlayer->play();
         });

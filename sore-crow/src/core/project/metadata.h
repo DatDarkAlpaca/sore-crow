@@ -7,14 +7,6 @@ namespace sore
 	struct EpisodeMetadata
 	{
 		std::string id;
-		std::string subtitleID;
-		std::string filename;
-	};
-
-	struct SubtitleMetadata
-	{
-		std::string id;
-		std::string episodeID;
 		std::string filename;
 	};
 
@@ -22,6 +14,5 @@ namespace sore
 	{
 		std::string id;
 		std::vector<EpisodeMetadata> episodes;
-		std::vector<SubtitleMetadata> subtitles;
 	};
 }

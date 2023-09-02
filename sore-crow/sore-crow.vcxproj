@@ -157,7 +157,6 @@
     <ClInclude Include="src\gui\controller\main_controller.h" />
     <ClInclude Include="src\crow_app.h" />
     <ClInclude Include="src\core\project\project_data.h" />
-    <ClInclude Include="src\core\project\subtitle_data.h" />
     <ClInclude Include="src\gui\data\create_project_dialog_data.h" />
     <ClInclude Include="src\gui\data\crow_window_data.h" />
     <QtMoc Include="src\gui\widgets\episode_widget.h" />

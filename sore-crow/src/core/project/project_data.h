@@ -18,22 +18,11 @@ namespace sore
 			return { };
 		}
 
-		SubtitleMetadata getSubtitleFromID(const std::string& subtitleID)
-		{
-			for (const auto& subtitle : sourceMetadata.subtitles)
-			{
-				if (subtitle.id == subtitleID)
-					return subtitle;
-			}
-
-			return { };
-		}
-
 	public:
 		bool valid() const
 		{
-			return !version.empty() && !projectName.empty() && !rootFolder.empty() && !episodeFolderName.empty() && !subtitleFolderName.empty() &&
-				!sourceMetadata.id.empty();
+			return !version.empty() && !projectName.empty() && !rootFolder.empty() && 
+				!episodeFolderName.empty() && !sourceMetadata.id.empty();
 		}
 
 	public:
@@ -42,7 +31,6 @@ namespace sore
 
 		std::string rootFolder;
 		std::string episodeFolderName;
-		std::string subtitleFolderName;
 
 		ProjectSourceMetadata sourceMetadata;
 	};

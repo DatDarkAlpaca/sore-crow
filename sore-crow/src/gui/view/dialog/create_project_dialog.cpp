@@ -24,7 +24,7 @@ namespace sore
         handleLocationTextChange();
         handleLocationBtn();
         handleEpisodesChanged();
-        handleSubtitlesChanged();
+
         handleValidation();
     }
 
@@ -53,8 +53,7 @@ namespace sore
         return {
             projectName,
             rootFolderLocation,
-            m_Episodes,
-            m_Subtitles
+            m_Episodes
         };
     }
  
@@ -88,13 +87,9 @@ namespace sore
             {
                 if (isFileSupportedVideo(filepath))
                     m_Episodes.push_back(filepath);
-
-                if (isFileSupportedSubtitle(filepath))
-                    m_Subtitles.push_back(filepath);
             }
 
             emit episodesChanged();
-            emit subtitlesChanged();
         });
     }
 
@@ -119,14 +114,6 @@ namespace sore
         });
     }
 
-    void CreateProjectDialog::handleSubtitlesChanged()
-    {
-        QObject::connect(this, &CreateProjectDialog::subtitlesChanged, [&]() {
-            for (const auto& subtitle : m_Subtitles)
-                ui.subtitlesList->addItem(QString::fromStdString(subtitle));
-        });
-    }
-
     void CreateProjectDialog::handleValidation()
     {
         QObject::connect(ui.createBtn, &QPushButton::released, [&]() {
@@ -137,8 +124,6 @@ namespace sore
     void CreateProjectDialog::clearLists()
     {
         m_Episodes.clear();
-        m_Subtitles.clear();
         ui.videosList->clear();
-        ui.subtitlesList->clear();
     }
 }
