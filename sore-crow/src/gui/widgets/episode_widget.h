@@ -13,8 +13,7 @@ namespace sore
 		Q_OBJECT
 
 	public:
-		// TODO: maybe create a lookup table for episodes.
-		EpisodeWidget(QWidget* parent = nullptr, const std::string& episodeFilepath = "");
+		EpisodeWidget(QWidget* parent = nullptr);
 
 	public:
 		void updateData(const std::string& episodePath);
@@ -26,9 +25,6 @@ namespace sore
 
 	private:
 		void mousePressEvent(QMouseEvent* event) override;
-
-	public:
-		inline std::string getEpisodeFilepath() const { return episodeFilepath; };
 
 	signals:
 		void episodeClicked();

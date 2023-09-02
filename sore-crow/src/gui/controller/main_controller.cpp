@@ -137,8 +137,7 @@ namespace sore
 				return;
 
 			m_CrowWindow.clearData();
-			m_CrowWindowData.currentProject = projectData;
-			m_CrowWindow.updateData(m_CrowWindowData.currentProject);
+			m_CrowWindow.updateData(projectData);
 
 			m_SplashWindow.hide();
 			m_CrowWindow.show();
@@ -151,8 +150,7 @@ namespace sore
 				return;
 
 			m_CrowWindow.clearData();
-			m_CrowWindowData.currentProject = projectData;
-			m_CrowWindow.updateData(m_CrowWindowData.currentProject);
+			m_CrowWindow.updateData(projectData);
 
 			m_SplashWindow.hide();
 			m_CrowWindow.show();
@@ -165,8 +163,7 @@ namespace sore
 				return;
 
 			m_CrowWindow.clearData();
-			m_CrowWindowData.currentProject = projectData;
-			m_CrowWindow.updateData(m_CrowWindowData.currentProject);
+			m_CrowWindow.updateData(projectData);
 		});
 	}
 }

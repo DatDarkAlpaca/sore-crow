@@ -130,13 +130,15 @@
     <ClCompile Include="src\core\project\project_metadata.cpp" />
     <ClCompile Include="src\gui\controller\main_controller.cpp" />
     <ClCompile Include="src\gui\view\dialog\create_project_dialog.cpp" />
+    <ClCompile Include="src\gui\widgets\episode_list_widget.cpp" />
     <ClCompile Include="src\gui\widgets\episode_widget.cpp" />
-    <ClCompile Include="src\gui\view\splash_window.cpp">
+    <ClCompile Include="src\gui\view\splash_window\splash_window.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </ClCompile>
+    <ClCompile Include="src\gui\widgets\player_controls.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -146,9 +148,9 @@
       </PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="vendor\qcss\src\QtAdvancedStylesheet.cpp" />
-    <QtMoc Include="src\gui\view\crow_window.h" />
+    <QtMoc Include="src\gui\view\crow_window\crow_window.h" />
     <ClCompile Include="src\crow_app.cpp" />
-    <ClCompile Include="src\gui\view\crow_window.cpp" />
+    <ClCompile Include="src\gui\view\crow_window\crow_window.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -157,11 +159,14 @@
     <ClInclude Include="src\gui\controller\main_controller.h" />
     <ClInclude Include="src\crow_app.h" />
     <ClInclude Include="src\core\project\project_data.h" />
-    <ClInclude Include="src\gui\data\create_project_dialog_data.h" />
-    <ClInclude Include="src\gui\data\crow_window_data.h" />
+    <ClInclude Include="src\gui\view\dialog\create_project_dialog_data.h" />
     <QtMoc Include="src\gui\widgets\episode_widget.h" />
     <QtMoc Include="src\gui\view\dialog\create_project_dialog.h" />
     <QtMoc Include="src\gui\widgets\QHideableDockWidget.h" />
+    <QtMoc Include="src\gui\objects\crow_video.h" />
+    <QtMoc Include="src\gui\widgets\player_controls.h" />
+    <QtMoc Include="src\gui\objects\player_controls_media_events.h" />
+    <QtMoc Include="src\gui\widgets\episode_list_widget.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\utils\dialog.h" />
     <ClInclude Include="src\utils\extension_utils.h" />
@@ -172,12 +177,13 @@
     <ClInclude Include="vendor\qcss\src\acss_globals.h" />
     <ClInclude Include="vendor\srt-parser\srtparser.h" />
     <QtMoc Include="vendor\qcss\src\QtAdvancedStylesheet.h" />
-    <QtMoc Include="src\gui\view\splash_window.h" />
+    <QtMoc Include="src\gui\view\splash_window\splash_window.h" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="resources\designer\create_project_dialog.ui" />
     <QtUic Include="resources\designer\crow_window.ui" />
     <QtUic Include="resources\designer\episode.ui" />
+    <QtUic Include="resources\designer\player_controls.ui" />
     <QtUic Include="resources\designer\splash_window.ui" />
   </ItemGroup>
   <ItemGroup>

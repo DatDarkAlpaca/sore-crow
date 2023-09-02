@@ -3,8 +3,7 @@
 #include <string>
 #include <QtWidgets/QDialog>
 #include "ui_create_project_dialog.h"
-
-#include "gui/data/create_project_dialog_data.h"
+#include "gui/view/dialog/create_project_dialog_data.h"
 
 namespace sore
 {

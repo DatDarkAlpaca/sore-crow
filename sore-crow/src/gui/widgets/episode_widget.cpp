@@ -3,9 +3,8 @@
 
 namespace sore
 {
-	EpisodeWidget::EpisodeWidget(QWidget* parent, const std::string& episodeFilepath)
+	EpisodeWidget::EpisodeWidget(QWidget* parent)
 		: QWidget(parent)
-		, episodeFilepath(episodeFilepath)
 	{
 		ui.setupUi(this);
 	}
