@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>574</width>
-    <height>77</height>
+    <width>583</width>
+    <height>74</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -129,6 +129,20 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="volumeBtn">
+       <property name="styleSheet">
+        <string notr="true">border: 0;</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../player_controls_resources.qrc">
+         <normaloff>:/main/icons/volume_two.png</normaloff>:/main/icons/volume_two.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QLabel" name="volumeLabel">
        <property name="text">
         <string>Volume:</string>
@@ -137,6 +151,9 @@
      </item>
      <item>
       <widget class="QSlider" name="volumeSlider">
+       <property name="value">
+        <number>50</number>
+       </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>

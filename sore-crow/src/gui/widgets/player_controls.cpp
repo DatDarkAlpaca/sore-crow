@@ -22,6 +22,36 @@ namespace sore
 			ui.playVideoBtn->setIcon(QIcon(":/main/icons/pause.png"));
 	}
 
+	void PlayerControlsWidget::toggleVolumeButtonState(VolumeState state)
+	{
+		switch(state)
+		{
+			case VolumeState::MUTED:
+				ui.volumeBtn->setIcon(QIcon(":/main/icons/volume_none.png"));
+				break;
+
+			case VolumeState::HALF:
+				ui.volumeBtn->setIcon(QIcon(":/main/icons/volume_two.png"));
+				break;
+
+			case VolumeState::MAX:
+				ui.volumeBtn->setIcon(QIcon(":/main/icons/volume_full.png"));
+				break;
+		}
+	}
+
+	void PlayerControlsWidget::toggleVolumeButtonFromVolume(int volume)
+	{
+		if (volume == 0)
+			toggleVolumeButtonState(PlayerControlsWidget::VolumeState::MUTED);
+
+		else if (volume > 0 && volume <= 99)
+			toggleVolumeButtonState(PlayerControlsWidget::VolumeState::HALF);
+
+		else
+			toggleVolumeButtonState(PlayerControlsWidget::VolumeState::MAX);
+	}
+
 	void PlayerControlsWidget::setVideoSliderPosition(long long position)
 	{
 		ui.playerSlider->setValue(position);
@@ -35,6 +65,16 @@ namespace sore
 	void PlayerControlsWidget::blockPlayerSliderSignals(bool value)
 	{
 		ui.playerSlider->blockSignals(value);
+	}
+
+	void PlayerControlsWidget::toggleVolumeSliderEnabled(bool value)
+	{
+		ui.volumeSlider->setEnabled(value);
+	}
+
+	int PlayerControlsWidget::volume() const
+	{
+		return ui.volumeSlider->value();
 	}
 
 	void PlayerControlsWidget::onPlayerSliderPositionChanged()

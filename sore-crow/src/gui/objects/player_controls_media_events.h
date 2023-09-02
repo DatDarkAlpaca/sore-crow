@@ -15,7 +15,9 @@ namespace sore
 			, m_ControlsWidget(controlsWidget)
 		{
 			onVideoPositionChanged();
+
 			onVolumeSliderPositionChange();
+			onVolumeButtonClicked();
 
 			// Player Control buttons:
 			onPlayButtonClicked();
@@ -45,7 +47,29 @@ namespace sore
 		{
 			QObject::connect(m_ControlsWidget.ui.volumeSlider, &QSlider::valueChanged, [&](int position) {
 				m_MediaHandler.setVolume(position / 100.f);
-				});
+				m_ControlsWidget.toggleVolumeButtonFromVolume(position);
+			});
+		}
+
+		void onVolumeButtonClicked()
+		{
+			QObject::connect(m_ControlsWidget.ui.volumeBtn, &QPushButton::released, [&]() {
+				bool isMuted = m_MediaHandler.isMuted();
+
+				if (!isMuted)
+				{
+					m_MediaHandler.mute();
+					m_ControlsWidget.toggleVolumeSliderEnabled(false);
+					m_ControlsWidget.toggleVolumeButtonState(PlayerControlsWidget::VolumeState::MUTED);
+				}
+
+				else
+				{
+					m_MediaHandler.unmute();
+					m_ControlsWidget.toggleVolumeSliderEnabled(true);
+					m_ControlsWidget.toggleVolumeButtonFromVolume(m_ControlsWidget.volume());
+				}
+			});
 		}
 
 	private:

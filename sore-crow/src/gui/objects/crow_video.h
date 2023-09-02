@@ -43,9 +43,14 @@ namespace sore
 			return m_MediaPlayer->isPlaying();
 		}
 
-		long long duration() const 
-		{ 
-			return m_MediaPlayer->duration(); 
+		bool isMuted() const
+		{
+			return m_AudioOutput->isMuted();
+		}
+
+		long long duration() const
+		{
+			return m_MediaPlayer->duration();
 		}
 
 	public:
@@ -58,7 +63,7 @@ namespace sore
 		{
 			m_AudioOutput->setDevice(device);
 		}
-		
+
 		QUrl videoSource() const
 		{
 			return m_MediaPlayer->source();
@@ -91,6 +96,10 @@ namespace sore
 		inline void stop() { m_MediaPlayer->stop(); }
 
 		inline void pause() { m_MediaPlayer->pause(); }
+
+		inline void mute() { m_AudioOutput->setMuted(true); }
+
+		inline void unmute() { m_AudioOutput->setMuted(false); }
 
 	public:
 		QMediaPlayer* mediaPlayer() const

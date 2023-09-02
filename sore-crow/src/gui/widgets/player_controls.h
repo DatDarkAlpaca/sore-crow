@@ -9,11 +9,18 @@ namespace sore
 		Q_OBJECT
 
 	public:
+		enum class VolumeState : uint32_t { MUTED = 0, HALF, MAX };
+
+	public:
 		PlayerControlsWidget(QWidget* parent = nullptr);
 
 	// Control Buttons:
 	public:
 		void togglePlayButtonIcon(bool togglePlayingIcon);
+
+		void toggleVolumeButtonState(VolumeState state);
+
+		void toggleVolumeButtonFromVolume(int volume);
 
 	// Video Slider:
 	public:
@@ -24,6 +31,11 @@ namespace sore
 		void blockPlayerSliderSignals(bool value);
 
 		void onPlayerSliderPositionChanged();
+
+	// Volume Slider:
+		void toggleVolumeSliderEnabled(bool value);
+
+		int volume() const;
 
 	// Duration labels:
 	public:
