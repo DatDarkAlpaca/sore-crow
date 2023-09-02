@@ -5,7 +5,7 @@
 
 #include "gui/widgets/episode_widget.h"
 
-#include "gui/objects/crow_video.h"
+#include "gui/objects/crow_media_handler.h"
 #include "gui/objects/player_controls_media_events.h"
 
 namespace sore

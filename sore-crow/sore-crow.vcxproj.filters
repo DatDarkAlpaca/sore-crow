@@ -38,7 +38,7 @@
     <QtMoc Include="src\gui\view\crow_window\crow_window.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\gui\objects\crow_video.h">
+    <QtMoc Include="src\gui\objects\crow_media_handler.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\gui\view\splash_window\splash_window.h">

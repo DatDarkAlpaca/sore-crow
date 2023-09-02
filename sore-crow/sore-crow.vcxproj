@@ -234,7 +234,7 @@
     <QtMoc Include="src\gui\widgets\episode_widget.h" />
     <QtMoc Include="src\gui\view\dialog\create_project_dialog.h" />
     <QtMoc Include="src\gui\widgets\QHideableDockWidget.h" />
-    <QtMoc Include="src\gui\objects\crow_video.h" />
+    <QtMoc Include="src\gui\objects\crow_media_handler.h" />
     <QtMoc Include="src\gui\widgets\player_controls.h" />
     <QtMoc Include="src\gui\objects\player_controls_media_events.h" />
     <QtMoc Include="src\gui\widgets\episode_list_widget.h" />
