@@ -53,6 +53,11 @@ namespace sore
 			return m_MediaPlayer->duration();
 		}
 
+		void setVolume(float volume)
+		{
+			m_AudioOutput->setVolume(volume);
+		}
+
 	public:
 		void setVideoOutput(QObject* outputObject)
 		{
@@ -85,9 +90,20 @@ namespace sore
 			return m_MediaPlayer->audioTracks();
 		}
 
-		void setVolume(float volume)
+	public:
+		int activeSubtitleTrack() const
 		{
-			m_AudioOutput->setVolume(volume);
+			return m_MediaPlayer->activeSubtitleTrack();
+		}
+
+		void setActiveSubtitleTrack(int index)
+		{
+			m_MediaPlayer->setActiveSubtitleTrack(index);
+		}
+
+		QList<QMediaMetaData> subtitleTracks() const
+		{
+			return m_MediaPlayer->subtitleTracks();
 		}
 
 	public:

@@ -43,9 +43,13 @@ namespace sore
     private:
         void toggleAudioTrackAction(bool value);
 
+        void toggleSubtitleTrackAction(bool value);
+
         void populateAudioTrackAction();
 
-        void populateAudioDevice();
+        void populateAudioDeviceAction();
+
+        void populateSubtitleTrackAction();
 
     private:
         CrowMediaHandler* m_MediaHandler = nullptr;

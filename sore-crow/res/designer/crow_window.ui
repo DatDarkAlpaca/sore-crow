@@ -168,9 +168,25 @@
     <addaction name="actionEpisodeList"/>
     <addaction name="actionSubtitleViewer"/>
    </widget>
+   <widget class="QMenu" name="menuSubtitle">
+    <property name="title">
+     <string>Subtitle</string>
+    </property>
+    <widget class="QMenu" name="menuSubtitleTrack">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="title">
+      <string>Subtitle Track...</string>
+     </property>
+     <addaction name="actionPlaceholderSubtitle"/>
+    </widget>
+    <addaction name="menuSubtitleTrack"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuView"/>
    <addaction name="menuAudio"/>
+   <addaction name="menuSubtitle"/>
   </widget>
   <widget class="sore::QHideableDockWidget" name="crownsoleDockWidget">
    <property name="windowTitle">
@@ -241,6 +257,11 @@
   <action name="actionSubtitleViewer">
    <property name="text">
     <string>Subtitle Viewer</string>
+   </property>
+  </action>
+  <action name="actionPlaceholderSubtitle">
+   <property name="text">
+    <string>Disable</string>
    </property>
   </action>
  </widget>

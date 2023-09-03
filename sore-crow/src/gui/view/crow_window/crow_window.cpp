@@ -29,7 +29,7 @@ namespace sore
         onShowSubtitleViewerDock();
 
         // Actions:
-        populateAudioDevice();
+        populateAudioDeviceAction();
     }
 
     void CrowWindow::updateData(const ProjectData& data)
@@ -71,9 +71,12 @@ namespace sore
             ui.playerControls->setTotalDurationLabel(duration);
             
             ui.playerControls->togglePlayButtonIcon(false);
+
             toggleAudioTrackAction(true);
-            
             populateAudioTrackAction();
+
+            toggleSubtitleTrackAction(true);
+            populateSubtitleTrackAction();
             
             m_MediaHandler->play();             
         });
@@ -121,6 +124,11 @@ namespace sore
         ui.menuAudioTrack->setEnabled(value);
     }
 
+    void CrowWindow::toggleSubtitleTrackAction(bool value)
+    {
+        ui.menuSubtitleTrack->setEnabled(value);
+    }
+
     void CrowWindow::populateAudioTrackAction()
     {
         auto tracks = m_MediaHandler->audioTracks();
@@ -155,7 +163,7 @@ namespace sore
         }
     }
 
-    void CrowWindow::populateAudioDevice()
+    void CrowWindow::populateAudioDeviceAction()
     {
         ui.menuAudioDevice->clear();
 
@@ -182,6 +190,53 @@ namespace sore
             });
 
             ui.menuAudioDevice->addAction(action);
+        }
+    }
+
+    void CrowWindow::populateSubtitleTrackAction()
+    {
+        auto tracks = m_MediaHandler->subtitleTracks();
+
+        ui.menuSubtitleTrack->clear();
+
+        auto subtitleTrackAction = [&](QAction* action, int index) {
+            QObject::connect(action, &QAction::triggered, [&, action, index](bool checked) {
+                if (!checked)
+                    action->setChecked(true);
+
+                for (const auto& audioAction : ui.menuSubtitleTrack->actions())
+                {
+                    if (audioAction != action)
+                        audioAction->setChecked(false);
+                }
+
+                m_MediaHandler->setActiveSubtitleTrack(index);
+            });
+        };
+
+        // Default disabled subtitle track:
+        {
+            QAction* action = new QAction(ui.menuSubtitleTrack);
+            action->setText("Disabled");
+            action->setCheckable(true);
+            action->setChecked(true);
+
+            subtitleTrackAction(action, -1);
+            ui.menuSubtitleTrack->addAction(action);
+        }
+
+        for (size_t i = 0; i < tracks.size(); ++i)
+        {
+            auto title = tracks[i].value(QMediaMetaData::Title).toString();
+            auto language = tracks[i].value(QMediaMetaData::Language).toString();
+
+            QAction* action = new QAction(ui.menuSubtitleTrack);
+            action->setText(title + " - " + language);
+            action->setCheckable(true);
+
+            subtitleTrackAction(action, i);
+
+            ui.menuSubtitleTrack->addAction(action);
         }
     }
 }
