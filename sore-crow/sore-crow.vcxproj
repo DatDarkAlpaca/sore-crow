@@ -185,7 +185,7 @@
       <Optimization>MaxSpeed</Optimization>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -239,6 +239,7 @@
     <QtMoc Include="src\gui\objects\player_controls_media_events.h" />
     <QtMoc Include="src\gui\widgets\episode_list_widget.h" />
     <QtMoc Include="src\gui\widgets\crownsole\crownsole.h" />
+    <QtMoc Include="src\gui\widgets\crow_video\crow_video.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\utils\dialog.h" />
     <ClInclude Include="src\utils\extension_utils.h" />
