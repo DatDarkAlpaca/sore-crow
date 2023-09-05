@@ -188,6 +188,7 @@
      <addaction name="actionPlaceholderSubtitle"/>
     </widget>
     <addaction name="menuSubtitleTrack"/>
+    <addaction name="actionAddExternalTrack"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuView"/>
@@ -270,6 +271,11 @@
     <string>Disable</string>
    </property>
   </action>
+  <action name="actionAddExternalTrack">
+   <property name="text">
+    <string>Add external track...</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -281,13 +287,13 @@
   <customwidget>
    <class>sore::PlayerControlsWidget</class>
    <extends>QWidget</extends>
-   <header>gui/widgets/player_controls.h</header>
+   <header>gui/widgets/player_controls/player_controls.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>sore::EpisodeListWidget</class>
    <extends>QListWidget</extends>
-   <header>gui/widgets/Episode_list_widget.h</header>
+   <header>gui/widgets/episode_list/Episode_list_widget.h</header>
   </customwidget>
   <customwidget>
    <class>sore::Crownsole</class>

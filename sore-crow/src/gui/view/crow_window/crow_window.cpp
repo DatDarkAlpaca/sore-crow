@@ -1,7 +1,9 @@
 #include "pch.h"
 #include "crow_window.h"
 #include "core/logger/logger.h"
+
 #include <QGraphicsVideoItem>
+#include <QVideoSink>
 
 namespace sore
 {

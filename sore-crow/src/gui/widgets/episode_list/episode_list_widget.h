@@ -2,7 +2,7 @@
 #include <QListWidget>
 #include <optional>
 
-#include "gui/widgets/episode_widget.h"
+#include "gui/widgets/episode_widget/episode_widget.h"
 #include "core/project/project_data.h"
 
 namespace sore

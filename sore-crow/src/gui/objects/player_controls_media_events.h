@@ -1,6 +1,6 @@
 #pragma once
 #include "gui/objects/crow_media_handler.h"
-#include "gui/widgets/player_controls.h"
+#include "gui/widgets/player_controls/player_controls.h"
 
 namespace sore
 {

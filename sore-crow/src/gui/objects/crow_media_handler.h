@@ -3,7 +3,7 @@
 #include <QAudioOutput>
 #include <QMediaMetaData>
 
-#include "gui/widgets/player_controls.h"
+#include "gui/widgets/player_controls/player_controls.h"
 
 namespace sore
 {
