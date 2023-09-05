@@ -12,7 +12,7 @@ namespace sore
 		Q_OBJECT
 
 	public:
-		CrowMediaHandler(QObject* parent)
+		CrowMediaHandler(QObject* parent = nullptr)
 			: QObject(parent)
 		{
 			m_MediaPlayer = new QMediaPlayer(parent);

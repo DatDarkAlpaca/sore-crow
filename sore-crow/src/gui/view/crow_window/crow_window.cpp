@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "crow_window.h"
 #include "core/logger/logger.h"
+#include <QGraphicsVideoItem>
 
 namespace sore
 {
@@ -14,7 +15,7 @@ namespace sore
 
         // Video Controller:
         m_MediaHandler = new CrowMediaHandler(this);
-        m_MediaHandler->setVideoOutput(ui.videoPlayer);
+        m_MediaHandler->setVideoOutput(ui.videoPlayer->videoItem());
 
         // Player Control Events:
         m_PlayerControlsEvents = new PlayerControlsMediaEvents(this, *m_MediaHandler, *ui.playerControls);
@@ -210,6 +211,8 @@ namespace sore
                         audioAction->setChecked(false);
                 }
 
+                // TODO: use the CrowVideo widget to set the subtitle.
+                // TODO: create a mediator between crow video and media handler for subtitle position changed
                 m_MediaHandler->setActiveSubtitleTrack(index);
             });
         };

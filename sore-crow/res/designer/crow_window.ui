@@ -21,12 +21,18 @@
     <item>
      <layout class="QVBoxLayout" name="rightLayout">
       <item>
-       <widget class="QVideoWidget" name="videoPlayer" native="true">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+       <widget class="sore::CrowVideo" name="videoPlayer">
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="lineWidth">
+         <number>0</number>
+        </property>
+        <property name="interactive">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -267,12 +273,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QVideoWidget</class>
-   <extends>QWidget</extends>
-   <header>qvideowidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>sore::QHideableDockWidget</class>
    <extends>QDockWidget</extends>
    <header>gui/widgets/QHideableDockWidget.h</header>
@@ -294,6 +294,11 @@
    <extends>QWidget</extends>
    <header>gui/widgets/crownsole/crownsole.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>sore::CrowVideo</class>
+   <extends>QGraphicsView</extends>
+   <header>gui/widgets/crow_video/crow_video.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
