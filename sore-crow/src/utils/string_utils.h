@@ -5,6 +5,11 @@
 
 namespace sore
 {
+    inline bool onlyDigits (const std::string& text)
+    {
+        return text.find_first_not_of("0123456789") == std::string::npos;
+    };
+
     inline bool endsWith(const std::string& text, const std::string& ending)
     {
         if (text.length() < ending.length())

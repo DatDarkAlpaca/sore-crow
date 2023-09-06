@@ -190,6 +190,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\core\parser\srt\srt_parser.cpp" />
+    <ClCompile Include="src\core\parser\subtitle_parser.cpp" />
     <ClCompile Include="src\core\project\project_metadata.cpp" />
     <ClCompile Include="src\gui\controller\main_controller.cpp" />
     <ClCompile Include="src\gui\view\dialog\create_project_dialog.cpp" />
@@ -227,6 +229,10 @@
     <QtMoc Include="src\core\logger\logger.h" />
     <ClInclude Include="src\core\logger\severity.h" />
     <ClInclude Include="src\core\macros\macros.h" />
+    <ClInclude Include="src\core\parser\parser.h" />
+    <ClInclude Include="src\core\parser\subtitle_parser.h" />
+    <ClInclude Include="src\core\parser\objects.h" />
+    <ClInclude Include="src\core\parser\srt\srt_parser.h" />
     <ClInclude Include="src\core\project\metadata.h" />
     <ClInclude Include="src\gui\controller\main_controller.h" />
     <ClInclude Include="src\crow_app.h" />

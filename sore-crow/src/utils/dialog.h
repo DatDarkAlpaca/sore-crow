@@ -16,4 +16,13 @@ namespace sore
 			"All files (*.*);;Project files (*.prj)"
 		).toStdString();
 	}
+
+	inline std::string openSubtitleTrackDialog()
+	{
+		return QFileDialog::getOpenFileName(
+			nullptr,
+			"Open project file", "",
+			"All files (*.*);;Subtitle files (*.srt)"
+		).toStdString();
+	}
 }

@@ -272,6 +272,9 @@
    </property>
   </action>
   <action name="actionAddExternalTrack">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Add external track...</string>
    </property>

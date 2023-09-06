@@ -1,8 +1,8 @@
 #pragma once
 #include <QtWidgets/QMainWindow>
 #include "ui_crow_window.h"
-#include "core/project/project_data.h"
 
+#include "core/project/project_data.h"
 #include "gui/widgets/episode_widget/episode_widget.h"
 
 #include "gui/objects/crow_media_handler.h"
@@ -46,11 +46,15 @@ namespace sore
 
         void toggleSubtitleTrackAction(bool value);
 
+        void toggleExternalSubtitleAction(bool value);
+
         void populateAudioTrackAction();
 
         void populateAudioDeviceAction();
 
         void populateSubtitleTrackAction();
+
+        void onExternalSubtitleAction();
 
     private:
         CrowMediaHandler* m_MediaHandler = nullptr;

@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "crow_window.h"
+#include "utils/dialog.h"
 #include "core/logger/logger.h"
+#include "core/parser/subtitle_parser.h"
 
 #include <QGraphicsVideoItem>
 #include <QVideoSink>
@@ -26,6 +28,10 @@ namespace sore
         onEpisodeClicked();
         onPreviousButtonClick();
         onNextButtonClick();
+
+        // Subtitle Handler:
+        m_SubtitleHandler = new SubtitleHandler(*ui.videoPlayer);
+        onExternalSubtitleAction();
 
         // Docks:
         onShowEpisodeListDock();
@@ -66,13 +72,13 @@ namespace sore
         QObject::connect(ui.episodesWidget, &EpisodeListWidget::episodeFromListClicked, [&](const std::string& episodeFilepath) {
             if (m_MediaHandler->videoSource() == QUrl::fromLocalFile(episodeFilepath.c_str()))
                 return;
-            
+
             m_MediaHandler->setMedia(episodeFilepath);
             long long duration = m_MediaHandler->duration();
-            
+
             ui.playerControls->setVideoSliderMaximum(duration);
             ui.playerControls->setTotalDurationLabel(duration);
-            
+
             ui.playerControls->togglePlayButtonIcon(false);
 
             toggleAudioTrackAction(true);
@@ -80,8 +86,10 @@ namespace sore
 
             toggleSubtitleTrackAction(true);
             populateSubtitleTrackAction();
-            
-            m_MediaHandler->play();             
+
+            toggleExternalSubtitleAction(true);
+
+            m_MediaHandler->play();
         });
     }
 
@@ -130,6 +138,11 @@ namespace sore
     void CrowWindow::toggleSubtitleTrackAction(bool value)
     {
         ui.menuSubtitleTrack->setEnabled(value);
+    }
+
+    void CrowWindow::toggleExternalSubtitleAction(bool value)
+    {
+        ui.actionAddExternalTrack->setEnabled(value);
     }
 
     void CrowWindow::populateAudioTrackAction()
@@ -243,5 +256,18 @@ namespace sore
 
             ui.menuSubtitleTrack->addAction(action);
         }
+    }
+
+    void CrowWindow::onExternalSubtitleAction()
+    {
+        QObject::connect(ui.actionAddExternalTrack, &QAction::triggered, [&](bool checked) {
+            std::string filepath = openSubtitleTrackDialog();
+            if (filepath.empty())
+                return;
+
+            SubtitleParser parser;
+            std::vector<SubtitleEntry> entries = parser.parseSubtitleFile(filepath);
+            m_SubtitleHandler->setSubtitleFiles(entries);
+        });
     }
 }
