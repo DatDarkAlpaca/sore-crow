@@ -2,10 +2,6 @@
 #include "crow_window.h"
 #include "utils/dialog.h"
 #include "core/logger/logger.h"
-#include "core/parser/subtitle_parser.h"
-
-#include <QGraphicsVideoItem>
-#include <QVideoSink>
 
 namespace sore
 {
@@ -14,31 +10,10 @@ namespace sore
     {
         ui.setupUi(this);
 
-        // Crownsole:
-        CrownsoleLogger::setConsoleWidget(ui.crownsole);
-
-        // Video Controller:
         m_MediaHandler = new CrowMediaHandler(this);
         m_MediaHandler->setVideoOutput(ui.videoPlayer->videoItem());
 
-        // Player Control Events:
-        m_PlayerControlsEvents = new PlayerControlsMediaEvents(this, *m_MediaHandler, *ui.playerControls);
-
-        // Managed Events:
-        onEpisodeClicked();
-        onPreviousButtonClick();
-        onNextButtonClick();
-
-        // Subtitle Handler:
-        m_SubtitleHandler = new SubtitleHandler(*ui.videoPlayer);
-        onExternalSubtitleAction();
-
-        // Docks:
-        onShowEpisodeListDock();
-        onShowSubtitleViewerDock();
-
-        // Actions:
-        populateAudioDeviceAction();
+        handleActions();
     }
 
     void CrowWindow::updateData(const ProjectData& data)
@@ -49,6 +24,29 @@ namespace sore
     void CrowWindow::clearData()
     {
         ui.episodesWidget->clear();
+    }
+
+    void CrowWindow::handleActions()
+    {
+        // Docks:
+        onShowEpisodeListDock();
+        onShowSubtitleViewerDock();
+
+        // Video Player:
+        onVideoPositionPositionChanged();
+        onVideoPlayerSliderChanged();
+        onVolumeSliderChanged();
+        onPlayButtonClicked();
+        onStopButtonClicked();
+        onVolumeButtonClicked();
+
+        // Episode List:
+        onEpisodeClicked();
+        onPreviousButtonClick();
+        onNextButtonClick();
+
+        // Actions:
+        populateAudioDeviceAction();
     }
 
     // Docks:
@@ -67,6 +65,77 @@ namespace sore
     }
 
     // Events:
+    void CrowWindow::onVideoPositionPositionChanged()   
+    {
+        QObject::connect(m_MediaHandler->mediaPlayer(), &QMediaPlayer::positionChanged, [&](long long position) {
+            ui.playerControls->blockPlayerSliderSignals(true);
+
+            ui.playerControls->setVideoSliderPosition(position);
+            ui.playerControls->setCurrentDurationLabel(position);
+
+            ui.playerControls->blockPlayerSliderSignals(false);
+        });
+    }
+
+    void CrowWindow::onVideoPlayerSliderChanged()
+    {
+        QObject::connect(ui.playerControls->ui.playerSlider, &QSlider::valueChanged, [&](long long position) {
+            m_MediaHandler->setMediaPosition(position);
+        });
+    }
+
+    void CrowWindow::onVolumeSliderChanged()
+    {
+        QObject::connect(ui.playerControls->ui.volumeSlider, &QSlider::valueChanged, [&](int position) {
+            m_MediaHandler->setVolume(position / 100.f);
+            ui.playerControls->toggleVolumeButtonFromVolume(position);
+        });
+    }
+
+    void CrowWindow::onPlayButtonClicked()
+    {
+        QObject::connect(ui.playerControls->ui.playVideoBtn, &QPushButton::released, [&]() {
+            if (!m_MediaHandler->isMediaSet())
+                return;
+
+            bool isMediaPlaying = m_MediaHandler->isMediaPlaying();
+            isMediaPlaying ? m_MediaHandler->pause() : m_MediaHandler->play();
+
+            ui.playerControls->togglePlayButtonIcon(isMediaPlaying);
+        });
+    }
+
+    void CrowWindow::onStopButtonClicked()
+    {
+        QObject::connect(ui.playerControls->ui.stopVideoBtn, &QPushButton::released, [&]() {
+            if (!m_MediaHandler->isMediaSet())
+                return;
+
+            m_MediaHandler->stop();
+            ui.playerControls->togglePlayButtonIcon(true);
+        });
+    }
+
+    void CrowWindow::onVolumeButtonClicked()
+    {
+        QObject::connect(ui.playerControls->ui.volumeBtn, &QPushButton::released, [&]() {
+            bool isMuted = m_MediaHandler->isMuted();
+
+            if (!isMuted)
+            {
+                m_MediaHandler->mute();
+                ui.playerControls->toggleVolumeSliderEnabled(false);
+                ui.playerControls->toggleVolumeButtonState(PlayerControlsWidget::VolumeState::MUTED);
+            }
+            else
+            {
+                m_MediaHandler->unmute();
+                ui.playerControls->toggleVolumeSliderEnabled(true);
+                ui.playerControls->toggleVolumeButtonFromVolume(ui.playerControls->volume());
+            }
+        });
+    }
+
     void CrowWindow::onEpisodeClicked()
     {
         QObject::connect(ui.episodesWidget, &EpisodeListWidget::episodeFromListClicked, [&](const std::string& episodeFilepath) {
@@ -74,22 +143,20 @@ namespace sore
                 return;
 
             m_MediaHandler->setMedia(episodeFilepath);
-            long long duration = m_MediaHandler->duration();
+            m_MediaHandler->play();
 
+            long long duration = m_MediaHandler->duration();
             ui.playerControls->setVideoSliderMaximum(duration);
             ui.playerControls->setTotalDurationLabel(duration);
 
             ui.playerControls->togglePlayButtonIcon(false);
 
             toggleAudioTrackAction(true);
-            populateAudioTrackAction();
-
             toggleSubtitleTrackAction(true);
-            populateSubtitleTrackAction();
-
             toggleExternalSubtitleAction(true);
 
-            m_MediaHandler->play();
+            populateSubtitleTrackAction();
+            populateAudioTrackAction();
         });
     }
 
@@ -256,18 +323,5 @@ namespace sore
 
             ui.menuSubtitleTrack->addAction(action);
         }
-    }
-
-    void CrowWindow::onExternalSubtitleAction()
-    {
-        QObject::connect(ui.actionAddExternalTrack, &QAction::triggered, [&](bool checked) {
-            std::string filepath = openSubtitleTrackDialog();
-            if (filepath.empty())
-                return;
-
-            SubtitleParser parser;
-            std::vector<SubtitleEntry> entries = parser.parseSubtitleFile(filepath);
-            m_SubtitleHandler->setSubtitleFiles(entries);
-        });
     }
 }

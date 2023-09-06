@@ -26,9 +26,6 @@
     <QtMoc Include="vendor\qcss\src\QtAdvancedStylesheet.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\gui\widgets\episode_widget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\gui\view\dialog\create_project_dialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -44,15 +41,6 @@
     <QtMoc Include="src\gui\view\splash_window\splash_window.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\gui\widgets\player_controls.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\gui\objects\player_controls_media_events.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\gui\widgets\episode_list_widget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\core\logger\logger.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -60,6 +48,15 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\gui\widgets\crow_video\crow_video.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gui\widgets\episode_widget\episode_widget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gui\widgets\player_controls\player_controls.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gui\widgets\episode_list\episode_list_widget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -82,9 +79,6 @@
     <ClCompile Include="src\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\widgets\episode_widget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\gui\view\dialog\create_project_dialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -94,10 +88,19 @@
     <ClCompile Include="src\gui\view\crow_window\crow_window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\widgets\player_controls.cpp">
+    <ClCompile Include="src\gui\widgets\crownsole\crownsole.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\widgets\episode_list_widget.cpp">
+    <ClCompile Include="src\gui\widgets\crow_video\crow_video.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\widgets\episode_list\episode_list_widget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\widgets\episode_widget\episode_widget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\widgets\player_controls\player_controls.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -121,9 +124,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\utils\string_utils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\macros\macros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\core\project\metadata.h">
@@ -151,6 +151,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\core\global_data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\message_box.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

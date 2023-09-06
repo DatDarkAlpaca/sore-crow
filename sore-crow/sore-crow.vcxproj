@@ -190,8 +190,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\core\parser\srt\srt_parser.cpp" />
-    <ClCompile Include="src\core\parser\subtitle_parser.cpp" />
     <ClCompile Include="src\core\project\project_metadata.cpp" />
     <ClCompile Include="src\gui\controller\main_controller.cpp" />
     <ClCompile Include="src\gui\view\dialog\create_project_dialog.cpp" />
@@ -228,24 +226,17 @@
   <ItemGroup>
     <QtMoc Include="src\core\logger\logger.h" />
     <ClInclude Include="src\core\logger\severity.h" />
-    <ClInclude Include="src\core\macros\macros.h" />
-    <ClInclude Include="src\core\parser\parser.h" />
-    <ClInclude Include="src\core\parser\subtitle_parser.h" />
-    <ClInclude Include="src\core\parser\objects.h" />
-    <ClInclude Include="src\core\parser\srt\srt_parser.h" />
     <ClInclude Include="src\core\project\metadata.h" />
     <ClInclude Include="src\gui\controller\main_controller.h" />
     <ClInclude Include="src\crow_app.h" />
     <ClInclude Include="src\core\project\project_data.h" />
     <ClInclude Include="src\core\global_data.h" />
-    <ClInclude Include="src\gui\objects\subtitle_handler.h" />
     <ClInclude Include="src\gui\view\dialog\create_project_dialog_data.h" />
     <QtMoc Include="src\gui\widgets\episode_widget\episode_widget.h" />
     <QtMoc Include="src\gui\view\dialog\create_project_dialog.h" />
     <QtMoc Include="src\gui\widgets\QHideableDockWidget.h" />
     <QtMoc Include="src\gui\objects\crow_media_handler.h" />
     <QtMoc Include="src\gui\widgets\player_controls\player_controls.h" />
-    <QtMoc Include="src\gui\objects\player_controls_media_events.h" />
     <QtMoc Include="src\gui\widgets\episode_list\episode_list_widget.h" />
     <QtMoc Include="src\gui\widgets\crownsole\crownsole.h" />
     <QtMoc Include="src\gui\widgets\crow_video\crow_video.h" />

@@ -21,6 +21,7 @@
 #include <nlohmann/json.hpp>
 
 #include <QFileInfo>
+#include <QVideoSink>
 #include <QMessageBox>
 #include <QMouseEvent>
 #include <QFileDialog>
@@ -29,6 +30,7 @@
 #include <QAudioDevice>
 #include <QMediaDevices>
 #include <QtWidgets/QDialog>
+#include <QGraphicsVideoItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QApplication>

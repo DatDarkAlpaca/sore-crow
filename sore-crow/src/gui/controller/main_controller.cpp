@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "main_controller.h"
-#include "core/global_data.h"
+
 #include "core/logger/logger.h"
 
 #include "utils/dialog.h"
@@ -14,14 +14,9 @@ namespace sore
 {
 	MainController::MainController()
 	{
-		configureStylesheet();
-
 		configureActions();
-	}
 
-	MainController::~MainController()
-	{
-		delete m_Stylesheet;
+		CrownsoleLogger::setConsoleWidget(m_CrowWindow.ui.crownsole);
 	}
 
 	void MainController::execute()
@@ -114,24 +109,6 @@ namespace sore
 		createProjectFile(projectData);
 
 		return projectData;
-	}
-
-	void MainController::configureStylesheet()
-	{
-		Data::initialize();
-		m_Stylesheet = new acss::QtAdvancedStylesheet();
-
-		m_Stylesheet->setStylesDirPath(StylePath.c_str());
-		m_Stylesheet->setOutputDirPath(StyleOutputPath.c_str());
-		m_Stylesheet->setCurrentStyle("crow_material");
-
-		m_Stylesheet->setCurrentTheme("dark_purple");
-		m_Stylesheet->updateStylesheet();
-
-		globalData.isStylesheetDark = m_Stylesheet->isCurrentThemeDark();
-
-		qApp->setStyleSheet(m_Stylesheet->styleSheet());
-
 	}
 
 	void MainController::configureActions()
