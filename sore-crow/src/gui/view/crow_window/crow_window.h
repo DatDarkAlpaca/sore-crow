@@ -23,17 +23,22 @@ namespace sore
 
         void clearData();
 
-    // Docks:
     private:
+        void handleActions();
+
+    // Docks:
+    private slots:
         void onShowEpisodeListDock();
 
         void onShowSubtitleViewerDock();
 
     // Video Player:
-    private:
+    private slots:
         void onVideoPositionPositionChanged();
 
         void onVideoPlayerSliderChanged();
+
+        void onVolumeSliderChanged();
 
         void onPlayButtonClicked();
 
@@ -42,7 +47,7 @@ namespace sore
         void onVolumeButtonClicked();
 
     // Episodes:
-    private:
+    private slots:
         void onEpisodeClicked();
 
         void onPreviousButtonClick();

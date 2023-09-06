@@ -99,6 +99,7 @@ namespace sore
 		void setActiveSubtitleTrack(int index)
 		{
 			m_MediaPlayer->setActiveSubtitleTrack(index);
+			// TODO: if index is not in the range, emit signal to crow video to set subtitles
 		}
 
 		QList<QMediaMetaData> subtitleTracks() const

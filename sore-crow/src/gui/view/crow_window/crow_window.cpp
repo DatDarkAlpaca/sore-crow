@@ -3,9 +3,6 @@
 #include "utils/dialog.h"
 #include "core/logger/logger.h"
 
-#include <QGraphicsVideoItem>
-#include <QVideoSink>
-
 namespace sore
 {
     CrowWindow::CrowWindow(QWidget* parent)
@@ -16,20 +13,7 @@ namespace sore
         m_MediaHandler = new CrowMediaHandler(this);
         m_MediaHandler->setVideoOutput(ui.videoPlayer->videoItem());
 
-        onVideoPositionPositionChanged();
-        onVideoPlayerSliderChanged();
-
-
-        onEpisodeClicked();
-        onPreviousButtonClick();
-        onNextButtonClick();
-
-        // Docks:
-        onShowEpisodeListDock();
-        onShowSubtitleViewerDock();
-
-        // Actions:
-        populateAudioDeviceAction();
+        handleActions();
     }
 
     void CrowWindow::updateData(const ProjectData& data)
@@ -40,6 +24,29 @@ namespace sore
     void CrowWindow::clearData()
     {
         ui.episodesWidget->clear();
+    }
+
+    void CrowWindow::handleActions()
+    {
+        // Docks:
+        onShowEpisodeListDock();
+        onShowSubtitleViewerDock();
+
+        // Video Player:
+        onVideoPositionPositionChanged();
+        onVideoPlayerSliderChanged();
+        onVolumeSliderChanged();
+        onPlayButtonClicked();
+        onStopButtonClicked();
+        onVolumeButtonClicked();
+
+        // Episode List:
+        onEpisodeClicked();
+        onPreviousButtonClick();
+        onNextButtonClick();
+
+        // Actions:
+        populateAudioDeviceAction();
     }
 
     // Docks:
@@ -74,6 +81,14 @@ namespace sore
     {
         QObject::connect(ui.playerControls->ui.playerSlider, &QSlider::valueChanged, [&](long long position) {
             m_MediaHandler->setMediaPosition(position);
+        });
+    }
+
+    void CrowWindow::onVolumeSliderChanged()
+    {
+        QObject::connect(ui.playerControls->ui.volumeSlider, &QSlider::valueChanged, [&](int position) {
+            m_MediaHandler->setVolume(position / 100.f);
+            ui.playerControls->toggleVolumeButtonFromVolume(position);
         });
     }
 

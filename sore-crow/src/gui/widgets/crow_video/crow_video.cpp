@@ -21,7 +21,6 @@ namespace sore
 		m_Scene->addItem(m_SubtitleItem);
 		m_Scene->addItem(m_VideoItem);
 
-		m_SubtitleItem->setPlainText("hello");
 		setStyleSheet("border: 0;");
 	}
 
@@ -30,14 +29,19 @@ namespace sore
 		m_SubtitleItem->setFont(font);
 	}
 
-	void CrowVideo::setText(const std::string& text)
+	void CrowVideo::disableSubtitleText()
+	{
+		m_SubtitleItem->setPlainText("");
+	}
+
+	void CrowVideo::setSubtitleText(const std::string& text)
 	{
 		m_SubtitleItem->setPlainText(text.c_str());
 	}
 
 	void CrowVideo::resizeEvent(QResizeEvent* event)
 	{
-		fitInView(m_Scene->sceneRect(), Qt::KeepAspectRatio);
-		m_VideoItem->setSize({ m_Scene->width(), m_Scene->height() });
+		m_Scene->setSceneRect(0, 0, (float)width(), (float)height());
+		m_VideoItem->setSize({ (float)width(), (float)height() });
 	}
 }

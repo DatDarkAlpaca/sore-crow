@@ -15,7 +15,9 @@ namespace sore
 	public:
 		void setFont(const QFont& font);
 
-		void setText(const std::string& text);
+		void disableSubtitleText();
+
+		void setSubtitleText(const std::string& text);
 
 	protected:
 		void resizeEvent(QResizeEvent* event) override;
