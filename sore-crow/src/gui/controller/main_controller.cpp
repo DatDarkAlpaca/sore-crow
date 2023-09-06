@@ -5,6 +5,7 @@
 
 #include "utils/dialog.h"
 #include "utils/uuid_utils.h"
+#include "utils/message_box.h"
 #include "utils/filesystem_utils.h"
 #include "core/project/project_data.h"
 #include "gui/view/dialog/create_project_dialog.h"
@@ -31,15 +32,6 @@ namespace sore
 	ProjectData MainController::onOpenProject()
 	{
 		std::string projectFile = openProjectFileDialog();
-
-		// TODO: move to utils.
-		auto errorBox = [&](const std::string& errorMessage) -> void {
-			QMessageBox msgBox;
-			msgBox.setWindowTitle("Sore Crow");
-			msgBox.setDefaultButton(QMessageBox::Ok);
-			msgBox.setText(errorMessage.c_str());
-			msgBox.exec();
-		};
 
 		if (projectFile.empty())
 			return {};
