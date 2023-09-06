@@ -29,7 +29,19 @@ namespace sore
 
         void onShowSubtitleViewerDock();
 
-    // Events:
+    // Video Player:
+    private:
+        void onVideoPositionPositionChanged();
+
+        void onVideoPlayerSliderChanged();
+
+        void onPlayButtonClicked();
+
+        void onStopButtonClicked();
+
+        void onVolumeButtonClicked();
+
+    // Episodes:
     private:
         void onEpisodeClicked();
 

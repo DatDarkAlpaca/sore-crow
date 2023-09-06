@@ -16,7 +16,10 @@ namespace sore
         m_MediaHandler = new CrowMediaHandler(this);
         m_MediaHandler->setVideoOutput(ui.videoPlayer->videoItem());
 
-        // Managed Events:
+        onVideoPositionPositionChanged();
+        onVideoPlayerSliderChanged();
+
+
         onEpisodeClicked();
         onPreviousButtonClick();
         onNextButtonClick();
@@ -55,6 +58,69 @@ namespace sore
     }
 
     // Events:
+    void CrowWindow::onVideoPositionPositionChanged()   
+    {
+        QObject::connect(m_MediaHandler->mediaPlayer(), &QMediaPlayer::positionChanged, [&](long long position) {
+            ui.playerControls->blockPlayerSliderSignals(true);
+
+            ui.playerControls->setVideoSliderPosition(position);
+            ui.playerControls->setCurrentDurationLabel(position);
+
+            ui.playerControls->blockPlayerSliderSignals(false);
+        });
+    }
+
+    void CrowWindow::onVideoPlayerSliderChanged()
+    {
+        QObject::connect(ui.playerControls->ui.playerSlider, &QSlider::valueChanged, [&](long long position) {
+            m_MediaHandler->setMediaPosition(position);
+        });
+    }
+
+    void CrowWindow::onPlayButtonClicked()
+    {
+        QObject::connect(ui.playerControls->ui.playVideoBtn, &QPushButton::released, [&]() {
+            if (!m_MediaHandler->isMediaSet())
+                return;
+
+            bool isMediaPlaying = m_MediaHandler->isMediaPlaying();
+            isMediaPlaying ? m_MediaHandler->pause() : m_MediaHandler->play();
+
+            ui.playerControls->togglePlayButtonIcon(isMediaPlaying);
+        });
+    }
+
+    void CrowWindow::onStopButtonClicked()
+    {
+        QObject::connect(ui.playerControls->ui.stopVideoBtn, &QPushButton::released, [&]() {
+            if (!m_MediaHandler->isMediaSet())
+                return;
+
+            m_MediaHandler->stop();
+            ui.playerControls->togglePlayButtonIcon(true);
+        });
+    }
+
+    void CrowWindow::onVolumeButtonClicked()
+    {
+        QObject::connect(ui.playerControls->ui.volumeBtn, &QPushButton::released, [&]() {
+            bool isMuted = m_MediaHandler->isMuted();
+
+            if (!isMuted)
+            {
+                m_MediaHandler->mute();
+                ui.playerControls->toggleVolumeSliderEnabled(false);
+                ui.playerControls->toggleVolumeButtonState(PlayerControlsWidget::VolumeState::MUTED);
+            }
+            else
+            {
+                m_MediaHandler->unmute();
+                ui.playerControls->toggleVolumeSliderEnabled(true);
+                ui.playerControls->toggleVolumeButtonFromVolume(ui.playerControls->volume());
+            }
+        });
+    }
+
     void CrowWindow::onEpisodeClicked()
     {
         QObject::connect(ui.episodesWidget, &EpisodeListWidget::episodeFromListClicked, [&](const std::string& episodeFilepath) {
@@ -62,22 +128,20 @@ namespace sore
                 return;
 
             m_MediaHandler->setMedia(episodeFilepath);
-            long long duration = m_MediaHandler->duration();
+            m_MediaHandler->play();
 
+            long long duration = m_MediaHandler->duration();
             ui.playerControls->setVideoSliderMaximum(duration);
             ui.playerControls->setTotalDurationLabel(duration);
 
             ui.playerControls->togglePlayButtonIcon(false);
 
             toggleAudioTrackAction(true);
-            populateAudioTrackAction();
-
             toggleSubtitleTrackAction(true);
-            populateSubtitleTrackAction();
-
             toggleExternalSubtitleAction(true);
 
-            m_MediaHandler->play();
+            populateSubtitleTrackAction();
+            populateAudioTrackAction();
         });
     }
 
