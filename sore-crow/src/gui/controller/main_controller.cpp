@@ -17,6 +17,8 @@ namespace sore
 		configureStylesheet();
 
 		configureActions();
+
+		CrownsoleLogger::setConsoleWidget(m_CrowWindow.ui.crownsole);
 	}
 
 	MainController::~MainController()

@@ -4,8 +4,8 @@
 
 #include "utils/uuid_utils.h"
 #include "utils/string_utils.h"
-#include "core/macros/macros.h"
 #include "core/logger/logger.h"
+#include "core/global_data.h"
 
 namespace sore
 {

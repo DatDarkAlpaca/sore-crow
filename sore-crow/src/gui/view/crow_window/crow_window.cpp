@@ -14,9 +14,6 @@ namespace sore
     {
         ui.setupUi(this);
 
-        // Crownsole:
-        CrownsoleLogger::setConsoleWidget(ui.crownsole);
-
         // Video Controller:
         m_MediaHandler = new CrowMediaHandler(this);
         m_MediaHandler->setVideoOutput(ui.videoPlayer->videoItem());
