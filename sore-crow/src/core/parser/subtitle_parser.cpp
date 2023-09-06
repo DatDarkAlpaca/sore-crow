@@ -1,4 +1,5 @@
 #pragma once
+#include "pch.h"
 #include <string>
 #include <fstream>
 
@@ -16,7 +17,7 @@ namespace sore
 	std::vector<SubtitleEntry> SubtitleParser::parseSubtitleFile(const std::string& filepath)
 	{
 		if (!isFileSupportedSubtitle(filepath))
-			return;
+			return {};
 
 		std::ifstream file(filepath);
 
