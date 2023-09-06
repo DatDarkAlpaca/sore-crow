@@ -3,11 +3,8 @@
 #include "ui_crow_window.h"
 
 #include "core/project/project_data.h"
-#include "gui/widgets/episode_widget/episode_widget.h"
-
 #include "gui/objects/crow_media_handler.h"
-#include "gui/objects/player_controls_media_events.h"
-#include "gui/objects/subtitle_handler.h"
+#include "gui/widgets/episode_widget/episode_widget.h"
 
 namespace sore
 {
@@ -54,12 +51,8 @@ namespace sore
 
         void populateSubtitleTrackAction();
 
-        void onExternalSubtitleAction();
-
     private:
         CrowMediaHandler* m_MediaHandler = nullptr;
-        SubtitleHandler* m_SubtitleHandler = nullptr;
-        PlayerControlsMediaEvents* m_PlayerControlsEvents = nullptr;
 
     private:
         Ui::CrowWindow ui;

@@ -11,7 +11,7 @@ namespace sore
 		QHideableDockWidget(QWidget* parent = nullptr)
 			: QDockWidget(parent)
 		{
-
+			
 		}
 
 	protected:

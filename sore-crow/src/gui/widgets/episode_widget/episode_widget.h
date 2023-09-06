@@ -30,7 +30,6 @@ namespace sore
 		void episodeClicked();
 
 	private:
-		std::string episodeFilepath;
 		Ui::EpisodeView ui;
 	};
 }

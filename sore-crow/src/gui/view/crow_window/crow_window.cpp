@@ -2,7 +2,6 @@
 #include "crow_window.h"
 #include "utils/dialog.h"
 #include "core/logger/logger.h"
-#include "core/parser/subtitle_parser.h"
 
 #include <QGraphicsVideoItem>
 #include <QVideoSink>
@@ -14,21 +13,13 @@ namespace sore
     {
         ui.setupUi(this);
 
-        // Video Controller:
         m_MediaHandler = new CrowMediaHandler(this);
         m_MediaHandler->setVideoOutput(ui.videoPlayer->videoItem());
-
-        // Player Control Events:
-        m_PlayerControlsEvents = new PlayerControlsMediaEvents(this, *m_MediaHandler, *ui.playerControls);
 
         // Managed Events:
         onEpisodeClicked();
         onPreviousButtonClick();
         onNextButtonClick();
-
-        // Subtitle Handler:
-        m_SubtitleHandler = new SubtitleHandler(*ui.videoPlayer);
-        onExternalSubtitleAction();
 
         // Docks:
         onShowEpisodeListDock();
@@ -253,18 +244,5 @@ namespace sore
 
             ui.menuSubtitleTrack->addAction(action);
         }
-    }
-
-    void CrowWindow::onExternalSubtitleAction()
-    {
-        QObject::connect(ui.actionAddExternalTrack, &QAction::triggered, [&](bool checked) {
-            std::string filepath = openSubtitleTrackDialog();
-            if (filepath.empty())
-                return;
-
-            SubtitleParser parser;
-            std::vector<SubtitleEntry> entries = parser.parseSubtitleFile(filepath);
-            m_SubtitleHandler->setSubtitleFiles(entries);
-        });
     }
 }

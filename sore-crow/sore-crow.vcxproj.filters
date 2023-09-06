@@ -41,9 +41,6 @@
     <QtMoc Include="src\gui\view\splash_window\splash_window.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\gui\objects\player_controls_media_events.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\core\logger\logger.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -89,12 +86,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\view\crow_window\crow_window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\parser\srt\srt_parser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\parser\subtitle_parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\widgets\crownsole\crownsole.cpp">
@@ -160,21 +151,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\core\global_data.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\parser\parser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\parser\subtitle_parser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\parser\objects.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\parser\srt\srt_parser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gui\objects\subtitle_handler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\utils\message_box.h">
