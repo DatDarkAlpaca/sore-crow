@@ -65,6 +65,9 @@
     <QtMoc Include="src\gui\widgets\subtitle_list\subtitle_list.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\gui\widgets\subtitle_widget\subtitle_widget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">

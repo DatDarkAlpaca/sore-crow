@@ -247,6 +247,7 @@
     <QtMoc Include="src\gui\widgets\crownsole\crownsole.h" />
     <QtMoc Include="src\gui\widgets\crow_video\crow_video.h" />
     <QtMoc Include="src\gui\widgets\subtitle_list\subtitle_list.h" />
+    <QtMoc Include="src\gui\widgets\subtitle_widget\subtitle_widget.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\utils\dialog.h" />
     <ClInclude Include="src\utils\extension_utils.h" />
