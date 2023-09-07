@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="main">
+    <file>icons/copy/loop-arrow.png</file>
     <file>icons/next.png</file>
     <file>icons/pause.png</file>
     <file>icons/play.png</file>

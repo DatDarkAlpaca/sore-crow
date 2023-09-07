@@ -236,6 +236,7 @@
     <ClInclude Include="src\core\project\project_data.h" />
     <ClInclude Include="src\core\global_data.h" />
     <QtMoc Include="src\gui\objects\subtitle_handler.h" />
+    <QtMoc Include="src\gui\model\subtitle_model.h" />
     <ClInclude Include="src\gui\objects\subtitle_item.h" />
     <ClInclude Include="src\gui\view\dialog\create_project_dialog_data.h" />
     <QtMoc Include="src\gui\widgets\episode_widget\episode_widget.h" />
@@ -246,8 +247,7 @@
     <QtMoc Include="src\gui\widgets\episode_list\episode_list_widget.h" />
     <QtMoc Include="src\gui\widgets\crownsole\crownsole.h" />
     <QtMoc Include="src\gui\widgets\crow_video\crow_video.h" />
-    <QtMoc Include="src\gui\widgets\subtitle_list\subtitle_list_widget.h" />
-    <QtMoc Include="src\gui\widgets\subtitle_widget\subtitle_widget.h" />
+    <QtMoc Include="src\gui\widgets\subtitle_view\subtitle_view.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\utils\dialog.h" />
     <ClInclude Include="src\utils\extension_utils.h" />

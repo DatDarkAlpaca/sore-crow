@@ -78,7 +78,14 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="sore::SubtitleListWidget" name="subtitleList"/>
+      <widget class="sore::SubtitleListView" name="subtitleList">
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::SingleSelection</enum>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -296,9 +303,9 @@
    <header>gui/widgets/crow_video/crow_video.h</header>
   </customwidget>
   <customwidget>
-   <class>sore::SubtitleListWidget</class>
-   <extends>QListWidget</extends>
-   <header>gui/widgets/subtitle_list/subtitle_list_widget.h</header>
+   <class>sore::SubtitleListView</class>
+   <extends>QListView</extends>
+   <header>gui/widgets/subtitle_view/subtitle_view.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

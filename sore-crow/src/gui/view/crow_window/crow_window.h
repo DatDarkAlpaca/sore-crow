@@ -6,6 +6,7 @@
 #include "gui/objects/crow_media_handler.h"
 #include "core/project/project_data.h"
 #include "gui/widgets/episode_widget/episode_widget.h"
+#include "gui/model/subtitle_model.h"
 
 namespace sore
 {
@@ -45,6 +46,8 @@ namespace sore
 
         void onStopButtonClicked();
 
+        void onVideoRepeatClicked();
+
         void onVolumeButtonClicked();
 
     // Episodes:
@@ -54,6 +57,10 @@ namespace sore
         void onPreviousButtonClick();
 
         void onNextButtonClick();
+
+    // Subtitles:
+    private slots:
+        void onSubtitleClicked();
 
     // Actions:
     private:
@@ -76,6 +83,8 @@ namespace sore
         SubtitleHandler* m_SubtitleHandler = nullptr;
 
     private:
+        SubtitleModel m_SubtitleModel;
+
         Ui::CrowWindow ui;
     };
 }

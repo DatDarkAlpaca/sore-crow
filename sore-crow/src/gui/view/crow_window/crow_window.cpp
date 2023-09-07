@@ -15,6 +15,9 @@ namespace sore
 
         m_SubtitleHandler = new SubtitleHandler(this);
 
+        // Subtitle List:
+        ui.subtitleList->setModel(&m_SubtitleModel);
+
         handleActions();
     }
 
@@ -46,6 +49,9 @@ namespace sore
         onEpisodeClicked();
         onPreviousButtonClick();
         onNextButtonClick();
+
+        // Subtitles:
+        onSubtitleClicked();
 
         // Actions:
         populateAudioDeviceAction();
@@ -131,6 +137,13 @@ namespace sore
         });
     }
 
+    void CrowWindow::onVideoRepeatClicked()
+    {
+        QObject::connect(ui.subtitleList->selectionModel(), &QItemSelectionModel::currentChanged, [&](const QModelIndex& current, const QModelIndex& previous) {
+        
+        });
+    }
+
     void CrowWindow::onVolumeButtonClicked()
     {
         QObject::connect(ui.playerControls->ui.volumeBtn, &QPushButton::released, [&]() {
@@ -208,6 +221,14 @@ namespace sore
 
             m_MediaHandler->setMedia(source.value());
             m_MediaHandler->play();
+        });
+    }
+
+    void CrowWindow::onSubtitleClicked()
+    {
+        QObject::connect(ui.subtitleList->selectionModel(), &QItemSelectionModel::currentChanged, [&](const QModelIndex& current, const QModelIndex& previous) {
+            // ON SUBTITLE CLICKED
+            ui.playerControls->toggleRepeatButtonEnabled(true);
         });
     }
 
@@ -370,6 +391,9 @@ namespace sore
 
             action->trigger();
             ui.menuSubtitleTrack->addAction(action);
+
+            // Subtitle List | Convert to list:
+            m_SubtitleModel.populateData(m_SubtitleHandler->subtitles());
         });
     }
 }

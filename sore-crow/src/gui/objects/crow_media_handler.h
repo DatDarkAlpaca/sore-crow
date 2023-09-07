@@ -20,6 +20,8 @@ namespace sore
 
 			m_MediaPlayer->setAudioOutput(m_AudioOutput);
 			m_AudioOutput->setVolume(50.f);
+
+			onSectionRepeat();
 		}
 
 	public:
@@ -108,7 +110,13 @@ namespace sore
 		}
 
 	public:
-		inline void play() { m_MediaPlayer->play(); }
+		inline void play() 
+		{ 
+			if (m_RepeatingSection)
+				m_MediaPlayer->setPosition(m_RepeatStart);
+
+			m_MediaPlayer->play(); 
+		}
 
 		inline void stop() { m_MediaPlayer->stop(); }
 
@@ -117,6 +125,26 @@ namespace sore
 		inline void mute() { m_AudioOutput->setMuted(true); }
 
 		inline void unmute() { m_AudioOutput->setMuted(false); }
+
+	public:
+		inline void setRepeat(double start, double end) 
+		{
+			m_RepeatStart = start;
+			m_RepeatEnd = end;
+			m_RepeatingSection = true;
+		}
+
+	private:
+		void onSectionRepeat()
+		{
+			QObject::connect(m_MediaPlayer, &QMediaPlayer::positionChanged, [&](double position) {
+				if (!m_RepeatingSection)
+					return;
+
+				if (position > m_RepeatEnd)
+					stop();
+			});
+		}
 
 	public:
 		QMediaPlayer* mediaPlayer() const
@@ -132,5 +160,9 @@ namespace sore
 	private:
 		QMediaPlayer* m_MediaPlayer = nullptr;
 		QAudioOutput* m_AudioOutput = nullptr;
+
+	private:
+		double m_RepeatStart = 0, m_RepeatEnd = 0;
+		bool m_RepeatingSection = false;
 	};
 }

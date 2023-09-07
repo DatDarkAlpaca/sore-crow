@@ -38,6 +38,11 @@ namespace sore
 			return std::nullopt;
 		}
 
+		std::unordered_map<uint64_t, SubtitleData> subtitles() const
+		{
+			return m_LoadedSubtitles;
+		}
+
 	private:
 		SubtitleFactory m_SubtitleFactory;
 		std::unordered_map<uint64_t, SubtitleData> m_LoadedSubtitles;
