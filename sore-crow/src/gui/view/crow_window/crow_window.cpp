@@ -13,6 +13,8 @@ namespace sore
         m_MediaHandler = new CrowMediaHandler(this);
         m_MediaHandler->setVideoOutput(ui.videoPlayer->videoItem());
 
+        m_SubtitleHandler = new SubtitleHandler(this);
+
         handleActions();
     }
 
@@ -47,6 +49,7 @@ namespace sore
 
         // Actions:
         populateAudioDeviceAction();
+        onExternalSubtitleAction();
     }
 
     // Docks:
@@ -74,6 +77,18 @@ namespace sore
             ui.playerControls->setCurrentDurationLabel(position);
 
             ui.playerControls->blockPlayerSliderSignals(false);
+
+            if (!ui.videoPlayer->enabledSubtitles())
+                return;
+
+            auto subtitle = m_SubtitleHandler->getClosestSubtitle(position);
+            if (!subtitle.has_value())
+            {
+                ui.videoPlayer->setSubtitleText("");
+                return;
+            }
+
+            ui.videoPlayer->setSubtitleText(subtitle.value().text.c_str());
         });
     }
 
@@ -293,8 +308,7 @@ namespace sore
                         audioAction->setChecked(false);
                 }
 
-                // TODO: use the CrowVideo widget to set the subtitle.
-                // TODO: create a mediator between crow video and media handler for subtitle position changed
+                ui.videoPlayer->setEnabledSubtitles(false);
                 m_MediaHandler->setActiveSubtitleTrack(index);
             });
         };
@@ -323,5 +337,39 @@ namespace sore
 
             ui.menuSubtitleTrack->addAction(action);
         }
+    }
+
+    void CrowWindow::onExternalSubtitleAction()
+    {
+        QObject::connect(ui.actionAddExternalTrack, &QAction::triggered, [&]() {
+            std::string filepath = openSubtitleTrackDialog();
+            if (filepath.empty())
+                return;
+
+            m_SubtitleHandler->load(filepath);
+
+            QFileInfo fileInfo(filepath.c_str());
+
+            QAction* action = new QAction(ui.menuAudioTrack);
+            action->setText(fileInfo.fileName());
+            action->setCheckable(true);
+            
+            QObject::connect(action, &QAction::triggered, [&, action](bool checked) {
+                if (!checked)
+                    action->setChecked(true);
+
+                for (const auto& audioAction : ui.menuSubtitleTrack->actions())
+                {
+                    if (audioAction != action)
+                        audioAction->setChecked(false);
+                }
+
+                ui.videoPlayer->setEnabledSubtitles(true);
+                m_MediaHandler->setActiveSubtitleTrack(-1);
+            });
+
+            action->trigger();
+            ui.menuSubtitleTrack->addAction(action);
+        });
     }
 }

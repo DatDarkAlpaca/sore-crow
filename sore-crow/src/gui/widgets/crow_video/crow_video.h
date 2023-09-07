@@ -1,7 +1,7 @@
 #pragma once
 #include <QGraphicsView>
-#include <QGraphicsTextItem>
 #include <QGraphicsVideoItem>
+#include "gui/objects/subtitle_item.h"
 
 namespace sore
 {
@@ -15,8 +15,6 @@ namespace sore
 	public:
 		void setFont(const QFont& font);
 
-		void disableSubtitleText();
-
 		void setSubtitleText(const std::string& text);
 
 	protected:
@@ -25,9 +23,21 @@ namespace sore
 	public:
 		QGraphicsVideoItem* videoItem() const { return m_VideoItem; }
 
+		bool enabledSubtitles() const { return m_EnabledSubtitles; }
+
+		void setEnabledSubtitles(bool value) { m_EnabledSubtitles = value; }
+
 	private:
-		QGraphicsTextItem* m_SubtitleItem = nullptr;
+		void setup();
+
+		void resizeScene();
+
+	private:
+		SubtitleItem* m_SubtitleItem = nullptr;
 		QGraphicsVideoItem* m_VideoItem = nullptr;
 		QGraphicsScene* m_Scene = nullptr;
+
+	private:
+		bool m_EnabledSubtitles = false;
 	};
 }
