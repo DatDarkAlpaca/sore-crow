@@ -108,6 +108,16 @@
     <VcpkgInstalledDir>$(SolutionDir)/vcpkg_installed</VcpkgInstalledDir>
     <VcpkgUseStatic>false</VcpkgUseStatic>
   </PropertyGroup>
+  <PropertyGroup Label="QtDeploy" Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'">
+    <QtDeployDir>$(SolutionDir)bin\$(ProjectName)\</QtDeployDir>
+    <QtDeployLibDir>$(SolutionDir)bin\$(ProjectName)\lib</QtDeployLibDir>
+    <QtDeployPluginDir>$(SolutionDir)bin\$(ProjectName)\plugin</QtDeployPluginDir>
+    <QtDeployNoPlugins>true</QtDeployNoPlugins>
+    <QtDeployNoLibraries>
+    </QtDeployNoLibraries>
+    <QtDeployFiles>
+    </QtDeployFiles>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir)vendor;$(ProjectDir)vendor/qcss/src;$(ProjectDir)vendor/srt-parser;$(ProjectDir)vendor/uuid_v4;%(AdditionalIncludeDirectories);$(Qt_INCLUDEPATH_)</AdditionalIncludeDirectories>
@@ -150,7 +160,7 @@
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /S /Y</Command>
+      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">

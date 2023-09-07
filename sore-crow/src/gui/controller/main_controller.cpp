@@ -148,5 +148,15 @@ namespace sore
 			m_CrowWindow.clearData();
 			m_CrowWindow.updateData(projectData);
 		});
+
+		// [Main Window] Create Project:
+		QObject::connect(m_CrowWindow.ui.actionNewProject, &QAction::triggered, [&]() {
+			auto projectData = onCreateProject();
+			if (!projectData.valid())
+				return;
+
+			m_CrowWindow.clearData();
+			m_CrowWindow.updateData(projectData);
+		});
 	}
 }
