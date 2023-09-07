@@ -19,16 +19,28 @@ namespace sore
 		}
 
 	public:
-		void populateData(const std::unordered_map<uint64_t, SubtitleData>& data)
+		void populateData(const std::vector<SubtitleData>& data)
 		{
 			clear();
 
-			for (const auto& [_, subtitle] : data)
+			for (const auto& subtitle : data)
 			{
 				QStandardItem* item = new QStandardItem;
 				item->setData(subtitle.text.c_str(), Qt::DisplayRole);
+
 				appendRow(item);
+				auto row = item->index().row();
 			}
+
+			m_Data = data;
 		}
+
+	public:
+		SubtitleData getDataAtModelIndex(int row) { return m_Data[row]; }
+
+		std::vector<SubtitleData> getSubtitleData() const { return m_Data; }
+
+	private:
+		std::vector<SubtitleData> m_Data;
 	};
 }

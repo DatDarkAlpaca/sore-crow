@@ -110,13 +110,7 @@ namespace sore
 		}
 
 	public:
-		inline void play() 
-		{ 
-			if (m_RepeatingSection)
-				m_MediaPlayer->setPosition(m_RepeatStart);
-
-			m_MediaPlayer->play(); 
-		}
+		inline void play() { m_MediaPlayer->play(); }
 
 		inline void stop() { m_MediaPlayer->stop(); }
 
@@ -127,6 +121,22 @@ namespace sore
 		inline void unmute() { m_AudioOutput->setMuted(false); }
 
 	public:
+		inline void toggleRepeat()
+		{	
+			setRepeat(!m_RepeatingSection);
+		}
+
+		inline void setRepeat(bool value)
+		{
+			if (!value)
+			{
+				m_RepeatStart = 0;
+				m_RepeatEnd = 0;
+			}
+			
+			setRepeat(value);
+		}
+
 		inline void setRepeat(double start, double end) 
 		{
 			m_RepeatStart = start;
@@ -141,8 +151,14 @@ namespace sore
 				if (!m_RepeatingSection)
 					return;
 
-				if (position > m_RepeatEnd)
-					stop();
+				if (position <= m_RepeatStart)
+					m_MediaPlayer->setPosition(m_RepeatStart);
+
+				if (position >= m_RepeatEnd)
+				{
+					m_MediaPlayer->setPosition(m_RepeatStart);
+					pause();
+				}
 			});
 		}
 

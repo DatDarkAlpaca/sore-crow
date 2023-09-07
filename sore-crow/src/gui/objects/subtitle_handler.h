@@ -22,29 +22,27 @@ namespace sore
 			std::stringstream ss;
 			ss << file.rdbuf();
 
-			auto subtitleData = m_SubtitleFactory.getParser(filepath)->parse();
-			for (const auto& subtitle : subtitleData)
-				m_LoadedSubtitles[subtitle.startTimeMilliseconds] = subtitle;
+			m_LoadedSubtitles = m_SubtitleFactory.getParser(filepath)->parse();
 		}
 
 		std::optional<SubtitleData> getClosestSubtitle(uint64_t currentPosition) const
 		{
-			for (const auto& [position, data] : m_LoadedSubtitles)
+			for (const auto& subtitle : m_LoadedSubtitles)
 			{
-				if (currentPosition >= position && currentPosition <= data.endTimeMilliseconds)
-					return data;
+				if (currentPosition >= subtitle.startTimeMilliseconds && currentPosition <= subtitle.endTimeMilliseconds)
+					return subtitle;
 			}
 
 			return std::nullopt;
 		}
 
-		std::unordered_map<uint64_t, SubtitleData> subtitles() const
+		std::vector<SubtitleData> subtitles() const
 		{
 			return m_LoadedSubtitles;
 		}
 
 	private:
 		SubtitleFactory m_SubtitleFactory;
-		std::unordered_map<uint64_t, SubtitleData> m_LoadedSubtitles;
+		std::vector<SubtitleData> m_LoadedSubtitles;
 	};
 }

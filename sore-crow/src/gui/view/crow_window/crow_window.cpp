@@ -140,7 +140,7 @@ namespace sore
     void CrowWindow::onVideoRepeatClicked()
     {
         QObject::connect(ui.subtitleList->selectionModel(), &QItemSelectionModel::currentChanged, [&](const QModelIndex& current, const QModelIndex& previous) {
-        
+            m_MediaHandler->toggleRepeat();
         });
     }
 
@@ -227,8 +227,17 @@ namespace sore
     void CrowWindow::onSubtitleClicked()
     {
         QObject::connect(ui.subtitleList->selectionModel(), &QItemSelectionModel::currentChanged, [&](const QModelIndex& current, const QModelIndex& previous) {
-            // ON SUBTITLE CLICKED
             ui.playerControls->toggleRepeatButtonEnabled(true);
+            ui.playerControls->togglePlayButtonIcon(false);
+            
+            auto data = m_SubtitleModel.getSubtitleData();
+
+            auto start = data[current.row()].startTimeMilliseconds;
+            auto end = data[current.row()].endTimeMilliseconds;
+
+            m_MediaHandler->setMediaPosition(start);
+            m_MediaHandler->setRepeat(start, end);
+            m_MediaHandler->play();
         });
     }
 
