@@ -224,19 +224,41 @@ namespace sore
         });
     }
 
+    void CrowWindow::onRepeatButtonClick()
+    {
+        QObject::connect(ui.playerControls->ui.repeatBtn, &QPushButton::released, [&]() {
+            bool isEnabled = ui.playerControls->ui.repeatBtn->isEnabled();
+            ui.playerControls->ui.repeatBtn->setEnabled(!isEnabled);
+
+            // TODO: fix.
+            if (isEnabled)
+            {
+                m_MediaHandler->setRepeatTimestamp(0, m_MediaHandler->duration());
+                m_MediaHandler->setRepeat(true);
+            }
+
+            else
+                m_MediaHandler->setRepeat(false);
+
+            m_MediaHandler->play();
+        });
+    }
+
     void CrowWindow::onSubtitleClicked()
     {
         QObject::connect(ui.subtitleList->selectionModel(), &QItemSelectionModel::currentChanged, [&](const QModelIndex& current, const QModelIndex& previous) {
             ui.playerControls->toggleRepeatButtonEnabled(true);
             ui.playerControls->togglePlayButtonIcon(false);
-            
-            auto data = m_SubtitleModel.getSubtitleData();
 
+            auto data = m_SubtitleModel.getSubtitleData();
             auto start = data[current.row()].startTimeMilliseconds;
             auto end = data[current.row()].endTimeMilliseconds;
 
             m_MediaHandler->setMediaPosition(start);
-            m_MediaHandler->setRepeat(start, end);
+            
+            m_MediaHandler->setRepeatTimestamp(start, end);
+            m_MediaHandler->setRepeat(true);
+
             m_MediaHandler->play();
         });
     }

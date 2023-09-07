@@ -58,6 +58,8 @@ namespace sore
 
         void onNextButtonClick();
 
+        void onRepeatButtonClick();
+
     // Subtitles:
     private slots:
         void onSubtitleClicked();

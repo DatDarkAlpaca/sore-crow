@@ -127,21 +127,14 @@ namespace sore
 		}
 
 		inline void setRepeat(bool value)
-		{
-			if (!value)
-			{
-				m_RepeatStart = 0;
-				m_RepeatEnd = 0;
-			}
-			
+		{		
 			setRepeat(value);
 		}
 
-		inline void setRepeat(double start, double end) 
+		inline void setRepeatTimestamp(double start, double end) 
 		{
 			m_RepeatStart = start;
 			m_RepeatEnd = end;
-			m_RepeatingSection = true;
 		}
 
 	private:

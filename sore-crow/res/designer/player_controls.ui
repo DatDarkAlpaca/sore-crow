@@ -116,7 +116,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="repeatLabel">
+      <widget class="QPushButton" name="repeatBtn">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -134,7 +134,7 @@
         <bool>false</bool>
        </property>
        <property name="flat">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
       </widget>
      </item>

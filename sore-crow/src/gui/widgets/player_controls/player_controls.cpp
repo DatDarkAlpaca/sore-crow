@@ -54,7 +54,7 @@ namespace sore
 
 	void PlayerControlsWidget::toggleRepeatButtonEnabled(bool value)
 	{
-		ui.repeatLabel->setEnabled(value);
+		ui.repeatBtn->setEnabled(value);
 	}
 
 	void PlayerControlsWidget::setVideoSliderPosition(long long position)
