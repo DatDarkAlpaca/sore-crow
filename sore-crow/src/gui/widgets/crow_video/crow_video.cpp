@@ -60,7 +60,7 @@ namespace sore
 		m_Scene->setSceneRect(0, 0, (float)width(), (float)height());
 		m_VideoItem->setSize({ (float)width(), (float)height() });
 
-		m_SubtitleItem->setY(m_VideoItem->boundingRect().height());
 		m_SubtitleItem->setX(m_VideoItem->boundingRect().center().x() - m_SubtitleItem->boundingRect().width() / 2);
+		m_SubtitleItem->setY(m_VideoItem->boundingRect().bottom() - m_SubtitleItem->boundingRect().height());
 	}
 }

@@ -128,7 +128,7 @@ namespace sore
 
 		inline void setRepeat(bool value)
 		{		
-			setRepeat(value);
+			m_RepeatingSection = value;
 		}
 
 		inline void setRepeatTimestamp(double start, double end) 
@@ -151,6 +151,8 @@ namespace sore
 				{
 					m_MediaPlayer->setPosition(m_RepeatStart);
 					pause();
+
+					emit sectionRepeatStopped();
 				}
 			});
 		}
@@ -165,6 +167,9 @@ namespace sore
 		{
 			return m_AudioOutput;
 		}
+
+	signals:
+		void sectionRepeatStopped();
 
 	private:
 		QMediaPlayer* m_MediaPlayer = nullptr;

@@ -28,6 +28,9 @@ namespace sore
     private:
         void handleActions();
 
+    protected:
+        void resizeEvent(QResizeEvent* event) override;
+
     // Docks:
     private slots:
         void onShowEpisodeListDock();
@@ -41,6 +44,8 @@ namespace sore
         void onVideoPlayerSliderChanged();
 
         void onVolumeSliderChanged();
+
+        void onSectionRepeatStopped();
 
         void onPlayButtonClicked();
 

@@ -27,10 +27,11 @@ namespace sore
 
 		void setEnabledSubtitles(bool value) { m_EnabledSubtitles = value; }
 
+	public:
+		void resizeScene();
+
 	private:
 		void setup();
-
-		void resizeScene();
 
 	private:
 		SubtitleItem* m_SubtitleItem = nullptr;

@@ -41,6 +41,7 @@ namespace sore
         onVideoPositionPositionChanged();
         onVideoPlayerSliderChanged();
         onVolumeSliderChanged();
+        onSectionRepeatStopped();
         onPlayButtonClicked();
         onStopButtonClicked();
         onVolumeButtonClicked();
@@ -49,6 +50,7 @@ namespace sore
         onEpisodeClicked();
         onPreviousButtonClick();
         onNextButtonClick();
+        onRepeatButtonClick();
 
         // Subtitles:
         onSubtitleClicked();
@@ -56,6 +58,12 @@ namespace sore
         // Actions:
         populateAudioDeviceAction();
         onExternalSubtitleAction();
+    }
+
+    void CrowWindow::resizeEvent(QResizeEvent* event)
+    {
+        QMainWindow::resizeEvent(event);
+        ui.videoPlayer->resizeScene();
     }
 
     // Docks:
@@ -77,6 +85,7 @@ namespace sore
     void CrowWindow::onVideoPositionPositionChanged()   
     {
         QObject::connect(m_MediaHandler->mediaPlayer(), &QMediaPlayer::positionChanged, [&](long long position) {
+            // Player Controls
             ui.playerControls->blockPlayerSliderSignals(true);
 
             ui.playerControls->setVideoSliderPosition(position);
@@ -84,6 +93,7 @@ namespace sore
 
             ui.playerControls->blockPlayerSliderSignals(false);
 
+            // External Subtitles:
             if (!ui.videoPlayer->enabledSubtitles())
                 return;
 
@@ -95,6 +105,17 @@ namespace sore
             }
 
             ui.videoPlayer->setSubtitleText(subtitle.value().text.c_str());
+
+            // Subtitle View:
+            ui.subtitleList->blockSignals(true);
+
+            auto subtitleModel = m_SubtitleModel.getDataAndRowAtPosition(subtitle.value().startTimeMilliseconds);
+            if (!subtitleModel.has_value())
+                return;
+            auto index = m_SubtitleModel.index(subtitleModel.value().first, 0);
+            ui.subtitleList->setCurrentIndex(index);
+
+            ui.subtitleList->blockSignals(false);
         });
     }
 
@@ -110,6 +131,13 @@ namespace sore
         QObject::connect(ui.playerControls->ui.volumeSlider, &QSlider::valueChanged, [&](int position) {
             m_MediaHandler->setVolume(position / 100.f);
             ui.playerControls->toggleVolumeButtonFromVolume(position);
+        });
+    }
+
+    void CrowWindow::onSectionRepeatStopped()
+    {
+        QObject::connect(m_MediaHandler, &CrowMediaHandler::sectionRepeatStopped, [&]() {
+            ui.playerControls->togglePlayButtonIcon(true);
         });
     }
 
@@ -227,18 +255,16 @@ namespace sore
     void CrowWindow::onRepeatButtonClick()
     {
         QObject::connect(ui.playerControls->ui.repeatBtn, &QPushButton::released, [&]() {
-            bool isEnabled = ui.playerControls->ui.repeatBtn->isEnabled();
-            ui.playerControls->ui.repeatBtn->setEnabled(!isEnabled);
+            bool wasEnabled = ui.playerControls->ui.repeatBtn->isEnabled();
+            ui.playerControls->toggleRepeatButtonChecked(!wasEnabled);
 
-            // TODO: fix.
-            if (isEnabled)
+            if (wasEnabled)
+                m_MediaHandler->setRepeat(false);
+            else
             {
                 m_MediaHandler->setRepeatTimestamp(0, m_MediaHandler->duration());
                 m_MediaHandler->setRepeat(true);
             }
-
-            else
-                m_MediaHandler->setRepeat(false);
 
             m_MediaHandler->play();
         });
@@ -246,13 +272,13 @@ namespace sore
 
     void CrowWindow::onSubtitleClicked()
     {
-        QObject::connect(ui.subtitleList->selectionModel(), &QItemSelectionModel::currentChanged, [&](const QModelIndex& current, const QModelIndex& previous) {
-            ui.playerControls->toggleRepeatButtonEnabled(true);
+        QObject::connect(ui.subtitleList, &QAbstractItemView::clicked, [&](const QModelIndex& current) {
+            ui.playerControls->toggleRepeatButtonChecked(true);
             ui.playerControls->togglePlayButtonIcon(false);
 
-            auto data = m_SubtitleModel.getSubtitleData();
-            auto start = data[current.row()].startTimeMilliseconds;
-            auto end = data[current.row()].endTimeMilliseconds;
+            auto data = m_SubtitleModel.getDataAtModelIndex(current.row());
+            auto start = data.startTimeMilliseconds;
+            auto end = data.endTimeMilliseconds;
 
             m_MediaHandler->setMediaPosition(start);
             

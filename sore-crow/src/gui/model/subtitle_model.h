@@ -36,6 +36,17 @@ namespace sore
 		}
 
 	public:
+		std::optional<std::pair<size_t, SubtitleData>> getDataAndRowAtPosition(uint64_t position)
+		{
+			for(size_t i = 0; i < m_Data.size(); ++i)
+			{
+				if (m_Data[i].startTimeMilliseconds == position)
+					return std::make_pair(i, m_Data[i]);
+			}
+
+			return std::nullopt;
+		}
+
 		SubtitleData getDataAtModelIndex(int row) { return m_Data[row]; }
 
 		std::vector<SubtitleData> getSubtitleData() const { return m_Data; }

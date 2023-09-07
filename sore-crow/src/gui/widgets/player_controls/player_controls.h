@@ -22,7 +22,7 @@ namespace sore
 
 		void toggleVolumeButtonFromVolume(int volume);
 
-		void toggleRepeatButtonEnabled(bool value);
+		void toggleRepeatButtonChecked(bool value);
 
 	// Video Slider:
 	public:
