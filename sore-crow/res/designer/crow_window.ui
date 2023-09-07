@@ -78,21 +78,7 @@
       <number>0</number>
      </property>
      <item>
-      <layout class="QHBoxLayout" name="searchInputLayout">
-       <item>
-        <widget class="QLabel" name="searchIcon">
-         <property name="text">
-          <string>Search</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="searchLineInput"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QListWidget" name="subtitleList"/>
+      <widget class="sore::SubtitleListWidget" name="subtitleList"/>
      </item>
     </layout>
    </widget>
@@ -308,6 +294,11 @@
    <class>sore::CrowVideo</class>
    <extends>QGraphicsView</extends>
    <header>gui/widgets/crow_video/crow_video.h</header>
+  </customwidget>
+  <customwidget>
+   <class>sore::SubtitleListWidget</class>
+   <extends>QListWidget</extends>
+   <header>gui/widgets/subtitle_list/subtitle_list_widget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

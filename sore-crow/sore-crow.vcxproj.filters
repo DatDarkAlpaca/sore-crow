@@ -62,7 +62,7 @@
     <QtMoc Include="src\gui\objects\subtitle_handler.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\gui\widgets\subtitle_list\subtitle_list.h">
+    <QtMoc Include="src\gui\widgets\subtitle_list\subtitle_list_widget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\gui\widgets\subtitle_widget\subtitle_widget.h">

@@ -2,6 +2,7 @@
 #include <QFileInfo>
 #include <QMouseEvent>
 #include <QClipboard>
+#include <QPushButton>
 #include <QtWidgets/QWidget>
 
 #include "ui_subtitle.h"
@@ -25,7 +26,7 @@ namespace sore
 		{
 			ui.subtitle->setText(subtitleText.c_str());
 			
-			QObject::connect(ui.copyBtn, QPushButton::released, [&]() {
+			QObject::connect(ui.copyBtn, &QPushButton::released, [&]() {
 				QClipboard* clipboard = QApplication::clipboard();
 				clipboard->setText(ui.subtitle->text(), QClipboard::Clipboard);
 			});
