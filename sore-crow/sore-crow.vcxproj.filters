@@ -59,6 +59,15 @@
     <QtMoc Include="src\gui\widgets\episode_list\episode_list_widget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\gui\objects\subtitle_handler.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gui\widgets\subtitle_view\subtitle_view.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gui\model\subtitle_model.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -156,6 +165,21 @@
     <ClInclude Include="src\utils\message_box.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\subtitle\subtitle_data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\subtitle\subtitle_parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\subtitle\subtitle_factory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\subtitle\concrete_parsers\srt_parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\objects\subtitle_item.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="res\designer\crow_window.ui">
@@ -176,6 +200,9 @@
     <QtUic Include="res\designer\crownsole.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="res\designer\subtitle.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <None Include="vcpkg.json" />
@@ -188,6 +215,9 @@
       <Filter>Resource Files</Filter>
     </QtRcc>
     <QtRcc Include="res\player_controls_resources.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <QtRcc Include="res\subtitle_resources.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
   </ItemGroup>

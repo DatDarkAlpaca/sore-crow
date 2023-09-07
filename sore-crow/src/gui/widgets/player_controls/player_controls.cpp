@@ -52,6 +52,11 @@ namespace sore
 			toggleVolumeButtonState(PlayerControlsWidget::VolumeState::MAX);
 	}
 
+	void PlayerControlsWidget::toggleRepeatButtonChecked(bool value)
+	{
+		ui.repeatBtn->setChecked(value);
+	}
+
 	void PlayerControlsWidget::setVideoSliderPosition(long long position)
 	{
 		ui.playerSlider->setValue(position);

@@ -227,10 +227,17 @@
     <QtMoc Include="src\core\logger\logger.h" />
     <ClInclude Include="src\core\logger\severity.h" />
     <ClInclude Include="src\core\project\metadata.h" />
+    <ClInclude Include="src\core\subtitle\concrete_parsers\srt_parser.h" />
+    <ClInclude Include="src\core\subtitle\subtitle_data.h" />
+    <ClInclude Include="src\core\subtitle\subtitle_factory.h" />
+    <ClInclude Include="src\core\subtitle\subtitle_parser.h" />
     <ClInclude Include="src\gui\controller\main_controller.h" />
     <ClInclude Include="src\crow_app.h" />
     <ClInclude Include="src\core\project\project_data.h" />
     <ClInclude Include="src\core\global_data.h" />
+    <QtMoc Include="src\gui\objects\subtitle_handler.h" />
+    <QtMoc Include="src\gui\model\subtitle_model.h" />
+    <ClInclude Include="src\gui\objects\subtitle_item.h" />
     <ClInclude Include="src\gui\view\dialog\create_project_dialog_data.h" />
     <QtMoc Include="src\gui\widgets\episode_widget\episode_widget.h" />
     <QtMoc Include="src\gui\view\dialog\create_project_dialog.h" />
@@ -240,6 +247,7 @@
     <QtMoc Include="src\gui\widgets\episode_list\episode_list_widget.h" />
     <QtMoc Include="src\gui\widgets\crownsole\crownsole.h" />
     <QtMoc Include="src\gui\widgets\crow_video\crow_video.h" />
+    <QtMoc Include="src\gui\widgets\subtitle_view\subtitle_view.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\utils\dialog.h" />
     <ClInclude Include="src\utils\extension_utils.h" />
@@ -260,6 +268,7 @@
     <QtUic Include="res\designer\episode.ui" />
     <QtUic Include="res\designer\player_controls.ui" />
     <QtUic Include="res\designer\splash_window.ui" />
+    <QtUic Include="res\designer\subtitle.ui" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.gitignore" />
@@ -268,6 +277,7 @@
   <ItemGroup>
     <QtRcc Include="res\create_project_dialog_resource.qrc" />
     <QtRcc Include="res\player_controls_resources.qrc" />
+    <QtRcc Include="res\subtitle_resources.qrc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

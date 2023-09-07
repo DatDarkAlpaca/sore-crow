@@ -26,6 +26,7 @@ namespace sore
 	static inline std::string ResourcesPath;
 	static inline std::string StylePath;
 	static inline std::string StyleOutputPath;
+	static inline int DefaultSubtitlePointSize = 20;
 
 	struct Data
 	{

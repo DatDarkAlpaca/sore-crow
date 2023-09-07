@@ -13,6 +13,11 @@ namespace sore
         m_MediaHandler = new CrowMediaHandler(this);
         m_MediaHandler->setVideoOutput(ui.videoPlayer->videoItem());
 
+        m_SubtitleHandler = new SubtitleHandler(this);
+
+        // Subtitle List:
+        ui.subtitleList->setModel(&m_SubtitleModel);
+
         handleActions();
     }
 
@@ -36,6 +41,7 @@ namespace sore
         onVideoPositionPositionChanged();
         onVideoPlayerSliderChanged();
         onVolumeSliderChanged();
+        onSectionRepeatStopped();
         onPlayButtonClicked();
         onStopButtonClicked();
         onVolumeButtonClicked();
@@ -44,9 +50,20 @@ namespace sore
         onEpisodeClicked();
         onPreviousButtonClick();
         onNextButtonClick();
+        onRepeatButtonClick();
+
+        // Subtitles:
+        onSubtitleClicked();
 
         // Actions:
         populateAudioDeviceAction();
+        onExternalSubtitleAction();
+    }
+
+    void CrowWindow::resizeEvent(QResizeEvent* event)
+    {
+        QMainWindow::resizeEvent(event);
+        ui.videoPlayer->resizeScene();
     }
 
     // Docks:
@@ -68,12 +85,37 @@ namespace sore
     void CrowWindow::onVideoPositionPositionChanged()   
     {
         QObject::connect(m_MediaHandler->mediaPlayer(), &QMediaPlayer::positionChanged, [&](long long position) {
+            // Player Controls
             ui.playerControls->blockPlayerSliderSignals(true);
 
             ui.playerControls->setVideoSliderPosition(position);
             ui.playerControls->setCurrentDurationLabel(position);
 
             ui.playerControls->blockPlayerSliderSignals(false);
+
+            // External Subtitles:
+            if (!ui.videoPlayer->enabledSubtitles())
+                return;
+
+            auto subtitle = m_SubtitleHandler->getClosestSubtitle(position);
+            if (!subtitle.has_value())
+            {
+                ui.videoPlayer->setSubtitleText("");
+                return;
+            }
+
+            ui.videoPlayer->setSubtitleText(subtitle.value().text.c_str());
+
+            // Subtitle View:
+            ui.subtitleList->blockSignals(true);
+
+            auto subtitleModel = m_SubtitleModel.getDataAndRowAtPosition(subtitle.value().startTimeMilliseconds);
+            if (!subtitleModel.has_value())
+                return;
+            auto index = m_SubtitleModel.index(subtitleModel.value().first, 0);
+            ui.subtitleList->setCurrentIndex(index);
+
+            ui.subtitleList->blockSignals(false);
         });
     }
 
@@ -89,6 +131,13 @@ namespace sore
         QObject::connect(ui.playerControls->ui.volumeSlider, &QSlider::valueChanged, [&](int position) {
             m_MediaHandler->setVolume(position / 100.f);
             ui.playerControls->toggleVolumeButtonFromVolume(position);
+        });
+    }
+
+    void CrowWindow::onSectionRepeatStopped()
+    {
+        QObject::connect(m_MediaHandler, &CrowMediaHandler::sectionRepeatStopped, [&]() {
+            ui.playerControls->togglePlayButtonIcon(true);
         });
     }
 
@@ -113,6 +162,13 @@ namespace sore
 
             m_MediaHandler->stop();
             ui.playerControls->togglePlayButtonIcon(true);
+        });
+    }
+
+    void CrowWindow::onVideoRepeatClicked()
+    {
+        QObject::connect(ui.subtitleList->selectionModel(), &QItemSelectionModel::currentChanged, [&](const QModelIndex& current, const QModelIndex& previous) {
+            m_MediaHandler->toggleRepeat();
         });
     }
 
@@ -192,6 +248,43 @@ namespace sore
                 return;
 
             m_MediaHandler->setMedia(source.value());
+            m_MediaHandler->play();
+        });
+    }
+
+    void CrowWindow::onRepeatButtonClick()
+    {
+        QObject::connect(ui.playerControls->ui.repeatBtn, &QPushButton::released, [&]() {
+            bool wasEnabled = ui.playerControls->ui.repeatBtn->isEnabled();
+            ui.playerControls->toggleRepeatButtonChecked(!wasEnabled);
+
+            if (wasEnabled)
+                m_MediaHandler->setRepeat(false);
+            else
+            {
+                m_MediaHandler->setRepeatTimestamp(0, m_MediaHandler->duration());
+                m_MediaHandler->setRepeat(true);
+            }
+
+            m_MediaHandler->play();
+        });
+    }
+
+    void CrowWindow::onSubtitleClicked()
+    {
+        QObject::connect(ui.subtitleList, &QAbstractItemView::clicked, [&](const QModelIndex& current) {
+            ui.playerControls->toggleRepeatButtonChecked(true);
+            ui.playerControls->togglePlayButtonIcon(false);
+
+            auto data = m_SubtitleModel.getDataAtModelIndex(current.row());
+            auto start = data.startTimeMilliseconds;
+            auto end = data.endTimeMilliseconds;
+
+            m_MediaHandler->setMediaPosition(start);
+            
+            m_MediaHandler->setRepeatTimestamp(start, end);
+            m_MediaHandler->setRepeat(true);
+
             m_MediaHandler->play();
         });
     }
@@ -293,8 +386,7 @@ namespace sore
                         audioAction->setChecked(false);
                 }
 
-                // TODO: use the CrowVideo widget to set the subtitle.
-                // TODO: create a mediator between crow video and media handler for subtitle position changed
+                ui.videoPlayer->setEnabledSubtitles(false);
                 m_MediaHandler->setActiveSubtitleTrack(index);
             });
         };
@@ -323,5 +415,42 @@ namespace sore
 
             ui.menuSubtitleTrack->addAction(action);
         }
+    }
+
+    void CrowWindow::onExternalSubtitleAction()
+    {
+        QObject::connect(ui.actionAddExternalTrack, &QAction::triggered, [&]() {
+            std::string filepath = openSubtitleTrackDialog();
+            if (filepath.empty())
+                return;
+
+            m_SubtitleHandler->load(filepath);
+
+            QFileInfo fileInfo(filepath.c_str());
+
+            QAction* action = new QAction(ui.menuAudioTrack);
+            action->setText(fileInfo.fileName());
+            action->setCheckable(true);
+            
+            QObject::connect(action, &QAction::triggered, [&, action](bool checked) {
+                if (!checked)
+                    action->setChecked(true);
+
+                for (const auto& audioAction : ui.menuSubtitleTrack->actions())
+                {
+                    if (audioAction != action)
+                        audioAction->setChecked(false);
+                }
+
+                ui.videoPlayer->setEnabledSubtitles(true);
+                m_MediaHandler->setActiveSubtitleTrack(-1);
+            });
+
+            action->trigger();
+            ui.menuSubtitleTrack->addAction(action);
+
+            // Subtitle List | Convert to list:
+            m_SubtitleModel.populateData(m_SubtitleHandler->subtitles());
+        });
     }
 }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>583</width>
-    <height>74</height>
+    <width>642</width>
+    <height>79</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -112,6 +112,29 @@
        <property name="icon">
         <iconset resource="../player_controls_resources.qrc">
          <normaloff>:/main/icons/previous.png</normaloff>:/main/icons/previous.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="repeatBtn">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../player_controls_resources.qrc">
+         <normaloff>:/main/icons/copy/loop-arrow.png</normaloff>:/main/icons/copy/loop-arrow.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
        </property>
       </widget>
      </item>

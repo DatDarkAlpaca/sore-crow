@@ -2,9 +2,11 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_crow_window.h"
 
-#include "core/project/project_data.h"
+#include "gui/objects/subtitle_handler.h"
 #include "gui/objects/crow_media_handler.h"
+#include "core/project/project_data.h"
 #include "gui/widgets/episode_widget/episode_widget.h"
+#include "gui/model/subtitle_model.h"
 
 namespace sore
 {
@@ -26,6 +28,9 @@ namespace sore
     private:
         void handleActions();
 
+    protected:
+        void resizeEvent(QResizeEvent* event) override;
+
     // Docks:
     private slots:
         void onShowEpisodeListDock();
@@ -40,9 +45,13 @@ namespace sore
 
         void onVolumeSliderChanged();
 
+        void onSectionRepeatStopped();
+
         void onPlayButtonClicked();
 
         void onStopButtonClicked();
+
+        void onVideoRepeatClicked();
 
         void onVolumeButtonClicked();
 
@@ -53,6 +62,12 @@ namespace sore
         void onPreviousButtonClick();
 
         void onNextButtonClick();
+
+        void onRepeatButtonClick();
+
+    // Subtitles:
+    private slots:
+        void onSubtitleClicked();
 
     // Actions:
     private:
@@ -68,10 +83,15 @@ namespace sore
 
         void populateSubtitleTrackAction();
 
-    private:
-        CrowMediaHandler* m_MediaHandler = nullptr;
+        void onExternalSubtitleAction();
 
     private:
+        CrowMediaHandler* m_MediaHandler = nullptr;
+        SubtitleHandler* m_SubtitleHandler = nullptr;
+
+    private:
+        SubtitleModel m_SubtitleModel;
+
         Ui::CrowWindow ui;
     };
 }
