@@ -34,6 +34,7 @@ namespace sore
     void CrowWindow::handleActions()
     {
         // Docks:
+        hideCrownsole();
         onShowEpisodeListDock();
         onShowSubtitleViewerDock();
 
@@ -64,6 +65,11 @@ namespace sore
     {
         QMainWindow::resizeEvent(event);
         ui.videoPlayer->resizeScene();
+    }
+
+    void CrowWindow::hideCrownsole()
+    {
+        ui.crownsoleDockWidget->hide();
     }
 
     // Docks:

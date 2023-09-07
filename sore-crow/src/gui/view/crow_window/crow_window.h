@@ -33,6 +33,8 @@ namespace sore
 
     // Docks:
     private slots:
+        void hideCrownsole();
+
         void onShowEpisodeListDock();
 
         void onShowSubtitleViewerDock();
