@@ -449,6 +449,9 @@ namespace sore
                         audioAction->setChecked(false);
                 }
 
+                if (m_SubtitleHandler->subtitles().empty())
+                    return;
+
                 m_SubtitleModel.populateData(m_SubtitleHandler->subtitles());
                 ui.videoPlayer->setEnabledSubtitles(true);
                 m_MediaHandler->setActiveSubtitleTrack(-1);

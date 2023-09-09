@@ -15,6 +15,8 @@ namespace sore
 			std::string lowerFilepath = lowerString(subtitleFilepath);
 			if (endsWith(lowerFilepath, "srt"))
 				return std::make_unique<SRTParser>(subtitleFilepath);
+
+			return nullptr;
 		}
 	};
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include <QObject>
 #include "core/subtitle/subtitle_factory.h"
+#include "utils/message_box.h"
 
 namespace sore
 {
@@ -22,7 +23,14 @@ namespace sore
 			std::stringstream ss;
 			ss << file.rdbuf();
 
-			m_LoadedSubtitles = m_SubtitleFactory.getParser(filepath)->parse();
+			auto parser = m_SubtitleFactory.getParser(filepath);
+			if (!parser)
+			{
+				errorBox("This subtitle file is invalid or not yet supported.");
+				return;
+			}
+
+			m_LoadedSubtitles = parser->parse();
 		}
 
 		std::optional<SubtitleData> getClosestSubtitle(uint64_t currentPosition) const

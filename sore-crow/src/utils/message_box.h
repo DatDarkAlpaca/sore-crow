@@ -4,7 +4,7 @@
 
 namespace sore
 {
-	void errorBox(const std::string& errorMessage)
+	inline void errorBox(const std::string& errorMessage)
 	{
 		QMessageBox msgBox;
 		msgBox.setWindowTitle("Sore Crow");
