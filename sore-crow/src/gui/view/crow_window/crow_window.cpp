@@ -90,36 +90,27 @@ namespace sore
     // Events:
     void CrowWindow::onVideoPositionPositionChanged()   
     {
+        // Player Controls
         QObject::connect(m_MediaHandler->mediaPlayer(), &QMediaPlayer::positionChanged, [&](long long position) {
-            // Player Controls
             ui.playerControls->blockPlayerSliderSignals(true);
 
             ui.playerControls->setVideoSliderPosition(position);
             ui.playerControls->setCurrentDurationLabel(position);
 
             ui.playerControls->blockPlayerSliderSignals(false);
+        });
 
-            // External Subtitles:
+        // External Subtitles:
+        QObject::connect(m_MediaHandler->mediaPlayer(), &QMediaPlayer::positionChanged, [&](long long position) {
             if (!ui.videoPlayer->enabledSubtitles())
                 return;
 
             auto subtitle = m_SubtitleHandler->getClosestSubtitle(position);
             if (!subtitle.has_value())
-            {
-                ui.videoPlayer->setSubtitleText("");
                 return;
-            }
 
             auto subtitleValue = subtitle.value();
-            ui.videoPlayer->setSubtitleText(subtitleValue.text.c_str());
-
-            // Subtitle View:
-            auto subtitleModel = m_SubtitleModel.getDataAndRowAtPosition(subtitleValue.startTimeMilliseconds);
-            if (!subtitleModel.has_value())
-                return;
-
-            auto index = m_SubtitleModel.index(subtitleModel.value().first, 0);
-            qDebug() << index.row();
+            ui.videoPlayer->setSubtitleText(subtitle.value().text.c_str());           
         });
     }
 
@@ -285,6 +276,8 @@ namespace sore
     void CrowWindow::onSubtitleClicked()
     {
         QObject::connect(ui.subtitleList, &QAbstractItemView::clicked, [&](const QModelIndex& current) {
+            m_MediaHandler->pause();
+
             ui.playerControls->toggleRepeatButtonChecked(true);
             ui.playerControls->togglePlayButtonIcon(false);
 
@@ -292,10 +285,14 @@ namespace sore
             auto start = data.startTimeMilliseconds;
             auto end = data.endTimeMilliseconds;
 
+            m_MediaHandler->mediaPlayer()->blockSignals(true);
+
             m_MediaHandler->setMediaPosition(start);
             m_MediaHandler->setRepeatTimestamp(start, end);
             m_MediaHandler->setRepeat(true);
             m_MediaHandler->play();
+            
+            m_MediaHandler->mediaPlayer()->blockSignals(false);
         });
     }
 
