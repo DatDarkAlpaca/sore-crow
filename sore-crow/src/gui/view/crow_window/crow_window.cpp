@@ -17,6 +17,7 @@ namespace sore
 
         // Subtitle List:
         ui.subtitleList->setModel(&m_SubtitleModel);
+        ui.subtitleList->setContextMenuPolicy(Qt::CustomContextMenu);
 
         handleActions();
     }
@@ -275,6 +276,11 @@ namespace sore
 
     void CrowWindow::onSubtitleClicked()
     {
+
+        QObject::connect(ui.subtitleList, &QListView::customContextMenuRequested, [&](const QPoint& position) {
+            ui.subtitleList->showContextMenu(position, m_SubtitleModel);
+        });
+
         QObject::connect(ui.subtitleList, &QAbstractItemView::clicked, [&](const QModelIndex& current) {
             m_MediaHandler->pause();
 
