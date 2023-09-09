@@ -110,18 +110,16 @@ namespace sore
                 return;
             }
 
-            ui.videoPlayer->setSubtitleText(subtitle.value().text.c_str());
+            auto subtitleValue = subtitle.value();
+            ui.videoPlayer->setSubtitleText(subtitleValue.text.c_str());
 
             // Subtitle View:
-            ui.subtitleList->blockSignals(true);
-
-            auto subtitleModel = m_SubtitleModel.getDataAndRowAtPosition(subtitle.value().startTimeMilliseconds);
+            auto subtitleModel = m_SubtitleModel.getDataAndRowAtPosition(subtitleValue.startTimeMilliseconds);
             if (!subtitleModel.has_value())
                 return;
-            auto index = m_SubtitleModel.index(subtitleModel.value().first, 0);
-            ui.subtitleList->setCurrentIndex(index);
 
-            ui.subtitleList->blockSignals(false);
+            auto index = m_SubtitleModel.index(subtitleModel.value().first, 0);
+            qDebug() << index.row();
         });
     }
 
@@ -204,6 +202,10 @@ namespace sore
             if (m_MediaHandler->videoSource() == QUrl::fromLocalFile(episodeFilepath.c_str()))
                 return;
 
+            // Clear Subtitles:
+            m_SubtitleModel.clear();
+            ui.menuSubtitleTrack->clear();
+
             m_MediaHandler->setMedia(episodeFilepath);
             m_MediaHandler->play();
 
@@ -265,13 +267,17 @@ namespace sore
             ui.playerControls->toggleRepeatButtonChecked(!wasEnabled);
 
             if (wasEnabled)
+            {
+
                 m_MediaHandler->setRepeat(false);
+            }
             else
             {
                 m_MediaHandler->setRepeatTimestamp(0, m_MediaHandler->duration());
                 m_MediaHandler->setRepeat(true);
             }
 
+            ui.playerControls->togglePlayButtonIcon(false);
             m_MediaHandler->play();
         });
     }
@@ -287,10 +293,8 @@ namespace sore
             auto end = data.endTimeMilliseconds;
 
             m_MediaHandler->setMediaPosition(start);
-            
             m_MediaHandler->setRepeatTimestamp(start, end);
             m_MediaHandler->setRepeat(true);
-
             m_MediaHandler->play();
         });
     }
@@ -448,15 +452,13 @@ namespace sore
                         audioAction->setChecked(false);
                 }
 
+                m_SubtitleModel.populateData(m_SubtitleHandler->subtitles());
                 ui.videoPlayer->setEnabledSubtitles(true);
                 m_MediaHandler->setActiveSubtitleTrack(-1);
             });
 
             action->trigger();
             ui.menuSubtitleTrack->addAction(action);
-
-            // Subtitle List | Convert to list:
-            m_SubtitleModel.populateData(m_SubtitleHandler->subtitles());
         });
     }
 }
