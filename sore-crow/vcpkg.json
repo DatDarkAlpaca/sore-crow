@@ -3,6 +3,8 @@
     "name": "sore-crow",
     "version": "1.0.0",
     "dependencies": [
-        "nlohmann-json"
+        "nlohmann-json",
+        "python3",
+        "sqlitecpp"
     ]
 }

@@ -26,6 +26,7 @@ namespace sore
 	static inline std::string ResourcesPath;
 	static inline std::string StylePath;
 	static inline std::string StyleOutputPath;
+	static inline std::string PluginPath;
 	static inline int DefaultSubtitlePointSize = 20;
 
 	struct Data
@@ -36,6 +37,7 @@ namespace sore
 			ResourcesPath = qApp->applicationDirPath().toStdString() + "/res";
 			StylePath = qApp->applicationDirPath().toStdString() + "/res/styles";
 			StyleOutputPath = qApp->applicationDirPath().toStdString() + "/res/output";
+			PluginPath = qApp->applicationDirPath().toStdString() + "/plugins";
 		}
 
 	public:

@@ -236,6 +236,9 @@
   <ItemGroup>
     <QtMoc Include="src\core\logger\logger.h" />
     <ClInclude Include="src\core\logger\severity.h" />
+    <ClInclude Include="src\core\plugin\manifest.h" />
+    <ClInclude Include="src\core\plugin\plugin_handler.h" />
+    <ClInclude Include="src\core\plugin\plugin_type.h" />
     <ClInclude Include="src\core\project\metadata.h" />
     <ClInclude Include="src\core\subtitle\concrete_parsers\srt_parser.h" />
     <ClInclude Include="src\core\subtitle\subtitle_data.h" />
