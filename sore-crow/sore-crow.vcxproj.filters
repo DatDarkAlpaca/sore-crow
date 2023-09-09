@@ -180,6 +180,15 @@
     <ClInclude Include="src\gui\objects\subtitle_item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\plugin\manifest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\plugin\plugin_handler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\plugin\plugin_type.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="res\designer\crow_window.ui">

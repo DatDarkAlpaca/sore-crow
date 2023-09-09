@@ -19,6 +19,7 @@
 #include <srtparser.h>
 
 #include <nlohmann/json.hpp>
+#include <Python.h>
 
 #include <QFileInfo>
 #include <QVideoSink>

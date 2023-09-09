@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "crow_app.h"
 #include "core/global_data.h"
+#include "core/plugin/plugin_handler.h"
 
 namespace sore
 {
