@@ -105,7 +105,7 @@ namespace sore
             if (!ui.videoPlayer->enabledSubtitles())
                 return;
 
-            auto subtitle = m_SubtitleHandler->getClosestSubtitle(position);
+            auto subtitle = m_SubtitleHandler->getClosestSubtitle(position, m_SubtitleHandler->currentIndex());
             if (!subtitle.has_value())
                 return;
 
@@ -393,6 +393,7 @@ namespace sore
                         audioAction->setChecked(false);
                 }
 
+                ui.videoPlayer->setSubtitleText("");
                 ui.videoPlayer->setEnabledSubtitles(false);
                 m_MediaHandler->setActiveSubtitleTrack(index);
             });
@@ -431,7 +432,11 @@ namespace sore
             if (filepath.empty())
                 return;
 
-            m_SubtitleHandler->load(filepath);
+            auto index = m_SubtitleHandler->load(filepath);
+            if (!index.has_value())
+                return;
+
+            size_t i = index.value();
 
             QFileInfo fileInfo(filepath.c_str());
 
@@ -439,7 +444,7 @@ namespace sore
             action->setText(fileInfo.fileName());
             action->setCheckable(true);
             
-            QObject::connect(action, &QAction::triggered, [&, action](bool checked) {
+            QObject::connect(action, &QAction::triggered, [&, action, i](bool checked) {
                 if (!checked)
                     action->setChecked(true);
 
@@ -449,10 +454,10 @@ namespace sore
                         audioAction->setChecked(false);
                 }
 
-                if (m_SubtitleHandler->subtitles().empty())
+                if (m_SubtitleHandler->subtitles(i).empty())
                     return;
 
-                m_SubtitleModel.populateData(m_SubtitleHandler->subtitles());
+                m_SubtitleModel.populateData(m_SubtitleHandler->subtitles(i));
                 ui.videoPlayer->setEnabledSubtitles(true);
                 m_MediaHandler->setActiveSubtitleTrack(-1);
             });

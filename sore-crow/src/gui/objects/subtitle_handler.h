@@ -17,7 +17,7 @@ namespace sore
 		}
 
 	public:
-		void load(const std::string& filepath)
+		std::optional<size_t> load(const std::string& filepath)
 		{
 			std::ifstream file(filepath);
 			std::stringstream ss;
@@ -27,15 +27,18 @@ namespace sore
 			if (!parser)
 			{
 				errorBox("This subtitle file is invalid or not yet supported.");
-				return;
+				return std::nullopt;
 			}
 
-			m_LoadedSubtitles = parser->parse();
+			m_LoadedSubtitles.push_back(parser->parse());
+			m_CurrentIndex = m_LoadedSubtitles.size() - 1;
+
+			return m_CurrentIndex;
 		}
 
-		std::optional<SubtitleData> getClosestSubtitle(uint64_t currentPosition) const
+		std::optional<SubtitleData> getClosestSubtitle(uint64_t currentPosition, size_t index) const
 		{
-			for (const auto& subtitle : m_LoadedSubtitles)
+			for (const auto& subtitle : m_LoadedSubtitles[index])
 			{
 				if (currentPosition >= subtitle.startTimeMilliseconds && currentPosition <= subtitle.endTimeMilliseconds)
 					return subtitle;
@@ -44,13 +47,16 @@ namespace sore
 			return std::nullopt;
 		}
 
-		std::vector<SubtitleData> subtitles() const
+		std::vector<SubtitleData> subtitles(size_t index) const
 		{
-			return m_LoadedSubtitles;
+			return m_LoadedSubtitles[index];
 		}
 
+		size_t currentIndex() const { return m_CurrentIndex; }
+
 	private:
+		std::vector<std::vector<SubtitleData>> m_LoadedSubtitles;
 		SubtitleFactory m_SubtitleFactory;
-		std::vector<SubtitleData> m_LoadedSubtitles;
+		size_t m_CurrentIndex = 0;
 	};
 }
