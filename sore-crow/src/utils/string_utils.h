@@ -57,4 +57,10 @@ namespace sore
 
         return formattedTime.str();
     }
+
+    inline std::string removeExtension(const std::string& filepath)
+    {
+        std::filesystem::path p = filepath;
+        return p.replace_extension().string();
+    }
 }

@@ -120,47 +120,50 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)vendor;$(ProjectDir)vendor/qcss/src;$(ProjectDir)vendor/srt-parser;$(ProjectDir)vendor/uuid_v4;%(AdditionalIncludeDirectories);$(Qt_INCLUDEPATH_)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)vendor;$(ProjectDir)vendor/qcss/src;$(ProjectDir)vendor/srt-parser;$(ProjectDir)vendor/uuid_v4;$(PYTHONPATH)\include;%(AdditionalIncludeDirectories);$(Qt_INCLUDEPATH_)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>python3_d.lib;python311_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(PYTHONPATH)\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /S /Y</Command>
+      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /S /Y
+XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)vendor;$(ProjectDir)vendor/qcss/src;$(ProjectDir)vendor/srt-parser;$(ProjectDir)vendor/uuid_v4;%(AdditionalIncludeDirectories);$(Qt_INCLUDEPATH_)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)vendor;$(ProjectDir)vendor/qcss/src;$(ProjectDir)vendor/srt-parser;$(ProjectDir)vendor/uuid_v4;$(PYTHONPATH)\include;%(AdditionalIncludeDirectories);$(Qt_INCLUDEPATH_)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>python3.lib;python311.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(PYTHONPATH)\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /S /Y</Command>
+      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /S /Y
+XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)vendor;$(ProjectDir)vendor/qcss/src;$(ProjectDir)vendor/srt-parser;$(ProjectDir)vendor/uuid_v4;%(AdditionalIncludeDirectories);$(Qt_INCLUDEPATH_)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)vendor;$(ProjectDir)vendor/qcss/src;$(ProjectDir)vendor/srt-parser;$(ProjectDir)vendor/uuid_v4;$(PYTHONPATH)\include;%(AdditionalIncludeDirectories);$(Qt_INCLUDEPATH_)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>python3.lib;python311.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(PYTHONPATH)\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /Y</Command>
+      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /S /Y
+XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -236,6 +239,11 @@
   <ItemGroup>
     <QtMoc Include="src\core\logger\logger.h" />
     <ClInclude Include="src\core\logger\severity.h" />
+    <ClInclude Include="src\core\plugin\base_plugin.h" />
+    <ClInclude Include="src\core\plugin\dictionary_plugin.h" />
+    <ClInclude Include="src\core\plugin\manifest.h" />
+    <ClInclude Include="src\core\plugin\plugin_handler.h" />
+    <ClInclude Include="src\core\plugin\plugin_type.h" />
     <ClInclude Include="src\core\project\metadata.h" />
     <ClInclude Include="src\core\subtitle\concrete_parsers\srt_parser.h" />
     <ClInclude Include="src\core\subtitle\subtitle_data.h" />
@@ -282,6 +290,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.gitignore" />
+    <None Include="plugins\jmdict_importer\__init__.py" />
+    <None Include="plugins\test_plugin\main.py" />
+    <None Include="plugins\test_plugin\manifest.json" />
     <None Include="vcpkg.json" />
   </ItemGroup>
   <ItemGroup>

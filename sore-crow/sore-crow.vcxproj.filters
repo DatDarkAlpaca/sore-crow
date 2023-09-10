@@ -180,6 +180,21 @@
     <ClInclude Include="src\gui\objects\subtitle_item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\plugin\manifest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\plugin\plugin_handler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\plugin\plugin_type.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\plugin\base_plugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\plugin\dictionary_plugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="res\designer\crow_window.ui">
@@ -209,6 +224,9 @@
     <None Include="..\.gitignore">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="plugins\jmdict_importer\__init__.py" />
+    <None Include="plugins\test_plugin\main.py" />
+    <None Include="plugins\test_plugin\manifest.json" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="res\create_project_dialog_resource.qrc">

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "crow_app.h"
 #include "core/global_data.h"
+#include "core/plugin/dictionary_plugin.h"
 
 namespace sore
 {
@@ -13,6 +14,10 @@ namespace sore
 	void CrowApp::configureStylesheets()
 	{
 		Data::initialize();
+		DictionaryPlugin plugin("test_plugin");
+		plugin.setDictionaryPath("C:/Users/paulo/Projects/sore-crow/sore-crow/plugins/jmdict_importer/JMdict_e.xml");
+		plugin.execute();
+
 		m_Stylesheet = new acss::QtAdvancedStylesheet();
 
 		m_Stylesheet->setStylesDirPath(StylePath.c_str());
