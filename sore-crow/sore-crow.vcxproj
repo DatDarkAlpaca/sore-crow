@@ -130,7 +130,8 @@
       <AdditionalLibraryDirectories>$(PYTHONPATH)\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /S /Y</Command>
+      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /S /Y
+XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -145,7 +146,8 @@
       <AdditionalLibraryDirectories>$(PYTHONPATH)\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /S /Y</Command>
+      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /S /Y
+XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'">
@@ -160,7 +162,8 @@
       <AdditionalLibraryDirectories>$(PYTHONPATH)\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /Y</Command>
+      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /S /Y
+XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -236,6 +239,8 @@
   <ItemGroup>
     <QtMoc Include="src\core\logger\logger.h" />
     <ClInclude Include="src\core\logger\severity.h" />
+    <ClInclude Include="src\core\plugin\base_plugin.h" />
+    <ClInclude Include="src\core\plugin\dictionary_plugin.h" />
     <ClInclude Include="src\core\plugin\manifest.h" />
     <ClInclude Include="src\core\plugin\plugin_handler.h" />
     <ClInclude Include="src\core\plugin\plugin_type.h" />
@@ -285,6 +290,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.gitignore" />
+    <None Include="plugins\jmdict_importer\__init__.py" />
+    <None Include="plugins\test_plugin\main.py" />
+    <None Include="plugins\test_plugin\manifest.json" />
     <None Include="vcpkg.json" />
   </ItemGroup>
   <ItemGroup>

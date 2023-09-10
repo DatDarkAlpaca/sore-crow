@@ -19,6 +19,8 @@
 #include <srtparser.h>
 
 #include <nlohmann/json.hpp>
+
+#define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
 #include <QFileInfo>

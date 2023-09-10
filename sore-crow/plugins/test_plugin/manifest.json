@@ -1,0 +1,6 @@
+{
+    "plugin-name": "TestPlugin",
+    "plugin-type": "DictionaryImporter",
+    "main": "main.py",
+    "venv-folder": ""
+}

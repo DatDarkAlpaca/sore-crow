@@ -6,7 +6,9 @@ namespace sore
 {
 	struct Manifest
 	{
-		std::string pluginName = "", mainFile = "";
+		std::string pluginName = "";
+		std::string mainFile = "";
+		std::string venvFolder = "";
 		PluginType pluginType = PluginType::UNKNOWN;
 	};
 }
