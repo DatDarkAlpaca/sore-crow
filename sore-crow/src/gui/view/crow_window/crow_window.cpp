@@ -56,6 +56,7 @@ namespace sore
 
         // Subtitles:
         onSubtitleClicked();
+        onSubtitleTextSelected();
 
         // Audio Device:
         onAudioDevicesChanged();
@@ -113,6 +114,10 @@ namespace sore
                 return;
 
             auto subtitleValue = subtitle.value();
+
+            if (ui.videoPlayer->subtitleItem()->toPlainText().toStdString() == subtitle.value().text)
+                return;
+
             ui.videoPlayer->setSubtitleText(subtitle.value().text.c_str());           
         });
     }
@@ -317,6 +322,13 @@ namespace sore
             m_MediaHandler->play();
             
             m_MediaHandler->mediaPlayer()->blockSignals(false);
+        });
+    }
+
+    void CrowWindow::onSubtitleTextSelected()
+    {
+        QObject::connect(ui.videoPlayer->subtitleItem(), &SubtitleItem::textSelected, [&](const QString& string) {
+            qDebug() << string;
         });
     }
 

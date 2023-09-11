@@ -33,6 +33,9 @@ namespace sore
 	private:
 		void setup();
 
+	public:
+		SubtitleItem* subtitleItem() const { return m_SubtitleItem; }
+
 	private:
 		SubtitleItem* m_SubtitleItem = nullptr;
 		QGraphicsVideoItem* m_VideoItem = nullptr;

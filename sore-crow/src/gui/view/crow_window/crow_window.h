@@ -73,6 +73,8 @@ namespace sore
     private slots:
         void onSubtitleClicked();
 
+        void onSubtitleTextSelected();
+
     // Actions:
     private:
         void toggleAudioTrackAction(bool value);

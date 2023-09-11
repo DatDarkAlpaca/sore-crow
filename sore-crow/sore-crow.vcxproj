@@ -252,7 +252,7 @@ XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y /A</Command>
     <ClInclude Include="src\core\global_data.h" />
     <QtMoc Include="src\gui\objects\subtitle_handler.h" />
     <QtMoc Include="src\gui\model\subtitle_model.h" />
-    <ClInclude Include="src\gui\objects\subtitle_item.h" />
+    <QtMoc Include="src\gui\objects\subtitle_item.h" />
     <ClInclude Include="src\gui\view\dialog\create_project_dialog_data.h" />
     <QtMoc Include="src\gui\widgets\episode_widget\episode_widget.h" />
     <QtMoc Include="src\gui\view\dialog\create_project_dialog.h" />

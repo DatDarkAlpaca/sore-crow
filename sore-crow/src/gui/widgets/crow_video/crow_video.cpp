@@ -48,6 +48,9 @@ namespace sore
 		// Font:
 		QFont subtitleFont;
 		subtitleFont.setPixelSize(DefaultSubtitlePointSize);
+		
+		QColor textColor = globalData.isStylesheetDark ? QColor(255, 255, 255, 255) : QColor(0, 0, 0, 255);
+		m_SubtitleItem->setDefaultTextColor(textColor);
 		m_SubtitleItem->setFont(subtitleFont);
 
 		// Adding:
