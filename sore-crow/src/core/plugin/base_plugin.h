@@ -20,8 +20,6 @@ namespace sore
 			m_PluginFolder = std::filesystem::path(PluginPath) / pluginFolder;
 
 			loadManifest();
-
-			loadFile();
 		}
 
 	public:
@@ -69,21 +67,6 @@ namespace sore
 			}
 		}
 
-		void loadFile()
-		{
-			namespace fs = std::filesystem;
-			fs::path mainFilePath = fs::path(PluginPath) / m_PluginFolder / m_Manifest.mainFile;
-
-			FILE* file = fopen(mainFilePath.string().c_str(), "r");
-			m_File.reset(file);
-
-			if (!m_File)
-			{
-				CrownsoleLogger::log("Failed to open plugin at: " + mainFilePath.string(), Severity::ERROR);
-				return;
-			}
-		}
-
 		PyObject* initializePythonInterpreter()
 		{
 			namespace fs = std::filesystem;
@@ -109,6 +92,7 @@ namespace sore
 
 			PyList_Append(path, PyUnicode_FromString(m_PluginFolder.string().c_str()));
 			PyList_Append(path, PyUnicode_FromString(venvPath.string().c_str()));
+			Py_DECREF(path);
 
 			// Initialize main module:
 			std::string mainFilename = removeExtension(m_Manifest.mainFile);
@@ -136,7 +120,7 @@ namespace sore
 		{
 			namespace fs = std::filesystem;
 
-			Py_Finalize();
+			Py_FinalizeEx();
 			fs::current_path(WorkingDirectory);
 		}
 
@@ -146,6 +130,5 @@ namespace sore
 	protected:
 		std::filesystem::path m_PluginFolder;
 		Manifest m_Manifest;
-		std::unique_ptr<FILE> m_File;
 	};
 }

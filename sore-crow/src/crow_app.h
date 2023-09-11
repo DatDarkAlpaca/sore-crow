@@ -17,13 +17,15 @@ namespace sore
 		void execute();
 
 	private:
-		ProjectData onOpenProject();
+		std::optional<ProjectData> onOpenProject();
 
-		ProjectData onCreateProject();
+		std::optional<ProjectData> onCreateProject();
 
 		void configureActions();
 
 	private:
+		void configureData();
+
 		void configureStylesheets();
 
 	private:

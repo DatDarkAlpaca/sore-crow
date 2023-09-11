@@ -17,6 +17,8 @@ namespace sore
 	CrowApp::CrowApp(int argc, char** argv)
 		: QApplication(argc, argv)
 	{
+		configureData();
+
 		configureStylesheets();
 
 		configureActions();
@@ -29,27 +31,27 @@ namespace sore
 		m_SplashWindow.show();
 	}
 
-	ProjectData CrowApp::onOpenProject()
+	std::optional<ProjectData> CrowApp::onOpenProject()
 	{
-		std::string projectFile = openProjectFileDialog();
+		std::string projectFilepath = openProjectFileDialog();
 
-		if (projectFile.empty())
-			return {};
+		if (projectFilepath.empty())
+			return std::nullopt;
 
-		ProjectData projectData = getProjectData(projectFile);
-		if (!projectData.valid())
+		auto projectData = getProjectData(projectFilepath);
+		if (!projectData.has_value())
 		{
 			QString error("This project file is invalid or corrupted.");
-			error = error.arg(projectFile.c_str());
+			error = error.arg(projectFilepath.c_str());
 			errorBox(error.toStdString());
 
-			return {};
+			return std::nullopt;
 		}
 
 		return projectData;
 	}
 
-	ProjectData CrowApp::onCreateProject()
+	std::optional<ProjectData> CrowApp::onCreateProject()
 	{
 		namespace fs = std::filesystem;
 
@@ -121,11 +123,11 @@ namespace sore
 		// [Splash Window] Open Project:
 		QObject::connect(m_SplashWindow.ui.openProjectBtn, &QPushButton::released, [&]() {
 			auto projectData = onOpenProject();
-			if (!projectData.valid())
+			if (!projectData.has_value())
 				return;
 
 			m_CrowWindow.clearData();
-			m_CrowWindow.updateData(projectData);
+			m_CrowWindow.updateData(projectData.value());
 
 			m_SplashWindow.hide();
 			m_CrowWindow.show();
@@ -134,11 +136,11 @@ namespace sore
 		// [Splash Window] Create Project:
 		QObject::connect(m_SplashWindow.ui.createProjectBtn, &QPushButton::released, [&]() {
 			auto projectData = onCreateProject();
-			if (!projectData.valid())
+			if (!projectData.has_value())
 				return;
 
 			m_CrowWindow.clearData();
-			m_CrowWindow.updateData(projectData);
+			m_CrowWindow.updateData(projectData.value());
 
 			m_SplashWindow.hide();
 			m_CrowWindow.show();
@@ -147,29 +149,32 @@ namespace sore
 		// [Main Window] Open Project:
 		QObject::connect(m_CrowWindow.ui.actionOpenProject, &QAction::triggered, [&]() {
 			auto projectData = onOpenProject();
-			if (!projectData.valid())
+			if (!projectData.has_value())
 				return;
 
 			m_CrowWindow.clearData();
-			m_CrowWindow.updateData(projectData);
+			m_CrowWindow.updateData(projectData.value());
 			});
 
 		// [Main Window] Create Project:
 		QObject::connect(m_CrowWindow.ui.actionNewProject, &QAction::triggered, [&]() {
 			auto projectData = onCreateProject();
-			if (!projectData.valid())
+			if (!projectData.has_value())
 				return;
 
 			m_CrowWindow.clearData();
-			m_CrowWindow.updateData(projectData);
+			m_CrowWindow.updateData(projectData.value());
 			});
+	}
+
+	void CrowApp::configureData()
+	{
+		Data::initialize();
 	}
 
 	void CrowApp::configureStylesheets()
 	{
-		Data::initialize();
 		DictionaryPlugin plugin("test_plugin");
-		plugin.setDictionaryPath("C:/Users/paulo/Projects/sore-crow/sore-crow/plugins/jmdict_importer/JMdict_e.xml");
 		plugin.execute();
 
 		m_Stylesheet = new acss::QtAdvancedStylesheet();

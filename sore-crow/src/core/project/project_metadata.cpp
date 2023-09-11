@@ -9,22 +9,9 @@
 
 namespace sore
 {
-	ProjectData getProjectData(const std::string& filepath)
-	{
+    static ProjectData parseProjectFile(std::ifstream& file)
+    {
         using json = nlohmann::json;
-
-        std::ifstream file(filepath);
-        if (file.bad())
-        {
-            CrownsoleLogger::log("Failed to retrieve project data from " + filepath + ".", Severity::ERROR);
-            return {};
-        }
-
-        if (!endsWith(filepath, Macros::ProjectExtension))
-        {
-            CrownsoleLogger::log("This project file ends in the wrong extension.", Severity::ERROR);
-            return {};
-        }
 
         json data = json::parse(file);
         json header = data["header"];
@@ -33,8 +20,8 @@ namespace sore
         // Episodes:
         std::vector<EpisodeMetadata> episodeMetadata;
         for (const auto& episodeData : source["episodes"])
-        {        
-            episodeMetadata.push_back ({
+        {
+            episodeMetadata.push_back({
                 episodeData["id"],
                 episodeData["filename"],
             });
@@ -53,7 +40,32 @@ namespace sore
         projectData.episodeFolderName = header["project_episode_folder"];
         projectData.sourceMetadata = sourceMetadata;
 
-		return projectData;
+        return projectData;
+    }
+
+	std::optional<ProjectData> getProjectData(const std::string& filepath)
+	{
+        std::ifstream file(filepath);
+        if (file.bad())
+        {
+            CrownsoleLogger::log("Failed to retrieve project data from " + filepath + ".", Severity::ERROR);
+            return std::nullopt;
+        }
+
+        if (!endsWith(filepath, Macros::ProjectExtension))
+        {
+            CrownsoleLogger::log("This project file ends in the wrong extension.", Severity::ERROR);
+            return std::nullopt;
+        }
+
+        try
+        {
+            ProjectData data = parseProjectFile(file);
+            return data;
+        } catch (nlohmann::json::exception e) {
+            CrownsoleLogger::log(e.what(), Severity::ERROR);
+            return std::nullopt;
+        }
 	}
 
     void createProjectFile(ProjectData& data)
@@ -87,7 +99,7 @@ namespace sore
         std::string projectFilename = data.projectName + "." + Macros::ProjectExtension;
         fs::path projectFilePath = fs::path(data.rootFolder) / fs::path(projectFilename);
 
-        std::ofstream outputFile(projectFilePath.string());
+        std::ofstream outputFile(projectFilePath.string().c_str());
 
         outputFile << projectFile.dump(4, 32, false, json::error_handler_t::ignore);
     }

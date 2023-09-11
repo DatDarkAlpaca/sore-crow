@@ -35,7 +35,7 @@ namespace sore
 		ProjectSourceMetadata sourceMetadata;
 	};
 
-	ProjectData getProjectData(const std::string& filepath);
+	std::optional<ProjectData> getProjectData(const std::string& filepath);
 
 	void createProjectFile(ProjectData& data);
 }
