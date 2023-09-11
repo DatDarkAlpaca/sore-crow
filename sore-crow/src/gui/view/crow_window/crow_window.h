@@ -56,6 +56,9 @@ namespace sore
 
         void onVolumeButtonClicked();
 
+    // Devices:
+        void onAudioDevicesChanged();
+
     // Episodes:
     private slots:
         void onEpisodeClicked();

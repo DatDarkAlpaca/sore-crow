@@ -130,8 +130,8 @@
       <AdditionalLibraryDirectories>$(PYTHONPATH)\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /S /Y
-XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y</Command>
+      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /S /Y /A
+XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y /A</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -146,8 +146,8 @@ XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y</Command>
       <AdditionalLibraryDirectories>$(PYTHONPATH)\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /S /Y
-XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y</Command>
+      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /S /Y /A
+XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y /A</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'">
@@ -162,8 +162,8 @@ XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y</Command>
       <AdditionalLibraryDirectories>$(PYTHONPATH)\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /S /Y
-XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y</Command>
+      <Command>XCOPY "$(ProjectDir)app_res" "$(TargetDir)res\" /S /Y /A
+XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y /A</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">

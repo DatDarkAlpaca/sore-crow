@@ -57,8 +57,10 @@ namespace sore
         // Subtitles:
         onSubtitleClicked();
 
-        // Actions:
-        populateAudioDeviceAction();
+        // Audio Device:
+        onAudioDevicesChanged();
+        
+        // External Subtitles:
         onExternalSubtitleAction();
     }
 
@@ -186,6 +188,22 @@ namespace sore
                 ui.playerControls->toggleVolumeButtonFromVolume(ui.playerControls->volume());
             }
         });
+    }
+
+    void CrowWindow::onAudioDevicesChanged()
+    {     
+        QMediaDevices* devices = new QMediaDevices(this);
+
+        QObject::connect(devices, &QMediaDevices::audioOutputsChanged, [&]() {
+            populateAudioDeviceAction();
+        });
+
+        QObject::connect(devices, &QMediaDevices::audioInputsChanged, [&]() {
+            populateAudioDeviceAction();
+        });
+
+        // Initial audio device population:
+        populateAudioDeviceAction();
     }
 
     void CrowWindow::onEpisodeClicked()
@@ -327,9 +345,10 @@ namespace sore
         for (size_t i = 0; i < tracks.size(); ++i)
         {
             auto title = tracks[i].value(QMediaMetaData::Title);
+            auto language = tracks[i].value(QMediaMetaData::Language);
 
             QAction* action = new QAction(ui.menuAudioTrack);
-            action->setText(title.toString());
+            action->setText(title.toString() + " [" + language.toString() + "]");
             action->setCheckable(true);
 
             if (m_MediaHandler->activeAudioTrack() == i)
