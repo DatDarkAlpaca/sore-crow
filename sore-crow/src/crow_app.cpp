@@ -67,7 +67,7 @@ namespace sore
 
 		// Check for existing supported episode and subtitle folders:
 		fs::path episodesFolder;
-		for (const auto filepath : getFilesInDir(dialogData.projectRootFolder))
+		for (const auto& filepath : getFilesInDir(dialogData.projectRootFolder))
 		{
 			QFileInfo fileInfo(filepath.c_str());
 			if (!fileInfo.isDir())
