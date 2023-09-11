@@ -79,9 +79,6 @@
     <ClCompile Include="vendor\qcss\src\QtAdvancedStylesheet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\controller\main_controller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\core\project\project_metadata.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -115,9 +112,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\crow_app.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gui\controller\main_controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vendor\qcss\src\acss_globals.h">

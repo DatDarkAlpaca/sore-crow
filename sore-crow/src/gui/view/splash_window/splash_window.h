@@ -6,7 +6,6 @@ namespace sore
 {
     class SplashWindow : public QMainWindow
     {
-        friend class MainController;
         Q_OBJECT
 
     public:
@@ -19,6 +18,8 @@ namespace sore
 
     private:
         QLabel* m_StatusBarLabel = nullptr;
+
+    public:
         Ui::SplashWindow ui;
     };
 }

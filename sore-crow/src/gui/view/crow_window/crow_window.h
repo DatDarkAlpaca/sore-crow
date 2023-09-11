@@ -12,7 +12,6 @@ namespace sore
 {
     class CrowWindow : public QMainWindow
     {
-        friend class MainController;
         Q_OBJECT
 
     public:
@@ -90,10 +89,9 @@ namespace sore
     private:
         CrowMediaHandler* m_MediaHandler = nullptr;
         SubtitleHandler* m_SubtitleHandler = nullptr;
-
-    private:
         SubtitleModel m_SubtitleModel;
 
+    public:
         Ui::CrowWindow ui;
     };
 }
