@@ -218,6 +218,9 @@
     <QtUic Include="res\designer\subtitle.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="res\designer\preferences_dialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <None Include="vcpkg.json" />

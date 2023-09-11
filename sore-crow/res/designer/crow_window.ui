@@ -135,6 +135,7 @@
     </property>
     <addaction name="actionNewProject"/>
     <addaction name="actionOpenProject"/>
+    <addaction name="actionPreferences"/>
     <addaction name="separator"/>
     <addaction name="actionClose"/>
    </widget>
@@ -270,6 +271,11 @@
    </property>
    <property name="text">
     <string>Add external track...</string>
+   </property>
+  </action>
+  <action name="actionPreferences">
+   <property name="text">
+    <string>Preferences</string>
    </property>
   </action>
  </widget>

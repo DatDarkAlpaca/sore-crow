@@ -285,6 +285,7 @@ XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y</Command>
     <QtUic Include="res\designer\crow_window.ui" />
     <QtUic Include="res\designer\episode.ui" />
     <QtUic Include="res\designer\player_controls.ui" />
+    <QtUic Include="res\designer\preferences_dialog.ui" />
     <QtUic Include="res\designer\splash_window.ui" />
     <QtUic Include="res\designer\subtitle.ui" />
   </ItemGroup>

@@ -1,2 +1,10 @@
-def parse(f):
-    print(f"Hello {f}! From pluginland.")
+import srt
+import json
+import os
+
+def parse(filepath: str):
+    print(srt)
+    print(json)
+
+    print(os.getcwd())
+    print(f"Hello {filepath}! from pluginland.")
