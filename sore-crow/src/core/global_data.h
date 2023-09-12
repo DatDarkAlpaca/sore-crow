@@ -12,10 +12,6 @@ namespace sore
 			"episodes", "episode"
 		};
 
-		constexpr static inline std::array<const char*, 2> supportedSubtitleFormats = {
-			"srt", "ass"
-		};
-
 		constexpr static inline std::array<const char*, 2> supportedVideoFormats = {
 			"mkv", "mp4"
 		};

@@ -5,24 +5,11 @@
 
 namespace sore
 {
-	inline bool isFileSupportedVideo(const std::string& filepath)
+	inline bool isFileSupportedVideoFormat(const std::string& filepath)
 	{
 		std::string path = lowerString(filepath);
 
 		for (const auto extension : Macros::supportedVideoFormats)
-		{
-			if (endsWith(path, extension))
-				return true;
-		}
-
-		return false;
-	}
-
-	inline bool isFileSupportedSubtitle(const std::string& filepath)
-	{
-		std::string path = lowerString(filepath);
-
-		for (const auto extension : Macros::supportedSubtitleFormats)
 		{
 			if (endsWith(path, extension))
 				return true;

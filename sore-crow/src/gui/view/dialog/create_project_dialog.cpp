@@ -78,7 +78,7 @@ namespace sore
             
             for (const auto filepath : getFilesInDir(location.toStdString()))
             {
-                if (isFileSupportedVideo(filepath))
+                if (isFileSupportedVideoFormat(filepath))
                     m_Episodes.push_back(filepath);
             }
 
