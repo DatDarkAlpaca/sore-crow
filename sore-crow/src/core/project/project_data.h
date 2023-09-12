@@ -7,23 +7,10 @@ namespace sore
 	struct ProjectData
 	{
 	public:
-		EpisodeMetadata getEpisodeFromID(const std::string& episodeID)
-		{
-			for (const auto& episode : sourceMetadata.episodes)
-			{
-				if (episode.id == episodeID)
-					return episode;
-			}
-
-			return { };
-		}
+		EpisodeMetadata getEpisodeFromID(const std::string& episodeID);
 
 	public:
-		bool valid() const
-		{
-			return !version.empty() && !projectName.empty() && !rootFolder.empty() && 
-				!episodeFolderName.empty() && !sourceMetadata.id.empty();
-		}
+		bool valid() const;
 
 	public:
 		std::string version;

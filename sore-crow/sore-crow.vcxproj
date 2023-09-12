@@ -203,7 +203,7 @@ XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y /A</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\core\project\project_metadata.cpp" />
+    <ClCompile Include="src\core\project\project_data.cpp" />
     <ClCompile Include="src\gui\view\dialog\create_project_dialog.cpp" />
     <ClCompile Include="src\gui\widgets\crownsole\crownsole.cpp" />
     <ClCompile Include="src\gui\widgets\crow_video\crow_video.cpp" />

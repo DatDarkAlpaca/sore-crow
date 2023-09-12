@@ -68,6 +68,9 @@
     <QtMoc Include="src\gui\model\subtitle_model.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\gui\objects\subtitle_item.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -79,7 +82,7 @@
     <ClCompile Include="vendor\qcss\src\QtAdvancedStylesheet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\project\project_metadata.cpp">
+    <ClCompile Include="src\core\project\project_data.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\pch.cpp">
@@ -171,13 +174,7 @@
     <ClInclude Include="src\core\subtitle\concrete_parsers\srt_parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\objects\subtitle_item.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\core\plugin\manifest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\plugin\plugin_handler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\core\plugin\plugin_type.h">
@@ -187,6 +184,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\core\plugin\dictionary_plugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\subtitle\concrete_parsers\ass_parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

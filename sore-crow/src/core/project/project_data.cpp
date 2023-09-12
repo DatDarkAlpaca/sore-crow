@@ -9,6 +9,23 @@
 
 namespace sore
 {
+    EpisodeMetadata ProjectData::getEpisodeFromID(const std::string& episodeID)
+    {
+        for (const auto& episode : sourceMetadata.episodes)
+        {
+            if (episode.id == episodeID)
+                return episode;
+        }
+
+        return { };
+    }
+
+    bool ProjectData::valid() const
+    {
+        return !version.empty() && !projectName.empty() && !rootFolder.empty() &&
+               !episodeFolderName.empty() && !sourceMetadata.id.empty();
+    }
+
     static ProjectData parseProjectFile(std::ifstream& file)
     {
         using json = nlohmann::json;
