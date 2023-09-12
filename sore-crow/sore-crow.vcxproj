@@ -243,6 +243,7 @@ XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y /A</Command>
     <ClInclude Include="src\core\plugin\manifest.h" />
     <ClInclude Include="src\core\plugin\plugin_type.h" />
     <ClInclude Include="src\core\project\metadata.h" />
+    <ClInclude Include="src\core\subtitle\concrete_parsers\ass_parser.h" />
     <ClInclude Include="src\core\subtitle\concrete_parsers\srt_parser.h" />
     <ClInclude Include="src\core\subtitle\subtitle_data.h" />
     <ClInclude Include="src\core\subtitle\subtitle_factory.h" />

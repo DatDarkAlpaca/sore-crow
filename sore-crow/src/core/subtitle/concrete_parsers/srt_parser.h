@@ -113,7 +113,7 @@ namespace sore
 
 			// TODO: improve:
 			else
-				throw "Invalid file format: " + timestampText;
+				throw "Invalid timestamp format: " + timestampText;
 		}
 	};
 }

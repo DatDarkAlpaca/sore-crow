@@ -9,6 +9,7 @@
 
 #include <vector>
 #include <array>
+#include <regex>
 #include <string>
 #include <fstream>
 #include <sstream>
