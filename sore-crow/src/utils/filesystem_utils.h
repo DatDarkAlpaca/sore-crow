@@ -3,7 +3,6 @@
 #include <string>
 #include <filesystem>
 #include "utils/string_utils.h"
-#include "core/global_data.h"
 
 namespace sore
 {

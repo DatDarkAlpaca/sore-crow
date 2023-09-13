@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "crow_video.h"
-#include "core/global_data.h"
+#include "crow_settings.h"
 
 namespace sore
 {
@@ -47,15 +47,16 @@ namespace sore
 		
 		// Font:
 		QFont subtitleFont;
-		subtitleFont.setPixelSize(DefaultSubtitlePointSize);
+		subtitleFont.setPixelSize(settings->value("styles/subtitles/point_size").toInt());
 		
-		QColor textColor = globalData.isStylesheetDark ? QColor(255, 255, 255, 255) : QColor(0, 0, 0, 255);
+		bool isStylesheetDark = settings->value("styles/themes/is_theme_dark").toBool();
+		QColor textColor = isStylesheetDark ? QColor(255, 255, 255, 255) : QColor(0, 0, 0, 255);
 		m_SubtitleItem->setDefaultTextColor(textColor);
 		m_SubtitleItem->setFont(subtitleFont);
 
 		// Adding:
 		m_Scene->addItem(m_SubtitleItem);
-		m_Scene->addItem(m_VideoItem);		
+		m_Scene->addItem(m_VideoItem);
 	}
 
 	void CrowVideo::resizeScene()

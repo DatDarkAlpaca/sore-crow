@@ -3,8 +3,8 @@
 #include <vector>
 #include <nlohmann/json.hpp>
 
+#include "crow_settings.h"
 #include "utils/uuid_utils.h"
-#include "core/global_data.h"
 
 namespace sore
 {
@@ -48,7 +48,7 @@ namespace sore
 
 		ProjectHeader()
 		{
-			projectVersion = Macros::version;
+			projectVersion = settings->value("version").toString().toStdString();
 		}
 
 	public:

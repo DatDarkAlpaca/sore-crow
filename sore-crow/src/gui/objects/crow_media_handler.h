@@ -4,8 +4,8 @@
 #include <QAudioOutput>
 #include <QMediaMetaData>
 
+#include "crow_settings.h"
 #include "gui/widgets/player_controls/player_controls.h"
-#include "core/global_data.h"
 
 namespace sore
 {
@@ -38,7 +38,7 @@ namespace sore
 				return;
 			}
 
-			fs::path mediaDirectory = fs::path(ProjectDirectory) / mediaFilepath;
+			fs::path mediaDirectory = fs::path(settings->value("paths/project_directory").toString().toStdString()) / mediaFilepath;
 			m_MediaPlayer->setSource(QUrl::fromLocalFile(mediaDirectory.string().c_str()));
 		}
 

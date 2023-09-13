@@ -2,7 +2,6 @@
 #include <QWidget>
 #include "ui_crownsole.h"
 #include "core/logger/severity.h"
-#include "core/global_data.h"
 
 namespace sore
 {
