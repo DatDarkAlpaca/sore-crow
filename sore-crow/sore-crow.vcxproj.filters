@@ -132,7 +132,7 @@
     <ClInclude Include="src\utils\string_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\project\metadata.h">
+    <ClInclude Include="src\core\project\components.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vendor\srt-parser\srtparser.h">

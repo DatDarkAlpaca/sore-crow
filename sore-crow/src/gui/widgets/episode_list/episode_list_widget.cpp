@@ -10,23 +10,20 @@ namespace sore
 
     void EpisodeListWidget::insertProjectEpisodes(const ProjectData& data)
 	{
-        using namespace std::filesystem;
+        namespace fs = std::filesystem;
 
-        path root(data.rootFolder);
-        path episodeFolder(data.episodeFolderName);
-
-        auto episodes = data.sourceMetadata.episodes;
-        for (size_t i = 0; i < episodes.size(); ++i)
+        size_t index = 0;
+        for (const auto& episode : data.mediaData.episodeData)
         {
-            path episodePath = root / episodeFolder / path(episodes[i].filename);
-
             EpisodeWidget* episodeWidget = new EpisodeWidget(this);
-            episodeWidget->updateData(episodePath.string());
+            episodeWidget->updateData(episode.filepath);
 
-            m_EpisodeSourceLookup.push_back({ i, episodePath.string() });
+            m_EpisodeSourceLookup.push_back({ index, episode.filepath });
 
-            onEpisodeClicked(episodeWidget, episodePath.string());
+            onEpisodeClicked(episodeWidget, episode.filepath);
             addEpisodeToList(episodeWidget);
+
+            ++index;
         }
 	}
 

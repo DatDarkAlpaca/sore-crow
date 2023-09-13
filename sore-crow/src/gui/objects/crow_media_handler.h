@@ -1,9 +1,11 @@
 #pragma once
+#include <filesystem>
 #include <QMediaPlayer>
 #include <QAudioOutput>
 #include <QMediaMetaData>
 
 #include "gui/widgets/player_controls/player_controls.h"
+#include "core/global_data.h"
 
 namespace sore
 {
@@ -27,7 +29,17 @@ namespace sore
 	public:
 		void setMedia(const std::string& mediaFilepath)
 		{
-			m_MediaPlayer->setSource(QUrl::fromLocalFile(mediaFilepath.c_str()));
+			namespace fs = std::filesystem;
+			fs::path filepath(mediaFilepath);
+
+			if (filepath.is_absolute())
+			{
+				m_MediaPlayer->setSource(QUrl::fromLocalFile(mediaFilepath.c_str()));
+				return;
+			}
+
+			fs::path mediaDirectory = fs::path(ProjectDirectory) / mediaFilepath;
+			m_MediaPlayer->setSource(QUrl::fromLocalFile(mediaDirectory.string().c_str()));
 		}
 
 		void setMediaPosition(long long position)

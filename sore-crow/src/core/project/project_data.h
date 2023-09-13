@@ -1,28 +1,41 @@
 #pragma once
 #include <string>
-#include "metadata.h"
+#include <fstream>
+#include <nlohmann/json.hpp>
+
+#include "components.h"
 
 namespace sore
 {
 	struct ProjectData
 	{
 	public:
-		EpisodeMetadata getEpisodeFromID(const std::string& episodeID);
+		ProjectData(const nlohmann::json& jsonObject, const std::string& filepath)
+			: projectFilepath(filepath)
+		{
+			header = ProjectHeader(jsonObject["header"]);
+			mediaData = ProjectMediaData(jsonObject["media"]);
+		}
+
+		ProjectData() = default;
 
 	public:
-		bool valid() const;
+		nlohmann::json toJSON() const
+		{
+			nlohmann::json jsonObject;
+			jsonObject["header"] = header.toJSON();
+			jsonObject["media"] = mediaData.toJSON(); 
+
+			return jsonObject;
+		}
 
 	public:
-		std::string version;
-		std::string projectName;
-
-		std::string rootFolder;
-		std::string episodeFolderName;
-
-		ProjectSourceMetadata sourceMetadata;
+		ProjectHeader header;
+		ProjectMediaData mediaData;
+		std::string projectFilepath;
 	};
 
 	std::optional<ProjectData> getProjectData(const std::string& filepath);
 
-	void createProjectFile(ProjectData& data);
+	void createProjectFile(const ProjectData& data, const std::string& projectDirectory);
 }

@@ -1,9 +1,9 @@
 #pragma once
-#include <QListWidget>
 #include <optional>
+#include <QListWidget>
 
-#include "gui/widgets/episode_widget/episode_widget.h"
 #include "core/project/project_data.h"
+#include "gui/widgets/episode_widget/episode_widget.h"
 
 namespace sore
 {

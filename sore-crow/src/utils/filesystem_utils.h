@@ -20,15 +20,4 @@ namespace sore
 
 		return filepaths;
 	}
-
-	inline bool isValidEpisodesDirectory(const std::string& directory)
-	{
-		for (const auto& supportedEpisodeFolderName : Macros::AcceptableEpisodeFolderNames)
-		{
-			if (endsWith(lowerString(directory), supportedEpisodeFolderName))
-				return true;
-		}
-
-		return false;
-	}
 }

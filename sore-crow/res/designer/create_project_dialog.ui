@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>685</width>
-    <height>508</height>
+    <width>674</width>
+    <height>454</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -94,11 +94,37 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="QLabel" name="videosLabel">
-           <property name="text">
-            <string>Videos found</string>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <property name="topMargin">
+            <number>0</number>
            </property>
-          </widget>
+           <item>
+            <widget class="QLabel" name="videosLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Videos found</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="moveEpisodesBtn">
+             <property name="toolTip">
+              <string>Moves all found episodes to a common folder</string>
+             </property>
+             <property name="text">
+              <string>Moves episodes</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
           <widget class="QListWidget" name="videosList"/>
@@ -114,19 +140,6 @@
      <property name="spacing">
       <number>0</number>
      </property>
-     <item>
-      <widget class="QLabel" name="atentionLabel">
-       <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#d91b1b;&quot;&gt;Atention&lt;/span&gt;: Your videos may be moved to a different folder.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="textFormat">
-        <enum>Qt::RichText</enum>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-       </property>
-      </widget>
-     </item>
      <item>
       <spacer name="createSpacer">
        <property name="orientation">

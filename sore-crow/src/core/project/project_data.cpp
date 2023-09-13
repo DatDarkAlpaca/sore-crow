@@ -1,67 +1,17 @@
 #include "pch.h"
-#include "metadata.h"
 #include "project_data.h"
 
-#include "utils/uuid_utils.h"
+
 #include "utils/string_utils.h"
 #include "core/logger/logger.h"
 #include "core/global_data.h"
 
 namespace sore
 {
-    EpisodeMetadata ProjectData::getEpisodeFromID(const std::string& episodeID)
+    std::optional<ProjectData> getProjectData(const std::string& filepath)
     {
-        for (const auto& episode : sourceMetadata.episodes)
-        {
-            if (episode.id == episodeID)
-                return episode;
-        }
+        using namespace nlohmann;
 
-        return { };
-    }
-
-    bool ProjectData::valid() const
-    {
-        return !version.empty() && !projectName.empty() && !rootFolder.empty() &&
-               !episodeFolderName.empty() && !sourceMetadata.id.empty();
-    }
-
-    static ProjectData parseProjectFile(std::ifstream& file)
-    {
-        using json = nlohmann::json;
-
-        json data = json::parse(file);
-        json header = data["header"];
-        json source = data["source"];
-
-        // Episodes:
-        std::vector<EpisodeMetadata> episodeMetadata;
-        for (const auto& episodeData : source["episodes"])
-        {
-            episodeMetadata.push_back({
-                episodeData["id"],
-                episodeData["filename"],
-            });
-        }
-
-        // Source:
-        ProjectSourceMetadata sourceMetadata;
-        sourceMetadata.id = source["id"];
-        sourceMetadata.episodes = episodeMetadata;
-
-        // Project:
-        ProjectData projectData;
-        projectData.version = header["version"];
-        projectData.projectName = header["project_name"];
-        projectData.rootFolder = header["project_root_folder"];
-        projectData.episodeFolderName = header["project_episode_folder"];
-        projectData.sourceMetadata = sourceMetadata;
-
-        return projectData;
-    }
-
-	std::optional<ProjectData> getProjectData(const std::string& filepath)
-	{
         std::ifstream file(filepath);
         if (file.bad())
         {
@@ -77,47 +27,24 @@ namespace sore
 
         try
         {
-            ProjectData data = parseProjectFile(file);
+            ProjectData data(json::parse(file), filepath);
             return data;
-        } catch (nlohmann::json::exception e) {
+        }
+        catch (nlohmann::json::exception e) {
             CrownsoleLogger::log(e.what(), Severity::ERROR);
             return std::nullopt;
         }
-	}
+    }
 
-    void createProjectFile(ProjectData& data)
+    void createProjectFile(const ProjectData& data, const std::string& projectDirectory)
     {
-        data.version = Macros::version;
-
         namespace fs = std::filesystem;
         using namespace nlohmann;
 
-        json projectFile;
-
-        projectFile["header"] =  {
-            { "version", data.version },
-            { "project_name", data.projectName },
-            { "project_root_folder", data.rootFolder },
-            { "project_episode_folder", data.episodeFolderName },
-        };
-        projectFile["source"] = {};
-        projectFile["source"]["id"] = generateUUID();
-
-        auto episodes = nlohmann::json::array();
-        for (const auto& episode : data.sourceMetadata.episodes)
-        {
-            episodes.push_back({
-                { "id", episode.id },
-                { "filename", episode.filename },
-            });
-        }
-        projectFile["source"]["episodes"] = episodes;
-
-        std::string projectFilename = data.projectName + "." + Macros::ProjectExtension;
-        fs::path projectFilePath = fs::path(data.rootFolder) / fs::path(projectFilename);
-
-        std::ofstream outputFile(projectFilePath.string().c_str());
-
-        outputFile << projectFile.dump(4, 32, false, json::error_handler_t::ignore);
+        fs::path projectFilepath = fs::path(projectDirectory) / (data.header.projectName + "." + Macros::ProjectExtension);
+        
+        auto jsonData = data.toJSON();
+        std::ofstream outputFile(projectFilepath);
+        outputFile << jsonData.dump(4, 32, false, json::error_handler_t::ignore);
     }
 }

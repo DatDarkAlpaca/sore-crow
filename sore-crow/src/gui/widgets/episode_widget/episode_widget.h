@@ -3,7 +3,6 @@
 #include <QtWidgets/QWidget>
 
 #include "ui_episode.h"
-#include "core/project/metadata.h"
 #include "utils/video_utils.h"
 
 namespace sore

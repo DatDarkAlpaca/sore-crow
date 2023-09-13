@@ -12,6 +12,30 @@
 #include "utils/filesystem_utils.h"
 #include "gui/view/dialog/create_project_dialog.h"
 
+static void createEpisodesFolder(const std::filesystem::path& projectFolderPath, const std::string& folderName)
+{
+	namespace fs = std::filesystem;
+	fs::create_directory(projectFolderPath / folderName);
+}
+
+static std::vector<std::string> moveToEpisodesFolder(const std::vector<std::string>& episodePaths, const std::filesystem::path& folderPath)
+{
+	namespace fs = std::filesystem;
+
+	std::vector<std::string> newPaths;
+
+	for (const auto& path : episodePaths)
+	{
+		fs::path previousFilepath(path);
+		fs::path newFilepath(folderPath / previousFilepath.filename());
+
+		fs::rename(previousFilepath, newFilepath);
+		newPaths.push_back(newFilepath.string());
+	}
+
+	return newPaths;
+}
+
 namespace sore
 {
 	CrowApp::CrowApp(int argc, char** argv)
@@ -33,6 +57,7 @@ namespace sore
 
 	std::optional<ProjectData> CrowApp::onOpenProject()
 	{
+		namespace fs = std::filesystem;
 		std::string projectFilepath = openProjectFileDialog();
 
 		if (projectFilepath.empty())
@@ -48,6 +73,8 @@ namespace sore
 			return std::nullopt;
 		}
 
+		auto parentPath = fs::path(projectFilepath).parent_path();
+		ProjectDirectory = parentPath.string();
 		return projectData;
 	}
 
@@ -55,66 +82,48 @@ namespace sore
 	{
 		namespace fs = std::filesystem;
 
+		// Dialog:
 		CreateProjectDialog dialog;
 		if (dialog.exec() != QDialog::Accepted)
-			return {};
+			return std::nullopt;
 
 		auto dialogData = dialog.getData();
+		std::vector<std::string> episodeFilepaths = dialogData.episodePaths;
 
+		// Folder Path:
+		fs::path projectFolderPath(dialogData.projectFilepath);
+		ProjectDirectory = projectFolderPath.string();
+
+		// Project Header Creation:
 		ProjectData projectData;
-		projectData.projectName = dialogData.projectName;
-		projectData.rootFolder = dialogData.projectRootFolder;
+		projectData.header.projectName = dialogData.projectName;
+		projectData.header.projectVersion = Macros::version;
 
-		// Check for existing supported episode and subtitle folders:
-		fs::path episodesFolder;
-		for (const auto& filepath : getFilesInDir(dialogData.projectRootFolder))
+		// Moves episodes:
+		if (dialogData.moveEpisodes)
 		{
-			QFileInfo fileInfo(filepath.c_str());
-			if (!fileInfo.isDir())
-				continue;
+			createEpisodesFolder(projectFolderPath, Macros::DefaultEpisodesFolderName);
 
-			if (isValidEpisodesDirectory(filepath))
-			{
-				fs::path episodesPath(filepath);
-				episodesFolder = episodesPath;
-			}
+			episodeFilepaths = moveToEpisodesFolder(dialogData.episodePaths, projectFolderPath / Macros::DefaultEpisodesFolderName);
 		}
 
-		// Create these folders if not available:
-		if (episodesFolder.empty())
+		// Create episode data:
+		for (const auto& episodePath : episodeFilepaths)
 		{
-			fs::path rootPath(projectData.rootFolder);
-			fs::path episodesFolderPath(Macros::AcceptableEpisodeFolderNames.front());
-			episodesFolder = rootPath / episodesFolderPath;
-			fs::create_directory(episodesFolder);
+			fs::path relative;
+			if (!dialogData.moveEpisodes)
+				relative = fs::relative(projectFolderPath, fs::path(episodePath).parent_path());
+			else
+				relative = fs::relative(fs::path(episodePath).parent_path(), projectFolderPath);
+
+			fs::path episodeFilepath = fs::path(episodePath).filename();
+
+			EpisodeData episodeData;
+			episodeData.filepath = (relative / episodeFilepath).generic_string();
+			projectData.mediaData.episodeData.push_back(episodeData);
 		}
 
-		// Move all episodes to the appropriate folder:
-		for (const auto& episodePath : dialogData.episodePaths)
-		{
-			fs::path previousFilepath(episodePath);
-			fs::rename(previousFilepath, episodesFolder / previousFilepath.filename());
-		}
-
-		projectData.episodeFolderName = episodesFolder.string();
-
-		// Get files inside folders:
-		auto correctedProjectFiles = getFilesInDir(projectData.episodeFolderName);
-		auto correctedSubtitleFiles = getFilesInDir(projectData.episodeFolderName);
-
-		projectData.sourceMetadata.id = generateUUID();
-
-		// Iterate over episodes and subtitles to generate metadata:
-		for (size_t i = 0; i < correctedProjectFiles.size(); ++i)
-		{
-			EpisodeMetadata episode;
-			episode.id = generateUUID();
-			episode.filename = correctedProjectFiles[i];
-			projectData.sourceMetadata.episodes.push_back(episode);
-		}
-
-		createProjectFile(projectData);
-
+		createProjectFile(projectData, projectFolderPath.string());
 		return projectData;
 	}
 

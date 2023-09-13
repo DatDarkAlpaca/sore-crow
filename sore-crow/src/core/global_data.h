@@ -8,9 +8,7 @@ namespace sore
 	{
 		constexpr static inline const char* version = "0.1";
 
-		constexpr static inline std::array<const char*, 2> AcceptableEpisodeFolderNames = {
-			"episodes", "episode"
-		};
+		constexpr static inline const char* DefaultEpisodesFolderName = "episodes";
 
 		constexpr static inline std::array<const char*, 2> supportedVideoFormats = {
 			"mkv", "mp4"
@@ -19,12 +17,13 @@ namespace sore
 		constexpr static inline const char* ProjectExtension = "prj";
 	};
 
-	static inline std::string ResourcesPath;
-	static inline std::string StylePath;
-	static inline std::string StyleOutputPath;
-	static inline std::string PluginPath;
-	static inline std::string WorkingDirectory;
-	static inline int DefaultSubtitlePointSize = 20;
+	inline std::string ResourcesPath;
+	inline std::string StylePath;
+	inline std::string StyleOutputPath;
+	inline std::string PluginPath;
+	inline std::string WorkingDirectory;
+	inline std::string ProjectDirectory;
+	inline int DefaultSubtitlePointSize = 20;
 
 	struct Data
 	{

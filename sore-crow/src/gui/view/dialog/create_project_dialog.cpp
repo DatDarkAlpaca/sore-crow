@@ -48,11 +48,13 @@ namespace sore
     {
         std::string projectName = ui.projectNameInput->text().toStdString();
         std::string rootFolderLocation = ui.locationInput->text().toStdString();
-        
+        bool moveEpisodes = ui.moveEpisodesBtn->isChecked();
+
         return {
             projectName,
             rootFolderLocation,
-            m_Episodes
+            m_Episodes,
+            moveEpisodes
         };
     }
  

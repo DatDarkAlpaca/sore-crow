@@ -7,7 +7,8 @@ namespace sore
     struct CreateProjectDialogData
     {
         std::string projectName;
-        std::string projectRootFolder;
+        std::string projectFilepath;
         std::vector<std::string> episodePaths;
+        bool moveEpisodes;
     };
 }
