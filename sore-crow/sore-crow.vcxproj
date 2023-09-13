@@ -250,10 +250,10 @@ XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y /A</Command>
     <ClInclude Include="src\core\subtitle\subtitle_parser.h" />
     <ClInclude Include="src\crow_app.h" />
     <ClInclude Include="src\core\project\project_data.h" />
-    <ClInclude Include="src\core\global_data.h" />
     <QtMoc Include="src\gui\objects\subtitle_handler.h" />
     <QtMoc Include="src\gui\model\subtitle_model.h" />
     <QtMoc Include="src\gui\objects\subtitle_item.h" />
+    <ClInclude Include="src\crow_settings.h" />
     <ClInclude Include="src\gui\view\dialog\create_project_dialog_data.h" />
     <QtMoc Include="src\gui\widgets\episode_widget\episode_widget.h" />
     <QtMoc Include="src\gui\view\dialog\create_project_dialog.h" />

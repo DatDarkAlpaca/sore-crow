@@ -21,16 +21,18 @@ namespace sore
 
 		std::optional<ProjectData> onCreateProject();
 
+	private:
+		void configureSettings();
+
+		void configureViews();
+
+		void configureStylesheets();
+		
 		void configureActions();
 
 	private:
-		void configureData();
-
-		void configureStylesheets();
-
-	private:
-		CrowWindow m_CrowWindow;
-		SplashWindow m_SplashWindow;
+		CrowWindow* m_CrowWindow;
+		SplashWindow* m_SplashWindow;
 		acss::QtAdvancedStylesheet* m_Stylesheet;
 	};
 }

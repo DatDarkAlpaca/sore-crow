@@ -1,10 +1,9 @@
 #include "pch.h"
 #include "crow_app.h"
 
-#include "core/global_data.h"
+#include "crow_settings.h"
 #include "core/logger/logger.h"
 #include "core/project/project_data.h"
-#include "core/plugin/dictionary_plugin.h"
 
 #include "utils/dialog.h"
 #include "utils/uuid_utils.h"
@@ -18,18 +17,25 @@ namespace sore
 	CrowApp::CrowApp(int argc, char** argv)
 		: QApplication(argc, argv)
 	{
-		configureData();
+		QApplication::setOrganizationName("DatDarkAlpaca");
+		QApplication::setApplicationName("SoreCrow");
+
+		std::filesystem::current_path(qApp->applicationDirPath().toStdString());
+
+		configureSettings();
+
+		configureViews();
 
 		configureStylesheets();
 
 		configureActions();
 
-		CrownsoleLogger::setConsoleWidget(m_CrowWindow.ui.crownsole);
+		CrownsoleLogger::setConsoleWidget(m_CrowWindow->ui.crownsole);
 	}
 
 	void CrowApp::execute()
 	{
-		m_SplashWindow.show();
+		m_SplashWindow->show();
 	}
 
 	std::optional<ProjectData> CrowApp::onOpenProject()
@@ -43,15 +49,16 @@ namespace sore
 		auto projectData = getProjectData(projectFilepath);
 		if (!projectData.has_value())
 		{
-			QString error("This project file is invalid or corrupted.");
+			QString error("This project file is invalid or corrupted: %1");
 			error = error.arg(projectFilepath.c_str());
 			errorBox(error.toStdString());
 
 			return std::nullopt;
 		}
 
-		auto parentPath = fs::path(projectFilepath).parent_path();
-		ProjectDirectory = parentPath.string();
+		auto projectFolderPath = fs::path(projectFilepath).parent_path();
+		settings->setValue("paths/project_directory", projectFolderPath.string().c_str());
+
 		return projectData;
 	}
 
@@ -69,19 +76,20 @@ namespace sore
 
 		// Folder Path:
 		fs::path projectFolderPath(dialogData.projectFilepath);
-		ProjectDirectory = projectFolderPath.string();
+		settings->setValue("paths/project_directory", projectFolderPath.string().c_str());
 
 		// Project Header Creation:
 		ProjectData projectData;
 		projectData.header.projectName = dialogData.projectName;
-		projectData.header.projectVersion = Macros::version;
+		projectData.header.projectVersion = settings->value("version").toString().toStdString();
 
 		// Moves episodes:
 		if (dialogData.moveEpisodes)
 		{
-			createEpisodesFolder(projectFolderPath, Macros::DefaultEpisodesFolderName);
+			auto episodesFolderName = settings->value("project/default_episodes_folder_name").toString().toStdString();
+			createEpisodesFolder(projectFolderPath, episodesFolderName);
 
-			episodeFilepaths = moveToEpisodesFolder(dialogData.episodePaths, projectFolderPath / Macros::DefaultEpisodesFolderName);
+			episodeFilepaths = moveToEpisodesFolder(dialogData.episodePaths, projectFolderPath / episodesFolderName);
 		}
 
 		// Create episode data:
@@ -104,76 +112,105 @@ namespace sore
 		return projectData;
 	}
 
-	void CrowApp::configureActions()
+	void CrowApp::configureSettings()
 	{
-		// [Splash Window] Open Project:
-		QObject::connect(m_SplashWindow.ui.openProjectBtn, &QPushButton::released, [&]() {
-			auto projectData = onOpenProject();
-			if (!projectData.has_value())
-				return;
+		namespace fs = std::filesystem;
+		const QString settingsPath = qApp->applicationDirPath() + "/settings.ini";
 
-			m_CrowWindow.clearData();
-			m_CrowWindow.updateData(projectData.value());
+		settings = std::make_unique<QSettings>(settingsPath, QSettings::IniFormat);
 
-			m_SplashWindow.hide();
-			m_CrowWindow.show();
-			});
+		if (fs::is_regular_file(settingsPath.toStdString()))
+			return;
 
-		// [Splash Window] Create Project:
-		QObject::connect(m_SplashWindow.ui.createProjectBtn, &QPushButton::released, [&]() {
-			auto projectData = onCreateProject();
-			if (!projectData.has_value())
-				return;
+		qDebug() << "App path : " << qApp->applicationDirPath();
+		settings->setValue("version", "0.1");
 
-			m_CrowWindow.clearData();
-			m_CrowWindow.updateData(projectData.value());
+		settings->setValue("project/extension", "prj");
+		settings->setValue("project/default_episodes_folder_name", "episodes");
+		settings->setValue("project/supported/video_formats", "mkv,mp4");
 
-			m_SplashWindow.hide();
-			m_CrowWindow.show();
-			});
+		settings->setValue("paths/resources_folder", "/res");
+		settings->setValue("paths/style_path", "/res/styles");
+		settings->setValue("paths/style_output_path", "/res/output");
+		settings->setValue("paths/plugin_path", "/plugins");
+		settings->setValue("paths/working_directory", "");
+		settings->setValue("paths/project_directory", "");
 
-		// [Main Window] Open Project:
-		QObject::connect(m_CrowWindow.ui.actionOpenProject, &QAction::triggered, [&]() {
-			auto projectData = onOpenProject();
-			if (!projectData.has_value())
-				return;
-
-			m_CrowWindow.clearData();
-			m_CrowWindow.updateData(projectData.value());
-			});
-
-		// [Main Window] Create Project:
-		QObject::connect(m_CrowWindow.ui.actionNewProject, &QAction::triggered, [&]() {
-			auto projectData = onCreateProject();
-			if (!projectData.has_value())
-				return;
-
-			m_CrowWindow.clearData();
-			m_CrowWindow.updateData(projectData.value());
-			});
+		settings->setValue("styles/themes/is_theme_dark", true);
+		settings->setValue("styles/subtitles/point_size", 20);
+		settings->sync();
 	}
 
-	void CrowApp::configureData()
+	void CrowApp::configureViews()
 	{
-		Data::initialize();
+		m_CrowWindow = new CrowWindow;
+		m_SplashWindow = new SplashWindow;
 	}
-
+	
 	void CrowApp::configureStylesheets()
 	{
-		DictionaryPlugin plugin("test_plugin");
-		plugin.execute();
-
 		m_Stylesheet = new acss::QtAdvancedStylesheet();
 
-		m_Stylesheet->setStylesDirPath(StylePath.c_str());
-		m_Stylesheet->setOutputDirPath(StyleOutputPath.c_str());
+		auto absoluteStylePath = qApp->applicationDirPath() + settings->value("paths/style_path").toString();
+		auto absoluteStyleOutPath = qApp->applicationDirPath() + settings->value("paths/style_output_path").toString();
+
+		m_Stylesheet->setStylesDirPath(absoluteStylePath);
+		m_Stylesheet->setOutputDirPath(absoluteStyleOutPath);
 		m_Stylesheet->setCurrentStyle("crow_material");
 
 		m_Stylesheet->setCurrentTheme("dark_purple");
 		m_Stylesheet->updateStylesheet();
 
-		globalData.isStylesheetDark = m_Stylesheet->isCurrentThemeDark();
-
+		settings->setValue("styles/themes/is_theme_dark", m_Stylesheet->isCurrentThemeDark());
 		qApp->setStyleSheet(m_Stylesheet->styleSheet());
+	}
+
+	void CrowApp::configureActions()
+	{
+		// [Splash Window] Open Project:
+		QObject::connect(m_SplashWindow->ui.openProjectBtn, &QPushButton::released, [&]() {
+			auto projectData = onOpenProject();
+			if (!projectData.has_value())
+				return;
+
+			m_CrowWindow->clearData();
+			m_CrowWindow->updateData(projectData.value());
+
+			m_SplashWindow->hide();
+			m_CrowWindow->show();
+		});
+
+		// [Splash Window] Create Project:
+		QObject::connect(m_SplashWindow->ui.createProjectBtn, &QPushButton::released, [&]() {
+			auto projectData = onCreateProject();
+			if (!projectData.has_value())
+				return;
+
+			m_CrowWindow->clearData();
+			m_CrowWindow->updateData(projectData.value());
+
+			m_SplashWindow->hide();
+			m_CrowWindow->show();
+		});
+
+		// [Main Window] Open Project:
+		QObject::connect(m_CrowWindow->ui.actionOpenProject, &QAction::triggered, [&]() {
+			auto projectData = onOpenProject();
+			if (!projectData.has_value())
+				return;
+
+			m_CrowWindow->clearData();
+			m_CrowWindow->updateData(projectData.value());
+		});
+
+		// [Main Window] Create Project:
+		QObject::connect(m_CrowWindow->ui.actionNewProject, &QAction::triggered, [&]() {
+			auto projectData = onCreateProject();
+			if (!projectData.has_value())
+				return;
+
+			m_CrowWindow->clearData();
+			m_CrowWindow->updateData(projectData.value());
+		});
 	}
 }

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "crownsole.h"
+#include "crow_settings.h"
 
 namespace sore
 {
@@ -11,7 +12,9 @@ namespace sore
 	void Crownsole::log(const std::string& message, Severity severity)
 	{
 		std::string bracketsColor = "white";
-		if (!globalData.isStylesheetDark)
+
+		bool isStylesheetDark = settings->value("styles/themes/is_theme_dark").toBool();
+		if (!isStylesheetDark)
 			bracketsColor = "#232629";
 
 		std::string severityString = "INFO";

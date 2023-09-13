@@ -1,7 +1,8 @@
 #pragma once
 #include <string>
+#include <QSettings>
 #include "string_utils.h"
-#include "core/global_data.h"
+#include "crow_settings.h"
 
 namespace sore
 {
@@ -9,7 +10,9 @@ namespace sore
 	{
 		std::string path = lowerString(filepath);
 
-		for (const auto extension : Macros::supportedVideoFormats)
+		auto supportedFormatsString = settings->value("project/supported/video_formats").toString().toStdString();
+
+		for (const auto& extension : split(supportedFormatsString, ","))
 		{
 			if (endsWith(path, extension))
 				return true;
