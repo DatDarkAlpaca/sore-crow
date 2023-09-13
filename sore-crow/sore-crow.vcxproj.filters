@@ -189,6 +189,9 @@
     <ClInclude Include="src\core\subtitle\concrete_parsers\ass_parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\utils\project_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="res\designer\crow_window.ui">

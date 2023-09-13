@@ -10,31 +10,8 @@
 #include "utils/uuid_utils.h"
 #include "utils/message_box.h"
 #include "utils/filesystem_utils.h"
+#include "utils/project_utils.h"
 #include "gui/view/dialog/create_project_dialog.h"
-
-static void createEpisodesFolder(const std::filesystem::path& projectFolderPath, const std::string& folderName)
-{
-	namespace fs = std::filesystem;
-	fs::create_directory(projectFolderPath / folderName);
-}
-
-static std::vector<std::string> moveToEpisodesFolder(const std::vector<std::string>& episodePaths, const std::filesystem::path& folderPath)
-{
-	namespace fs = std::filesystem;
-
-	std::vector<std::string> newPaths;
-
-	for (const auto& path : episodePaths)
-	{
-		fs::path previousFilepath(path);
-		fs::path newFilepath(folderPath / previousFilepath.filename());
-
-		fs::rename(previousFilepath, newFilepath);
-		newPaths.push_back(newFilepath.string());
-	}
-
-	return newPaths;
-}
 
 namespace sore
 {

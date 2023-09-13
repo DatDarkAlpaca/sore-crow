@@ -269,6 +269,7 @@ XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y /A</Command>
     <ClInclude Include="src\utils\extension_utils.h" />
     <ClInclude Include="src\utils\filesystem_utils.h" />
     <ClInclude Include="src\utils\message_box.h" />
+    <ClInclude Include="src\utils\project_utils.h" />
     <ClInclude Include="src\utils\string_utils.h" />
     <ClInclude Include="src\utils\uuid_utils.h" />
     <ClInclude Include="src\utils\video_utils.h" />
