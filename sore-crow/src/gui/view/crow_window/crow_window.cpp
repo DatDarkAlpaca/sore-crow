@@ -495,7 +495,10 @@ namespace sore
                     return;
 
                 m_SubtitleModel.populateData(m_SubtitleHandler->subtitles(i));
+
                 ui.videoPlayer->setEnabledSubtitles(true);
+                ui.videoPlayer->resizeScene();
+                
                 m_MediaHandler->setActiveSubtitleTrack(-1);
             });
 
