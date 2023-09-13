@@ -328,7 +328,7 @@ namespace sore
     void CrowWindow::onSubtitleTextSelected()
     {
         QObject::connect(ui.videoPlayer->subtitleItem(), &SubtitleItem::textSelected, [&](const QString& string) {
-            qDebug() << string;
+            // TODO: implement Subtitle Analysis Tool (SAT)
         });
     }
 

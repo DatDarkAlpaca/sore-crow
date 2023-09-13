@@ -25,6 +25,10 @@ namespace sore
 	void CrowVideo::setSubtitleText(const std::string& text)
 	{
 		m_SubtitleItem->setPlainText(text.c_str());
+
+		// Resizes the scene to center the subtitles:
+		if(!text.empty())
+			resizeScene();
 	}
 
 	void CrowVideo::resizeEvent(QResizeEvent* event)
