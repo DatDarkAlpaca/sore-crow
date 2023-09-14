@@ -113,7 +113,7 @@ namespace sore
             if (!subtitle.has_value())
                 return;
 
-            auto subtitleValue = subtitle.value();
+            auto& subtitleValue = subtitle.value();
 
             if (ui.videoPlayer->subtitleItem()->toPlainText().toStdString() == subtitle.value().text)
                 return;

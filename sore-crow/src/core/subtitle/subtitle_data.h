@@ -5,8 +5,8 @@ namespace sore
 {
 	struct SubtitleData
 	{
-		uint64_t startTimeMilliseconds;
-		uint64_t endTimeMilliseconds;
+		uint64_t startTimeMilliseconds = 0;
+		uint64_t endTimeMilliseconds = 0;
 		std::string text;
 	};
 }

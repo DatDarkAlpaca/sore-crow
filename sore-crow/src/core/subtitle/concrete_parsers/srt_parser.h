@@ -90,8 +90,8 @@ namespace sore
 		static std::array<uint64_t, 2> getTimestamps(const std::string& content)
 		{
 			std::string delimiter = "-->";
-			std::array<uint64_t, 2> results;
-			int pos = content.find_first_of(delimiter);
+			std::array<uint64_t, 2> results = { 0, 0 };
+			size_t pos = content.find_first_of(delimiter);
 
 			std::string firstTimestamp = content.substr(0, pos - 1);
 			std::string secondTimestamp = content.substr(pos + delimiter.size() + 1);
