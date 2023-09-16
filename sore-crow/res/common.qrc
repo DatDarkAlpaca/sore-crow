@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="common">
+    <file>crow_icon/crow.ico</file>
+  </qresource>
+</RCC>

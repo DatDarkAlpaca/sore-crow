@@ -6,12 +6,22 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>485</width>
+    <width>480</width>
     <height>334</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>480</width>
+    <height>0</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Crow v1.0</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../common.qrc">
+    <normaloff>:/common/crow_icon/crow.ico</normaloff>:/common/crow_icon/crow.ico</iconset>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>true</bool>
@@ -127,6 +137,8 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="../common.qrc"/>
+ </resources>
  <connections/>
 </ui>

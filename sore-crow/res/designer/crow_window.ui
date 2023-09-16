@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Crow v1.0</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../common.qrc">
+    <normaloff>:/common/crow_icon/crow.ico</normaloff>:/common/crow_icon/crow.ico</iconset>
+  </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>true</bool>
   </property>
@@ -314,7 +318,9 @@
    <header>gui/widgets/subtitle_view/subtitle_view.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../common.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>actionClose</sender>

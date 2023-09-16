@@ -11,6 +11,8 @@ namespace sore
     {
         ui.setupUi(this);
 
+        setWindowIcon(QIcon(":/common/crow_icon/crow.ico"));
+
         // Status Bar:
         setupStatusBar();
 

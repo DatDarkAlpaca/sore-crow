@@ -237,6 +237,7 @@ XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y /A</Command>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\core\logger\logger.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="src\core\logger\severity.h" />
     <ClInclude Include="src\core\plugin\base_plugin.h" />
     <ClInclude Include="src\core\plugin\dictionary_plugin.h" />
@@ -296,9 +297,16 @@ XCOPY "$(ProjectDir)plugins" "$(TargetDir)plugins\" /S /Y /A</Command>
     <None Include="vcpkg.json" />
   </ItemGroup>
   <ItemGroup>
+    <QtRcc Include="res\common.qrc" />
     <QtRcc Include="res\create_project_dialog_resource.qrc" />
     <QtRcc Include="res\player_controls_resources.qrc" />
     <QtRcc Include="res\subtitle_resources.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="sore-crow.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\crow_icon\crow.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
