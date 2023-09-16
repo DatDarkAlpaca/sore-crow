@@ -33,6 +33,12 @@ namespace sore
 	private:
 		CrowWindow* m_CrowWindow;
 		SplashWindow* m_SplashWindow;
+
+	private:
 		acss::QtAdvancedStylesheet* m_Stylesheet;
+
+	private:
+		ProjectData m_ProjectData;
+		bool m_DirtyProject = false;
 	};
 }

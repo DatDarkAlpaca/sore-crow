@@ -7,35 +7,28 @@
 
 namespace sore
 {
-	struct ProjectData
+	class ProjectData
 	{
 	public:
-		ProjectData(const nlohmann::json& jsonObject, const std::string& filepath)
-			: projectFilepath(filepath)
-		{
-			header = ProjectHeader(jsonObject["header"]);
-			mediaData = ProjectMediaData(jsonObject["media"]);
-		}
+		ProjectData(const nlohmann::json& jsonObject, const std::string& filepath);
 
 		ProjectData() = default;
 
 	public:
-		nlohmann::json toJSON() const
-		{
-			nlohmann::json jsonObject;
-			jsonObject["header"] = header.toJSON();
-			jsonObject["media"] = mediaData.toJSON(); 
+		bool open(const std::string& filepath);
 
-			return jsonObject;
-		}
+		void update(const std::string& section, const std::string& field, const nlohmann::json& object);
+
+		void save();
+
+	private:
+		nlohmann::json toJSON() const;
+
+		void setData(const nlohmann::json& object);
 
 	public:
 		ProjectHeader header;
 		ProjectMediaData mediaData;
 		std::string projectFilepath;
 	};
-
-	std::optional<ProjectData> getProjectData(const std::string& filepath);
-
-	void createProjectFile(const ProjectData& data, const std::string& projectDirectory);
 }

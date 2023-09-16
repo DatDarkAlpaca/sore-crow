@@ -44,11 +44,14 @@ namespace sore
 		{
 			jsonObject["project_name"].get_to(projectName);
 			jsonObject["version"].get_to(projectVersion);
+			jsonObject["last_episode_selected"].get_to(lastEpisodeSelected);
+			jsonObject["last_episode_position"].get_to(lastEpisodePosition);
 		}
 
 		ProjectHeader()
 		{
-			projectVersion = settings->value("version").toString().toStdString();
+			// God forgive me for this hack.
+			projectVersion = (settings) ? settings->value("version").toString().toStdString() : "u.u";
 		}
 
 	public:
@@ -57,6 +60,8 @@ namespace sore
 			nlohmann::json jsonObject;
 			jsonObject["project_name"] = projectName;
 			jsonObject["version"] = projectVersion;
+			jsonObject["last_episode_selected"] = lastEpisodeSelected;
+			jsonObject["last_episode_position"] = lastEpisodePosition;
 
 			return jsonObject;
 		}
@@ -64,6 +69,8 @@ namespace sore
 	public:
 		std::string projectName;
 		std::string projectVersion;
+		std::string lastEpisodeSelected;
+		long long lastEpisodePosition;
 	};
 
 	struct ProjectMediaData

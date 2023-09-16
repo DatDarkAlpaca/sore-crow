@@ -25,6 +25,32 @@ namespace sore
     void CrowWindow::updateData(const ProjectData& data)
     {
         ui.episodesWidget->insertProjectEpisodes(data);
+        
+        // Set current episode:
+        std::string episode = data.header.lastEpisodeSelected;
+
+        auto row = ui.episodesWidget->getIndexFromSource(episode);
+        if (!row.has_value())
+            return;
+
+        ui.episodesWidget->setCurrentRow(row.value());
+        m_MediaHandler->setMedia(episode);
+
+        setDurationSliders();
+        
+        m_SubtitleModel.clear();
+        ui.menuSubtitleTrack->clear();
+        ui.playerControls->togglePlayButtonIcon(true);
+        toggleAudioTrackAction(true);
+        toggleSubtitleTrackAction(true);
+        toggleExternalSubtitleAction(true);
+        populateSubtitleTrackAction();
+        populateAudioTrackAction();
+
+        // Set current position:
+        auto position = data.header.lastEpisodePosition;
+        if (position > 0)
+            m_MediaHandler->setMediaPosition(position);
     }
 
     void CrowWindow::clearData()
@@ -220,14 +246,19 @@ namespace sore
             // Clear Subtitles:
             m_SubtitleModel.clear();
             ui.menuSubtitleTrack->clear();
+            ui.videoPlayer->setEnabledSubtitles(false);
 
+            // Set Project data:
+            emit projectMustChange("header", "last_episode_selected", episodeFilepath);
+
+            // Play the media:
             m_MediaHandler->setMedia(episodeFilepath);
             m_MediaHandler->play();
 
-            long long duration = m_MediaHandler->duration();
-            ui.playerControls->setVideoSliderMaximum(duration);
-            ui.playerControls->setTotalDurationLabel(duration);
+            // Get the media's length and update:
+            setDurationSliders();
 
+            // Set actions and buttons accordingly:
             ui.playerControls->togglePlayButtonIcon(false);
 
             toggleAudioTrackAction(true);
@@ -506,5 +537,13 @@ namespace sore
             action->trigger();
             ui.menuSubtitleTrack->addAction(action);
         });
+    }
+
+    // Helpers:
+    void CrowWindow::setDurationSliders()
+    {
+        long long duration = m_MediaHandler->duration();
+        ui.playerControls->setVideoSliderMaximum(duration);
+        ui.playerControls->setTotalDurationLabel(duration);
     }
 }

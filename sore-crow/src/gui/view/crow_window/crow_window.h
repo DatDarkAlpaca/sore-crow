@@ -91,6 +91,16 @@ namespace sore
 
         void onExternalSubtitleAction();
 
+    // Media & Controls Helpers:
+    private:
+        void setDurationSliders();
+
+    signals:
+        void projectMustChange(const std::string& section, const std::string& field, const nlohmann::json& object);
+
+    public:
+        long long currentPosition() const { return m_MediaHandler->mediaPlayer()->position(); }
+
     private:
         CrowMediaHandler* m_MediaHandler = nullptr;
         SubtitleHandler* m_SubtitleHandler = nullptr;
