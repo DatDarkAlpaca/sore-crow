@@ -46,8 +46,9 @@ namespace sore
 		if (projectFilepath.empty())
 			return std::nullopt;
 
-		auto projectData = getProjectData(projectFilepath);
-		if (!projectData.has_value())
+		ProjectData projectData;
+		bool result = projectData.open(projectFilepath);
+		if (!result)
 		{
 			QString error("This project file is invalid or corrupted: %1");
 			error = error.arg(projectFilepath.c_str());
@@ -78,8 +79,13 @@ namespace sore
 		fs::path projectFolderPath(dialogData.projectFilepath);
 		settings->setValue("paths/project_directory", projectFolderPath.string().c_str());
 
+		// Project Filepath:
+		std::string projectFileName = dialogData.projectName + "." + settings->value("project/extension").toString().toStdString();
+		fs::path projectFilepath = projectFolderPath / projectFileName;
+
 		// Project Header Creation:
 		ProjectData projectData;
+		projectData.projectFilepath = projectFilepath.string();
 		projectData.header.projectName = dialogData.projectName;
 		projectData.header.projectVersion = settings->value("version").toString().toStdString();
 
@@ -108,7 +114,7 @@ namespace sore
 			projectData.mediaData.episodeData.push_back(episodeData);
 		}
 
-		createProjectFile(projectData, projectFolderPath.string());
+		projectData.save();
 		return projectData;
 	}
 
@@ -122,7 +128,6 @@ namespace sore
 		if (fs::is_regular_file(settingsPath.toStdString()))
 			return;
 
-		qDebug() << "App path : " << qApp->applicationDirPath();
 		settings->setValue("version", "0.1");
 
 		settings->setValue("project/extension", "prj");
@@ -167,14 +172,30 @@ namespace sore
 
 	void CrowApp::configureActions()
 	{
+		// [CrowApp] On Close:
+		QObject::connect(this, &CrowApp::aboutToQuit, [&]() {
+			long long lastPosition = m_CrowWindow->currentPosition();
+			if(lastPosition > 0)
+				m_ProjectData.header.lastEpisodePosition = lastPosition;
+
+			m_ProjectData.save();
+		});
+
 		// [Splash Window] Open Project:
 		QObject::connect(m_SplashWindow->ui.openProjectBtn, &QPushButton::released, [&]() {
 			auto projectData = onOpenProject();
 			if (!projectData.has_value())
 				return;
 
+			if (m_DirtyProject)
+			{
+				m_ProjectData.save();
+				m_DirtyProject = false;
+			}
+			m_ProjectData = projectData.value();
+
 			m_CrowWindow->clearData();
-			m_CrowWindow->updateData(projectData.value());
+			m_CrowWindow->updateData(m_ProjectData);
 
 			m_SplashWindow->hide();
 			m_CrowWindow->show();
@@ -186,8 +207,16 @@ namespace sore
 			if (!projectData.has_value())
 				return;
 
+			if (m_DirtyProject)
+			{
+				m_ProjectData.save();
+				m_DirtyProject = false;
+			}
+
+			m_ProjectData = projectData.value();
+
 			m_CrowWindow->clearData();
-			m_CrowWindow->updateData(projectData.value());
+			m_CrowWindow->updateData(m_ProjectData);
 
 			m_SplashWindow->hide();
 			m_CrowWindow->show();
@@ -199,8 +228,16 @@ namespace sore
 			if (!projectData.has_value())
 				return;
 
+			if (m_DirtyProject)
+			{
+				m_ProjectData.save();
+				m_DirtyProject = false;
+			}
+
+			m_ProjectData = projectData.value();
+
 			m_CrowWindow->clearData();
-			m_CrowWindow->updateData(projectData.value());
+			m_CrowWindow->updateData(m_ProjectData);
 		});
 
 		// [Main Window] Create Project:
@@ -209,8 +246,22 @@ namespace sore
 			if (!projectData.has_value())
 				return;
 
+			if (m_DirtyProject)
+			{
+				m_ProjectData.save();
+				m_DirtyProject = false;
+			}
+
+			m_ProjectData = projectData.value();
+
 			m_CrowWindow->clearData();
-			m_CrowWindow->updateData(projectData.value());
+			m_CrowWindow->updateData(m_ProjectData);
+		});
+	
+		// [Main Window] Request Project Change:
+		QObject::connect(m_CrowWindow, &CrowWindow::projectMustChange, [&](const std::string& section, const std::string& field, const nlohmann::json& object) {
+			m_ProjectData.update(section, field, object);
+			m_DirtyProject = true;
 		});
 	}
 }

@@ -8,47 +8,92 @@
 
 namespace sore
 {
-    std::optional<ProjectData> getProjectData(const std::string& filepath)
-    {
-        using namespace nlohmann;
+	ProjectData::ProjectData(const nlohmann::json& jsonObject, const std::string& filepath)
+		: projectFilepath(filepath)
+	{
+		header = ProjectHeader(jsonObject["header"]);
+		mediaData = ProjectMediaData(jsonObject["media"]);
+	}
 
-        auto projectExtension = settings->value("project/extension", "prj").toString().toStdString();
+	bool ProjectData::open(const std::string& filepath)
+	{
+		using namespace nlohmann;
 
-        std::ifstream file(filepath);
-        if (file.bad())
-        {
-            CrownsoleLogger::log("Failed to retrieve project data from " + filepath + ".", Severity::ERROR);
-            return std::nullopt;
-        }
+		projectFilepath = filepath;
+		auto projectExtension = settings->value("project/extension", "prj").toString().toStdString();
 
-        if (!endsWith(filepath, projectExtension))
-        {
-            CrownsoleLogger::log("This project file ends in the wrong extension.", Severity::ERROR);
-            return std::nullopt;
-        }
+		std::ifstream file(filepath);
+		if (file.bad())
+		{
+			CrownsoleLogger::log("Failed to retrieve project data from " + filepath + ".", Severity::ERROR);
+			return false;
+		}
 
-        try
-        {
-            ProjectData data(json::parse(file), filepath);
-            return data;
-        }
-        catch (nlohmann::json::exception e) {
-            CrownsoleLogger::log(e.what(), Severity::ERROR);
-            errorBox(e.what());
-            return std::nullopt;
-        }
-    }
+		if (!endsWith(filepath, projectExtension))
+		{
+			CrownsoleLogger::log("This project file ends in the wrong extension.", Severity::ERROR);
+			return false;
+		}
 
-    void createProjectFile(const ProjectData& data, const std::string& projectDirectory)
-    {
-        namespace fs = std::filesystem;
-        using namespace nlohmann;
+		try
+		{
+			auto jsonObject = json::parse(file);
+			setData(jsonObject);
+			return true;
+		}
+		catch (nlohmann::json::exception e) {
+			CrownsoleLogger::log(e.what(), Severity::ERROR);
+			errorBox(e.what());
+			return false;
+		}
+	}
 
-        auto projectExtension = settings->value("project/extension", "prj").toString().toStdString();
-        fs::path projectFilepath = fs::path(projectDirectory) / (data.header.projectName + "." + projectExtension);
-        
-        auto jsonData = data.toJSON();
-        std::ofstream outputFile(projectFilepath);
-        outputFile << jsonData.dump(4, 32, false, json::error_handler_t::ignore);
-    }
+	void ProjectData::update(const std::string& section, const std::string& field, const nlohmann::json& object)
+	{
+		using namespace nlohmann;
+
+		auto jsonData = toJSON();
+		try
+		{
+			jsonData.at(section).at(field) = object;
+			setData(jsonData);
+		}
+		catch (const json::exception& e)
+		{
+			std::cerr << "Failed to update project data: " << e.what() << '\n';
+		}
+	}
+
+	void ProjectData::save()
+	{
+		namespace fs = std::filesystem;
+		using namespace nlohmann;
+
+		if (projectFilepath.empty())
+		{
+			errorBox("Project does not have a filepath set. Please contact the developer.");
+			return;
+		}
+
+		auto jsonData = toJSON();
+		std::ofstream outputFile(projectFilepath);
+		outputFile << jsonData.dump(4, 32, false, json::error_handler_t::ignore);
+	}
+
+	nlohmann::json ProjectData::toJSON() const
+	{
+		nlohmann::json jsonObject;
+		jsonObject["header"] = header.toJSON();
+		jsonObject["media"] = mediaData.toJSON();
+
+		return jsonObject;
+	}
+
+	void ProjectData::setData(const nlohmann::json& object)
+	{
+		using namespace nlohmann;
+
+		header = ProjectHeader(object["header"]);
+		mediaData = ProjectMediaData(object["media"]);
+	}
 }
