@@ -17,6 +17,8 @@ namespace sore
 		}
 
 	public:
+		void setSubtitleIndex(size_t index) { m_CurrentIndex = index; }
+
 		std::optional<size_t> load(const std::string& filepath)
 		{
 			std::ifstream file(filepath);

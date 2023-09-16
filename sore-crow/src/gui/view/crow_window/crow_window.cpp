@@ -499,6 +499,7 @@ namespace sore
                 ui.videoPlayer->setEnabledSubtitles(true);
                 ui.videoPlayer->resizeScene();
                 
+                m_SubtitleHandler->setSubtitleIndex(i);
                 m_MediaHandler->setActiveSubtitleTrack(-1);
             });
 
