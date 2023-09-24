@@ -14,7 +14,7 @@
    <string>Crow v1.0</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../common.qrc">
+   <iconset>
     <normaloff>:/common/crow_icon/crow.ico</normaloff>:/common/crow_icon/crow.ico</iconset>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
@@ -25,23 +25,20 @@
     <item>
      <layout class="QVBoxLayout" name="rightLayout">
       <item>
-       <widget class="sore::CrowVideo" name="videoPlayer">
-        <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Plain</enum>
-        </property>
-        <property name="lineWidth">
-         <number>0</number>
-        </property>
-        <property name="interactive">
+       <widget class="sore::CrowPlayer" name="videoPlayer">
+        <property name="enabled">
          <bool>true</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="sore::PlayerControlsWidget" name="playerControls" native="true">
+       <widget class="sore::PlayerControls" name="playerControls" native="true">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -54,7 +51,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="sore::QHideableDockWidget" name="subtitleDockWidget">
+  <widget class="sore::HideableDockWidget" name="subtitleDockWidget">
    <property name="floating">
     <bool>false</bool>
    </property>
@@ -94,7 +91,7 @@
     </layout>
    </widget>
   </widget>
-  <widget class="sore::QHideableDockWidget" name="episodesDockWidget">
+  <widget class="sore::HideableDockWidget" name="episodesDockWidget">
    <property name="features">
     <set>QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
    </property>
@@ -119,7 +116,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="sore::EpisodeListWidget" name="episodesWidget"/>
+      <widget class="QListView" name="episodeList"/>
      </item>
     </layout>
    </widget>
@@ -165,13 +162,6 @@
     <addaction name="menuAudioTrack"/>
     <addaction name="menuAudioDevice"/>
    </widget>
-   <widget class="QMenu" name="menuView">
-    <property name="title">
-     <string>View</string>
-    </property>
-    <addaction name="actionEpisodeList"/>
-    <addaction name="actionSubtitleViewer"/>
-   </widget>
    <widget class="QMenu" name="menuSubtitle">
     <property name="title">
      <string>Subtitle</string>
@@ -189,39 +179,8 @@
     <addaction name="actionAddExternalTrack"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuView"/>
    <addaction name="menuAudio"/>
    <addaction name="menuSubtitle"/>
-  </widget>
-  <widget class="sore::QHideableDockWidget" name="crownsoleDockWidget">
-   <property name="windowTitle">
-    <string>Crownsole</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>2</number>
-   </attribute>
-   <widget class="QWidget" name="crownsoleDockWidgetContents">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <property name="spacing">
-      <number>0</number>
-     </property>
-     <property name="leftMargin">
-      <number>0</number>
-     </property>
-     <property name="topMargin">
-      <number>0</number>
-     </property>
-     <property name="rightMargin">
-      <number>0</number>
-     </property>
-     <property name="bottomMargin">
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="sore::Crownsole" name="crownsole" native="true"/>
-     </item>
-    </layout>
-   </widget>
   </widget>
   <action name="actionNewProject">
    <property name="text">
@@ -285,41 +244,30 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>sore::QHideableDockWidget</class>
+   <class>sore::HideableDockWidget</class>
    <extends>QDockWidget</extends>
-   <header>gui/widgets/QHideableDockWidget.h</header>
+   <header>gui/widgets/hideable_dock/hideable_dock.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>sore::PlayerControlsWidget</class>
+   <class>sore::CrowPlayer</class>
+   <extends>QOpenGLWidget</extends>
+   <header>gui/widgets/crow_player/crow_player.h</header>
+  </customwidget>
+  <customwidget>
+   <class>sore::PlayerControls</class>
    <extends>QWidget</extends>
    <header>gui/widgets/player_controls/player_controls.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>sore::EpisodeListWidget</class>
-   <extends>QListWidget</extends>
-   <header>gui/widgets/episode_list/Episode_list_widget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>sore::Crownsole</class>
-   <extends>QWidget</extends>
-   <header>gui/widgets/crownsole/crownsole.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>sore::CrowVideo</class>
-   <extends>QGraphicsView</extends>
-   <header>gui/widgets/crow_video/crow_video.h</header>
-  </customwidget>
-  <customwidget>
    <class>sore::SubtitleListView</class>
    <extends>QListView</extends>
-   <header>gui/widgets/subtitle_view/subtitle_view.h</header>
+   <header>gui/widgets/subtitle_list_view/subtitle_list_view.h</header>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../common.qrc"/>
+  <include location="../sore_crow.qrc"/>
  </resources>
  <connections>
   <connection>

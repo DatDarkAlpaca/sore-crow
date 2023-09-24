@@ -1,549 +1,347 @@
 #include "pch.h"
 #include "crow_window.h"
-#include "utils/dialog.h"
-#include "core/logger/logger.h"
+
+#include "core/handlers.h"
+#include "utils/action_utils.h"
+#include "gui/model/project_utils.h"
+#include "gui/model/subtitle_delegate.h"
 
 namespace sore
 {
-    CrowWindow::CrowWindow(QWidget* parent)
-        : QMainWindow(parent)
-    {
-        ui.setupUi(this);
-
-        m_MediaHandler = new CrowMediaHandler(this);
-        m_MediaHandler->setVideoOutput(ui.videoPlayer->videoItem());
-
-        m_SubtitleHandler = new SubtitleHandler(this);
-
-        // Subtitle List:
-        ui.subtitleList->setModel(&m_SubtitleModel);
-        ui.subtitleList->setContextMenuPolicy(Qt::CustomContextMenu);
-
-        handleActions();
-    }
-
-    void CrowWindow::updateData(const ProjectData& data)
-    {
-        ui.episodesWidget->insertProjectEpisodes(data);
-        
-        // Set current episode:
-        std::string episode = data.header.lastEpisodeSelected;
-
-        auto row = ui.episodesWidget->getIndexFromSource(episode);
-        if (!row.has_value())
-            return;
-
-        ui.episodesWidget->setCurrentRow(row.value());
-        m_MediaHandler->setMedia(episode);
-
-        setDurationSliders();
-        
-        m_SubtitleModel.clear();
-        ui.menuSubtitleTrack->clear();
-        ui.playerControls->togglePlayButtonIcon(true);
-        toggleAudioTrackAction(true);
-        toggleSubtitleTrackAction(true);
-        toggleExternalSubtitleAction(true);
-        populateSubtitleTrackAction();
-        populateAudioTrackAction();
-
-        // Set current position:
-        auto position = data.header.lastEpisodePosition;
-        if (position > 0)
-            m_MediaHandler->setMediaPosition(position);
-    }
-
-    void CrowWindow::clearData()
-    {
-        ui.episodesWidget->clear();
-    }
-
-    void CrowWindow::handleActions()
-    {
-        // Docks:
-        hideCrownsole();
-        onShowEpisodeListDock();
-        onShowSubtitleViewerDock();
-
-        // Video Player:
-        onVideoPositionPositionChanged();
-        onVideoPlayerSliderChanged();
-        onVolumeSliderChanged();
-        onSectionRepeatStopped();
-        onPlayButtonClicked();
-        onStopButtonClicked();
-        onVolumeButtonClicked();
-
-        // Episode List:
-        onEpisodeClicked();
-        onPreviousButtonClick();
-        onNextButtonClick();
-        onRepeatButtonClick();
-
-        // Subtitles:
-        onSubtitleClicked();
-        onSubtitleTextSelected();
-
-        // Audio Device:
-        onAudioDevicesChanged();
-        
-        // External Subtitles:
-        onExternalSubtitleAction();
-    }
-
-    void CrowWindow::resizeEvent(QResizeEvent* event)
-    {
-        QMainWindow::resizeEvent(event);
-        ui.videoPlayer->resizeScene();
-    }
-
-    void CrowWindow::hideCrownsole()
-    {
-        ui.crownsoleDockWidget->hide();
-    }
-
-    // Docks:
-    void CrowWindow::onShowEpisodeListDock()
-    {
-        QObject::connect(ui.actionEpisodeList, &QAction::triggered, [&]() {
-            ui.episodesDockWidget->show();
-        });
-    }
-
-    void CrowWindow::onShowSubtitleViewerDock()
-    {
-        QObject::connect(ui.actionSubtitleViewer, &QAction::triggered, [&]() {
-            ui.subtitleDockWidget->show();
-        });
-    }
-
-    // Events:
-    void CrowWindow::onVideoPositionPositionChanged()   
-    {
-        // Player Controls
-        QObject::connect(m_MediaHandler->mediaPlayer(), &QMediaPlayer::positionChanged, [&](long long position) {
-            ui.playerControls->blockPlayerSliderSignals(true);
-
-            ui.playerControls->setVideoSliderPosition(position);
-            ui.playerControls->setCurrentDurationLabel(position);
-
-            ui.playerControls->blockPlayerSliderSignals(false);
-        });
-
-        // External Subtitles:
-        QObject::connect(m_MediaHandler->mediaPlayer(), &QMediaPlayer::positionChanged, [&](long long position) {
-            if (!ui.videoPlayer->enabledSubtitles())
-                return;
-
-            auto subtitle = m_SubtitleHandler->getClosestSubtitle(position, m_SubtitleHandler->currentIndex());
-            if (!subtitle.has_value())
-                return;
-
-            auto& subtitleValue = subtitle.value();
-
-            if (ui.videoPlayer->subtitleItem()->toPlainText().toStdString() == subtitle.value().text)
-                return;
-
-            ui.videoPlayer->setSubtitleText(subtitle.value().text.c_str());           
-        });
-    }
-
-    void CrowWindow::onVideoPlayerSliderChanged()
-    {
-        QObject::connect(ui.playerControls->ui.playerSlider, &QSlider::valueChanged, [&](long long position) {
-            m_MediaHandler->setMediaPosition(position);
-        });
-    }
-
-    void CrowWindow::onVolumeSliderChanged()
-    {
-        QObject::connect(ui.playerControls->ui.volumeSlider, &QSlider::valueChanged, [&](int position) {
-            m_MediaHandler->setVolume(position / 100.f);
-            ui.playerControls->toggleVolumeButtonFromVolume(position);
-        });
-    }
-
-    void CrowWindow::onSectionRepeatStopped()
-    {
-        QObject::connect(m_MediaHandler, &CrowMediaHandler::sectionRepeatStopped, [&]() {
-            ui.playerControls->togglePlayButtonIcon(true);
-        });
-    }
-
-    void CrowWindow::onPlayButtonClicked()
-    {
-        QObject::connect(ui.playerControls->ui.playVideoBtn, &QPushButton::released, [&]() {
-            if (!m_MediaHandler->isMediaSet())
-                return;
-
-            bool isMediaPlaying = m_MediaHandler->isMediaPlaying();
-            isMediaPlaying ? m_MediaHandler->pause() : m_MediaHandler->play();
-
-            ui.playerControls->togglePlayButtonIcon(isMediaPlaying);
-        });
-    }
-
-    void CrowWindow::onStopButtonClicked()
-    {
-        QObject::connect(ui.playerControls->ui.stopVideoBtn, &QPushButton::released, [&]() {
-            if (!m_MediaHandler->isMediaSet())
-                return;
-
-            m_MediaHandler->stop();
-            ui.playerControls->togglePlayButtonIcon(true);
-        });
-    }
-
-    void CrowWindow::onVideoRepeatClicked()
-    {
-        QObject::connect(ui.subtitleList->selectionModel(), &QItemSelectionModel::currentChanged, [&](const QModelIndex& current, const QModelIndex& previous) {
-            m_MediaHandler->toggleRepeat();
-        });
-    }
-
-    void CrowWindow::onVolumeButtonClicked()
-    {
-        QObject::connect(ui.playerControls->ui.volumeBtn, &QPushButton::released, [&]() {
-            bool isMuted = m_MediaHandler->isMuted();
-
-            if (!isMuted)
-            {
-                m_MediaHandler->mute();
-                ui.playerControls->toggleVolumeSliderEnabled(false);
-                ui.playerControls->toggleVolumeButtonState(PlayerControlsWidget::VolumeState::MUTED);
-            }
-            else
-            {
-                m_MediaHandler->unmute();
-                ui.playerControls->toggleVolumeSliderEnabled(true);
-                ui.playerControls->toggleVolumeButtonFromVolume(ui.playerControls->volume());
-            }
-        });
-    }
-
-    void CrowWindow::onAudioDevicesChanged()
-    {     
-        QMediaDevices* devices = new QMediaDevices(this);
-
-        QObject::connect(devices, &QMediaDevices::audioOutputsChanged, [&]() {
-            populateAudioDeviceAction();
-        });
-
-        QObject::connect(devices, &QMediaDevices::audioInputsChanged, [&]() {
-            populateAudioDeviceAction();
-        });
-
-        // Initial audio device population:
-        populateAudioDeviceAction();
-    }
-
-    void CrowWindow::onEpisodeClicked()
-    {
-        QObject::connect(ui.episodesWidget, &EpisodeListWidget::episodeFromListClicked, [&](const std::string& episodeFilepath) {
-            if (m_MediaHandler->videoSource() == QUrl::fromLocalFile(episodeFilepath.c_str()))
-                return;
-
-            // Clear Subtitles:
-            m_SubtitleModel.clear();
-            ui.menuSubtitleTrack->clear();
-            ui.videoPlayer->setEnabledSubtitles(false);
-
-            // Set Project data:
-            emit projectMustChange("header", "last_episode_selected", episodeFilepath);
-
-            // Play the media:
-            m_MediaHandler->setMedia(episodeFilepath);
-            m_MediaHandler->play();
-
-            // Get the media's length and update:
-            setDurationSliders();
-
-            // Set actions and buttons accordingly:
-            ui.playerControls->togglePlayButtonIcon(false);
-
-            toggleAudioTrackAction(true);
-            toggleSubtitleTrackAction(true);
-            toggleExternalSubtitleAction(true);
-
-            populateSubtitleTrackAction();
-            populateAudioTrackAction();
-        });
-    }
-
-    void CrowWindow::onPreviousButtonClick()
-    {
-        auto* episodesWidget = ui.episodesWidget;
-
-        QObject::connect(ui.playerControls->ui.previousBtn, &QPushButton::released, [&, episodesWidget]() {
-            auto episodeIndex = episodesWidget->setPreviousEpisode();
-            if (!episodeIndex.has_value())
-                return;
-
-            auto source = episodesWidget->getSourceFromIndex(episodeIndex.value());
-            if (!source.has_value())
-                return;
-
-            m_MediaHandler->setMedia(source.value());
-            m_MediaHandler->play();
-        });
-    }
-
-    void CrowWindow::onNextButtonClick()
-    {
-        auto episodesWidget = ui.episodesWidget;
-
-        QObject::connect(ui.playerControls->ui.nextBtn, &QPushButton::released, [&, episodesWidget]() {
-            auto episodeIndex = episodesWidget->setNextEpisode();
-            if (!episodeIndex.has_value())
-                return;
-
-            auto source = episodesWidget->getSourceFromIndex(episodeIndex.value());
-            if (!source.has_value())
-                return;
-
-            m_MediaHandler->setMedia(source.value());
-            m_MediaHandler->play();
-        });
-    }
-
-    void CrowWindow::onRepeatButtonClick()
-    {
-        QObject::connect(ui.playerControls->ui.repeatBtn, &QPushButton::released, [&]() {
-            bool wasEnabled = ui.playerControls->ui.repeatBtn->isEnabled();
-            ui.playerControls->toggleRepeatButtonChecked(!wasEnabled);
-
-            if (wasEnabled)
-            {
-
-                m_MediaHandler->setRepeat(false);
-            }
-            else
-            {
-                m_MediaHandler->setRepeatTimestamp(0, m_MediaHandler->duration());
-                m_MediaHandler->setRepeat(true);
-            }
-
-            ui.playerControls->togglePlayButtonIcon(false);
-            m_MediaHandler->play();
-        });
-    }
-
-    void CrowWindow::onSubtitleClicked()
-    {
-
-        QObject::connect(ui.subtitleList, &QListView::customContextMenuRequested, [&](const QPoint& position) {
-            ui.subtitleList->showContextMenu(position, m_SubtitleModel);
-        });
-
-        QObject::connect(ui.subtitleList, &QAbstractItemView::clicked, [&](const QModelIndex& current) {
-            m_MediaHandler->pause();
-
-            ui.playerControls->toggleRepeatButtonChecked(true);
-            ui.playerControls->togglePlayButtonIcon(false);
-
-            auto data = m_SubtitleModel.getDataAtModelIndex(current.row());
-            auto start = data.startTimeMilliseconds;
-            auto end = data.endTimeMilliseconds;
-
-            m_MediaHandler->mediaPlayer()->blockSignals(true);
-
-            m_MediaHandler->setMediaPosition(start);
-            m_MediaHandler->setRepeatTimestamp(start, end);
-            m_MediaHandler->setRepeat(true);
-            m_MediaHandler->play();
-            
-            m_MediaHandler->mediaPlayer()->blockSignals(false);
-        });
-    }
-
-    void CrowWindow::onSubtitleTextSelected()
-    {
-        QObject::connect(ui.videoPlayer->subtitleItem(), &SubtitleItem::textSelected, [&](const QString& string) {
-            // TODO: implement Subtitle Analysis Tool (SAT)
-        });
-    }
-
-    // Actions:
-    void CrowWindow::toggleAudioTrackAction(bool value)
-    {
-        ui.menuAudioTrack->setEnabled(value);
-    }
-
-    void CrowWindow::toggleSubtitleTrackAction(bool value)
-    {
-        ui.menuSubtitleTrack->setEnabled(value);
-    }
-
-    void CrowWindow::toggleExternalSubtitleAction(bool value)
-    {
-        ui.actionAddExternalTrack->setEnabled(value);
-    }
-
-    void CrowWindow::populateAudioTrackAction()
-    {
-        auto tracks = m_MediaHandler->audioTracks();
-
-        ui.menuAudioTrack->clear();
-
-        for (size_t i = 0; i < tracks.size(); ++i)
-        {
-            auto title = tracks[i].value(QMediaMetaData::Title);
-            auto language = tracks[i].value(QMediaMetaData::Language);
-
-            QAction* action = new QAction(ui.menuAudioTrack);
-            action->setText(title.toString() + " [" + language.toString() + "]");
-            action->setCheckable(true);
-
-            if (m_MediaHandler->activeAudioTrack() == i)
-                action->setChecked(true);
-
-            QObject::connect(action, &QAction::triggered, [&, action, i](bool checked) {
-                if (!checked)
-                    action->setChecked(true);
-
-                for (const auto& audioAction : ui.menuAudioTrack->actions())
-                {
-                    if (audioAction != action)
-                        audioAction->setChecked(false);
-                }
-
-                m_MediaHandler->setActiveAudioTrack(i);
-            });
-
-            ui.menuAudioTrack->addAction(action);
-        }
-    }
-
-    void CrowWindow::populateAudioDeviceAction()
-    {
-        ui.menuAudioDevice->clear();
-
-        for (const auto& outputDevice : QMediaDevices::audioOutputs())
-        {
-            QAction* action = new QAction(ui.menuAudioDevice);
-            action->setText(outputDevice.description());
-            action->setCheckable(true);
-
-            if (outputDevice == QMediaDevices::defaultAudioOutput())
-                action->setChecked(true);
-
-            QObject::connect(action, &QAction::triggered, [&, action, outputDevice](bool checked) {
-                if (!checked)
-                    action->setChecked(true);
-
-                for (const auto& audioAction : ui.menuAudioDevice->actions())
-                {
-                    if (audioAction != action)
-                        audioAction->setChecked(false);
-                }
-
-                m_MediaHandler->setAudioDevice(outputDevice);
-            });
-
-            ui.menuAudioDevice->addAction(action);
-        }
-    }
-
-    void CrowWindow::populateSubtitleTrackAction()
-    {
-        auto tracks = m_MediaHandler->subtitleTracks();
-
-        ui.menuSubtitleTrack->clear();
-
-        auto subtitleTrackAction = [&](QAction* action, int index) {
-            QObject::connect(action, &QAction::triggered, [&, action, index](bool checked) {
-                if (!checked)
-                    action->setChecked(true);
-
-                for (const auto& audioAction : ui.menuSubtitleTrack->actions())
-                {
-                    if (audioAction != action)
-                        audioAction->setChecked(false);
-                }
-
-                ui.videoPlayer->setSubtitleText("");
-                ui.videoPlayer->setEnabledSubtitles(false);
-                m_MediaHandler->setActiveSubtitleTrack(index);
-            });
-        };
-
-        // Default disabled subtitle track:
-        {
-            QAction* action = new QAction(ui.menuSubtitleTrack);
-            action->setText("Disabled");
-            action->setCheckable(true);
-            action->setChecked(true);
-
-            subtitleTrackAction(action, -1);
-            ui.menuSubtitleTrack->addAction(action);
-        }
-
-        for (size_t i = 0; i < tracks.size(); ++i)
-        {
-            auto title = tracks[i].value(QMediaMetaData::Title).toString();
-            auto language = tracks[i].value(QMediaMetaData::Language).toString();
-
-            QAction* action = new QAction(ui.menuSubtitleTrack);
-            action->setText(title + " - " + language);
-            action->setCheckable(true);
-
-            subtitleTrackAction(action, i);
-
-            ui.menuSubtitleTrack->addAction(action);
-        }
-    }
-
-    void CrowWindow::onExternalSubtitleAction()
-    {
-        QObject::connect(ui.actionAddExternalTrack, &QAction::triggered, [&]() {
-            std::string filepath = openSubtitleTrackDialog();
-            if (filepath.empty())
-                return;
-
-            auto index = m_SubtitleHandler->load(filepath);
-            if (!index.has_value())
-                return;
-
-            size_t i = index.value();
-
-            QFileInfo fileInfo(filepath.c_str());
-
-            QAction* action = new QAction(ui.menuAudioTrack);
-            action->setText(fileInfo.fileName());
-            action->setCheckable(true);
-            
-            QObject::connect(action, &QAction::triggered, [&, action, i](bool checked) {
-                if (!checked)
-                    action->setChecked(true);
-
-                for (const auto& audioAction : ui.menuSubtitleTrack->actions())
-                {
-                    if (audioAction != action)
-                        audioAction->setChecked(false);
-                }
-
-                if (m_SubtitleHandler->subtitles(i).empty())
-                    return;
-
-                m_SubtitleModel.populateData(m_SubtitleHandler->subtitles(i));
-
-                ui.videoPlayer->setEnabledSubtitles(true);
-                ui.videoPlayer->resizeScene();
-                
-                m_SubtitleHandler->setSubtitleIndex(i);
-                m_MediaHandler->setActiveSubtitleTrack(-1);
-            });
-
-            action->trigger();
-            ui.menuSubtitleTrack->addAction(action);
-        });
-    }
-
-    // Helpers:
-    void CrowWindow::setDurationSliders()
-    {
-        long long duration = m_MediaHandler->duration();
-        ui.playerControls->setVideoSliderMaximum(duration);
-        ui.playerControls->setTotalDurationLabel(duration);
-    }
+	CrowWindow::CrowWindow(QWidget* parent)
+		: QMainWindow(parent)
+	{
+		ui.setupUi(this);
+
+		// Widgets:
+		m_CrowSubtitles = new CrowSubtitles(ui.videoPlayer);
+
+		// Model:
+		ui.episodeList->setModel(&m_EpisodeModel);
+		ui.subtitleList->setModel(&m_SubtitleModel);
+		ui.subtitleList->setItemDelegate(new SubtitleDelegate(ui.subtitleList));
+
+		// Workers:
+		auto* mpvHandle = ui.videoPlayer->mpvHandle();
+		m_TrackWorker = new MPVTrackWorker(this, mpvHandle);
+		m_AudioDeviceWorker = new MPVAudioDeviceWorker(this, mpvHandle);
+
+		connectEpisodeListSignals();
+		connectPlayerControlSignals();
+		connectActionSignals();
+		connectSubtitleSignals();
+	}
+
+	void CrowWindow::loadProjectData(const ProjectData& projectData)
+	{
+		show();
+
+		// Initial Settings:
+		ui.playerControls->disableControls();
+		ui.videoPlayer->clearPlaylist();
+		ui.videoPlayer->pause();
+		m_FirstSubtitlePopulateAction = true;
+
+		// Volume:
+		ui.playerControls->setVolumeMaximum(ui.videoPlayer->volumeMax());
+		ui.videoPlayer->setVolume(ui.playerControls->currentVolume());
+
+		// Episode Model:
+		m_EpisodeModel.populateData(projectData.mediaData);
+
+		// Load Playlist:
+		bool isFirst = true;
+		for (const auto& episodeData : projectData.mediaData.episodeData)
+		{
+			if (isFirst)
+			{
+				ui.videoPlayer->openMedia(FilesystemHandler::getMediaFilepath(episodeData.filepath), false);
+				isFirst = false;
+				continue;
+			}
+
+			ui.videoPlayer->openMedia(FilesystemHandler::getMediaFilepath(episodeData.filepath), true);
+		}
+	}
+
+	void CrowWindow::onNewProjectAction()
+	{
+		auto projectData = createProjectFromDialog();
+		if (!projectData.has_value())
+			return;
+
+		loadProjectData(projectData.value());
+	}
+
+	void CrowWindow::onOpenProjectAction()
+	{
+		auto projectData = openProjectFromDialog();
+		if (!projectData.has_value())
+			return;
+
+		loadProjectData(projectData.value());
+	}
+
+	void CrowWindow::connectEpisodeListSignals()
+	{
+		// Episode List:
+		connect(ui.episodeList->selectionModel(), &QItemSelectionModel::currentChanged, [&](const QModelIndex& current, const QModelIndex& previous) {
+			int episodeIndex = m_EpisodeModel.data(current, EpisodeModel::Roles::IndexRole).toInt();
+			
+			// Play Episode:
+			ui.videoPlayer->playlistPlay(episodeIndex);
+			ui.playerControls->enableControls();
+
+			// Actions:
+			setAudioTrackAction(true);
+			setSubtitleTrackAction(true);
+			setExternalSubtitleAction(true);
+		});
+
+		// Player Controls:
+		connect(ui.playerControls, &PlayerControls::previousBtnClicked, [&]() {
+			auto currentIndex = ui.episodeList->currentIndex();
+
+			int episodeIndex = m_EpisodeModel.data(currentIndex, EpisodeModel::Roles::IndexRole).toInt();
+			int nextIndex = --episodeIndex;
+
+			if (nextIndex < 0)
+				return;
+
+			ui.episodeList->setCurrentIndex(m_EpisodeModel.index(episodeIndex, 0));
+		});
+
+		connect(ui.playerControls, &PlayerControls::nextBtnClicked, [&]() {
+			auto currentIndex = ui.episodeList->currentIndex();
+			auto rowCount = m_EpisodeModel.rowCount();
+
+			int episodeIndex = m_EpisodeModel.data(currentIndex, EpisodeModel::Roles::IndexRole).toInt();
+			int nextIndex = ++episodeIndex;
+
+			if (nextIndex >= rowCount)
+				return;
+
+			ui.episodeList->setCurrentIndex(m_EpisodeModel.index(episodeIndex, 0));
+		});
+	}
+
+	void CrowWindow::connectPlayerControlSignals()
+	{
+		// Video Controls:
+		connect(ui.videoPlayer, &CrowPlayer::playingStatusChanged, ui.playerControls, &PlayerControls::setPlaying);
+		connect(ui.videoPlayer, &CrowPlayer::positionChanged, ui.playerControls, &PlayerControls::trySetPosition);
+		connect(ui.videoPlayer, &CrowPlayer::durationChanged, ui.playerControls, &PlayerControls::setDuration);
+		
+		// Player Controls:
+		connect(ui.playerControls, &PlayerControls::previousBtnClicked, ui.videoPlayer, &CrowPlayer::playlistPrev);
+		connect(ui.playerControls, &PlayerControls::playBtnClicked, ui.videoPlayer, &CrowPlayer::togglePlay);
+		connect(ui.playerControls, &PlayerControls::stopBtnClicked, ui.videoPlayer, &CrowPlayer::stop);
+		connect(ui.playerControls, &PlayerControls::nextBtnClicked, ui.videoPlayer, &CrowPlayer::playlistNext);
+		connect(ui.playerControls, &PlayerControls::volumeBtnClicked, ui.videoPlayer, &CrowPlayer::setVolume);
+
+		connect(ui.playerControls, &PlayerControls::positionChanged, ui.videoPlayer, &CrowPlayer::seekAbsolute);
+		connect(ui.playerControls, &PlayerControls::volumeChanged, ui.videoPlayer, &CrowPlayer::setVolume);
+	}
+	
+	void CrowWindow::connectActionSignals()
+	{
+		// File:
+		connect(ui.actionNewProject, &QAction::triggered, this, &CrowWindow::onNewProjectAction);
+		connect(ui.actionOpenProject, &QAction::triggered, this, &CrowWindow::onOpenProjectAction);
+
+		// Audio | Video | Sub Tracks:
+		connect(ui.videoPlayer, &CrowPlayer::trackListChanged, [&](long long trackAmount) {
+			if (trackAmount <= 0)
+				return;
+
+			m_TrackWorker->start();
+		});
+
+		connect(ui.videoPlayer, &CrowPlayer::audioDevicesChanged, [&](int64_t deviceAmount) {
+			if (deviceAmount <= 0)
+				return;
+
+			m_AudioDeviceWorker->start();
+		});
+
+		connect(ui.actionAddExternalTrack, &QAction::triggered, this, &CrowWindow::onExternalTrackTriggered);
+
+		// Track Worker:
+		connect(m_TrackWorker, &MPVTrackWorker::jobFinished, this, &CrowWindow::populateAudioTracks);
+		connect(m_TrackWorker, &MPVTrackWorker::jobFinished, this, &CrowWindow::populateSubtitleTracks);
+		connect(m_AudioDeviceWorker, &MPVAudioDeviceWorker::jobFinished, this, &CrowWindow::populateAudioDevices);
+	}
+
+	void CrowWindow::connectSubtitleSignals()
+	{
+		connect(ui.videoPlayer, &CrowPlayer::positionChanged, [&](double position) {
+			if (ui.subtitleList->contextMenuOpen())
+				return;
+
+			auto closestIndex = m_SubtitleModel.getClosestSubtitle(position);
+			if (!closestIndex.has_value())
+				return;
+
+			ui.subtitleList->setCurrentIndex(closestIndex.value());
+		});
+
+		connect(ui.subtitleList, &SubtitleListView::jumpedToTimestamp, ui.videoPlayer, &CrowPlayer::seekAbsolute);
+	}
+
+	void CrowWindow::setAudioTrackAction(bool enabled)
+	{
+		ui.menuAudioTrack->setEnabled(enabled);
+	}
+
+	void CrowWindow::setSubtitleTrackAction(bool enabled)
+	{
+		ui.menuSubtitleTrack->setEnabled(enabled);
+	}
+
+	void CrowWindow::setExternalSubtitleAction(bool enabled)
+	{
+		ui.actionAddExternalTrack->setEnabled(enabled);
+	}
+
+	void CrowWindow::populateAudioTracks(const std::vector<Track>& tracks)
+	{
+		ui.menuAudioTrack->clear();
+
+		bool first = true;
+		for (const auto& track : tracks)
+		{
+			if (track.type != "audio")
+				continue;
+
+			QAction* action = new QAction(ui.menuAudioTrack);
+			action->setCheckable(true);
+			action->setText(track.title);
+
+			// Defaults the first audio track:
+			if (first)
+			{
+				first = false;
+				action->setChecked(true);
+				ui.videoPlayer->setAudioTrack(track.id);
+			}
+
+			connect(action, &QAction::triggered, [&, track, action](bool checked) {
+				onAudioTrackTriggered(action, track);
+			});
+
+			ui.menuAudioTrack->addAction(action);
+		}
+	}
+
+	void CrowWindow::populateAudioDevices(const std::vector<AudioDevice>& devices)
+	{
+		ui.menuAudioDevice->clear();
+
+		bool first = true;
+		for (const auto& device : devices)
+		{
+			QAction* action = new QAction(ui.menuAudioDevice);
+			action->setCheckable(true);
+			action->setText(device.description);
+
+			// Defaults the first audio track:
+			if (first)
+			{
+				first = false;
+				action->setChecked(true);
+				ui.videoPlayer->setAudioDevice(device.name);
+			}
+
+			connect(action, &QAction::triggered, [&, device, action](bool checked) {
+				onAudioDeviceTriggered(action, device);
+			});
+
+			ui.menuAudioDevice->addAction(action);
+		}
+	}
+
+	void CrowWindow::createDisabledSubtitleTrack()
+	{
+		QAction* action = new QAction(ui.menuSubtitleTrack);
+		action->setCheckable(true);
+		action->setChecked(true);
+		action->setText("Disabled");
+		ui.videoPlayer->setSubtitleVisibility(false);
+
+		connect(action, &QAction::triggered, [&, action](bool checked) {
+			uncheckAllButOne(ui.menuSubtitleTrack, action);
+			ui.videoPlayer->setSubtitleVisibility(false);
+		});
+
+		ui.menuSubtitleTrack->addAction(action);
+	}
+
+	void CrowWindow::populateSubtitleTracks(const std::vector<Track>& tracks)
+	{
+		ui.menuSubtitleTrack->clear();
+
+		createDisabledSubtitleTrack();
+
+		QAction* lastAction = nullptr;
+		Track lastTrack;
+		for (const auto& track : tracks)
+		{
+			if (track.type != "sub")
+				continue;
+
+			QAction* action = new QAction(ui.menuSubtitleTrack);
+			action->setCheckable(true);
+			action->setText(track.title);
+
+			connect(action, &QAction::triggered, [&, track, action](bool checked) {
+				onSubtitleTrackTriggered(action, track);
+			});
+
+			lastAction = action;
+			lastTrack = track;
+
+			ui.menuSubtitleTrack->addAction(action);
+		}
+
+		if (!m_FirstSubtitlePopulateAction && lastAction)
+		{
+			uncheckAll(ui.menuSubtitleTrack);
+			lastAction->setChecked(true);
+			ui.videoPlayer->setSubtitleTrack(lastTrack.id);
+		}
+	}
+
+	void CrowWindow::onExternalTrackTriggered()
+	{
+		QString filepath = openSubtitleTrackDialog();
+		if (filepath.isEmpty())
+			return;
+
+		QFileInfo fileInfo(filepath);
+		QString subtitleName = fileInfo.baseName();
+
+		// Adds external subtitle & set model:
+		ui.videoPlayer->addExternalSubtitle(filepath);
+		m_SubtitleModel.populateData(filepath);
+
+		m_FirstSubtitlePopulateAction = false;
+	}
+
+	void CrowWindow::onAudioTrackTriggered(QAction* action, const Track& track)
+	{
+		uncheckAllButOne(ui.menuAudioTrack, action);
+		ui.videoPlayer->setAudioTrack(track.id);
+	}
+
+	void CrowWindow::onAudioDeviceTriggered(QAction* action, const AudioDevice& device)
+	{
+		uncheckAllButOne(ui.menuAudioDevice, action);
+		ui.videoPlayer->setAudioDevice(device.name);
+	}
+	
+	void CrowWindow::onSubtitleTrackTriggered(QAction* action, const Track& track)
+	{
+		uncheckAllButOne(ui.menuSubtitleTrack, action);
+		ui.videoPlayer->setSubtitleTrack(track.id);
+	}
 }

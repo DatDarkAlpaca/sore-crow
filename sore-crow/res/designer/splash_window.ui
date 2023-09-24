@@ -20,8 +20,8 @@
    <string>Crow v1.0</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../common.qrc">
-    <normaloff>:/common/crow_icon/crow.ico</normaloff>:/common/crow_icon/crow.ico</iconset>
+   <iconset resource="../sore_crow.qrc">
+    <normaloff>:/SoreCrow/sore-crow.ico</normaloff>:/SoreCrow/sore-crow.ico</iconset>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>true</bool>
@@ -138,7 +138,7 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <resources>
-  <include location="../common.qrc"/>
+  <include location="../sore_crow.qrc"/>
  </resources>
  <connections/>
 </ui>

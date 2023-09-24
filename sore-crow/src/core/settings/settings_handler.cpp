@@ -1,0 +1,40 @@
+#include "pch.h"
+#include "constants.h"
+#include "settings_handler.h"
+
+namespace sore
+{
+	void SettingsHandler::initialize()
+	{
+		namespace fs = std::filesystem;
+
+		settingsPath = qApp->applicationDirPath() + "/settings.ini";
+		settings = std::make_unique<CrowSettings>(settingsPath, QSettings::IniFormat);
+
+		if (fs::is_regular_file(settingsPath.toStdString()))
+			return;
+
+		initializeDefaultSettings();
+	}
+
+	void SettingsHandler::initializeDefaultSettings()
+	{
+		settings->setValue("version", "0.1");
+
+		settings->setValue("project/extension", "prj");
+		settings->setValue("project/default_episodes_folder_name", "episodes");
+		settings->setValue("project/supported/video_formats", "mkv,mp4");
+		settings->setValue("project/directory", "");
+
+		settings->setValue("paths/resources_folder", "res");
+		settings->setValue("paths/style_path", "res/styles");
+		settings->setValue("paths/style_output_path", "res/output");
+		settings->setValue("paths/plugin_path", "plugins");
+
+		settings->setValue("styles/themes/selected_style", "crow_material");
+		settings->setValue("styles/themes/selected_theme", "dark_purple");
+		settings->setValue("styles/themes/is_theme_dark", true);
+		settings->setValue("styles/subtitles/point_size", 20);
+		settings->sync();
+	}
+}

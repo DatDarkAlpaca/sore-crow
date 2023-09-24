@@ -1,9 +1,9 @@
 #pragma once
-#include <unordered_map>
-#include <QStandardItem>
+#include <memory>
+#include <optional>
 #include <QStandardItemModel>
-#include <QStyledItemDelegate>
-#include "core/subtitle/subtitle_data.h"
+#include "project_data.h"
+#include "core/subtitle/subtitle_factory.h"
 
 namespace sore
 {
@@ -12,46 +12,105 @@ namespace sore
 		Q_OBJECT
 
 	public:
-		SubtitleModel(QObject* parent = nullptr)
-			: QStandardItemModel(parent)
+		SubtitleModel(QObject* object = nullptr)
+			: QStandardItemModel(object)
 		{
 
 		}
 
 	public:
-		void populateData(const std::vector<SubtitleData>& data)
+		void populateData(const QString& filepath)
 		{
 			clear();
+			m_Subtitles.reset();
 
-			for (const auto& subtitle : data)
+			SubtitleFactory factory(filepath);
+			m_Subtitles = factory.parse();
+
+			if (!m_Subtitles)
 			{
-				QStandardItem* item = new QStandardItem;
-				item->setData(subtitle.text.c_str(), Qt::DisplayRole);
-
-				appendRow(item);
-				auto row = item->index().row();
+				// TODO: error.
+				return;
 			}
 
-			m_Data = data;
+			switch (m_Subtitles->type)
+			{
+				case SubtitleType::SRT:
+					populateSRTData();
+					break;
+					
+				case SubtitleType::ASS:
+					populateASSData();
+					break;
+			}
 		}
 
 	public:
-		std::optional<std::pair<size_t, SubtitleData>> getDataAndRowAtPosition(uint64_t position)
+		std::optional<QModelIndex> getClosestSubtitle(double position)
 		{
-			for(size_t i = 0; i < m_Data.size(); ++i)
+			for (size_t i = 0; i < rowCount(); ++i)
 			{
-				if (m_Data[i].startTimeMilliseconds == position)
-					return std::make_pair(i, m_Data[i]);
+				auto currentIndex = index(i, 0);
+				double startSubtitle = currentIndex.data(Roles::StartRole).toDouble();
+				double endSubtitle = currentIndex.data(Roles::EndRole).toDouble();
+
+				if(position >= startSubtitle && endSubtitle >= position)
+					return currentIndex;
 			}
 
 			return std::nullopt;
 		}
 
-		SubtitleData getDataAtModelIndex(int row) { return m_Data[row]; }
+	private:
+		void populateSRTData()
+		{
+			srt::Subtitles* subtitles = srt();
 
-		std::vector<SubtitleData> getSubtitleData() const { return m_Data; }
+			for (const auto& subtitle : subtitles->subtitles)
+			{
+				QStandardItem* item = new QStandardItem;
+				item->setData(subtitle.text, Roles::TextRole);
+				item->setData(subtitle.startTimeMs, Roles::StartRole);
+				item->setData(subtitle.endTimeMs, Roles::EndRole);
+				item->setData((int)SubtitleType::SRT, Roles::TypeRole);
+
+				appendRow(item);
+			}
+		}
+
+		void populateASSData()
+		{
+			ass::Subtitles* subtitles = static_cast<ass::Subtitles*>(m_Subtitles.get());
+
+			for (const auto& dialogue : subtitles->dialogues)
+			{
+				QStandardItem* item = new QStandardItem;
+				item->setData(dialogue.text, Roles::TextRole);
+				item->setData(dialogue.startMs, Roles::StartRole);
+				item->setData(dialogue.endMs, Roles::EndRole);
+				item->setData((int)SubtitleType::ASS, Roles::TypeRole);
+
+				appendRow(item);
+			}
+		}
+
+	public:
+		enum Roles
+		{
+			TextRole = Qt::DisplayRole,
+			StartRole = 10,
+			EndRole = 11,
+			TypeRole = 12
+		};
+
+	public:
+		ISubtitles* subtitles() const { return m_Subtitles.get(); }
+
+		srt::Subtitles* srt() const { return static_cast<srt::Subtitles*>(m_Subtitles.get()); }
+
+		ass::Subtitles* ass() const { return static_cast<ass::Subtitles*>(m_Subtitles.get()); }
 
 	private:
-		std::vector<SubtitleData> m_Data;
+		std::unique_ptr<ISubtitles> m_Subtitles;
 	};
 }

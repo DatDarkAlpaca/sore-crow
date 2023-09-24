@@ -1,25 +1,36 @@
 #pragma once
-#include <QtWidgets/QMainWindow>
+#include <QMainWindow>
 #include "ui_splash_window.h"
+#include "gui/model/project_data.h"
 
 namespace sore
 {
-    class SplashWindow : public QMainWindow
-    {
-        Q_OBJECT
+	class SplashWindow : public QMainWindow
+	{
+		Q_OBJECT
 
-    public:
-        SplashWindow(QWidget* parent = nullptr);
+	public:
+		SplashWindow(QWidget* parent = nullptr);
 
-        ~SplashWindow() = default;
+		~SplashWindow() = default;
 
-    private:
-        void setupStatusBar();
+	private slots:
+		void onOpenProjectButton();
 
-    private:
-        QLabel* m_StatusBarLabel = nullptr;
+		void onCreateProjectButton();
 
-    public:
-        Ui::SplashWindow ui;
-    };
+	signals:
+		void projectOpened(const ProjectData&);
+
+		void projectCreated(const ProjectData&);
+
+	private:
+		void setupStatusBar();
+
+		void setupStyle();
+
+	private:
+		Ui::SplashWindow ui;
+		QLabel* m_StatusBarLabel = nullptr;
+	};
 }

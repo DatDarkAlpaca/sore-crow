@@ -1,27 +1,39 @@
 #pragma once
+#include <QFileInfo>
 #include <memory>
-#include "subtitle_parser.h"
-#include "utils/string_utils.h"
-
-#include "concrete_parsers/srt_parser.h"
-#include "concrete_parsers/ass_parser.h"
+#include "parser/srt_parser.h"
+#include "parser/ass_parser.h"
 
 namespace sore
 {
 	class SubtitleFactory
 	{
 	public:
-		static std::unique_ptr<ISubtitleParser> getParser(const std::string& subtitleFilepath)
+		SubtitleFactory(const QString& filepath)
+			: m_Filepath(filepath)
 		{
-			std::string lowerFilepath = lowerString(subtitleFilepath);
+			
+		}
 
-			if (endsWith(lowerFilepath, "srt"))
-				return std::make_unique<SRTParser>(subtitleFilepath);
+	public:
+		std::unique_ptr<ISubtitles> parse()
+		{
+			QFile file(m_Filepath);
+			file.open(QFile::ReadOnly);
 
-			if (endsWith(lowerFilepath, "ass"))
-				return std::make_unique<ASSParser>(subtitleFilepath);
+			QTextStream textStream(&file);
+
+			QFileInfo info(file);
+			if (info.suffix().toLower() == "srt")
+				return std::make_unique<srt::Subtitles>(parseSRT(textStream));
+
+			else if (info.suffix().toLower() == "ass")
+				return std::make_unique<ass::Subtitles>(parseASS(textStream));
 
 			return nullptr;
 		}
+
+	private:
+		QString m_Filepath;
 	};
 }

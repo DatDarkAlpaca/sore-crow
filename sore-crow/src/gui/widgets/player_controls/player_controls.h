@@ -1,54 +1,97 @@
 #pragma once
-#include <QtWidgets/QWidget>
 #include "ui_player_controls.h"
 
 namespace sore
 {
-	class PlayerControlsWidget : public QWidget
+	class PlayerControls : public QWidget
 	{
 		Q_OBJECT
 
 	public:
-		enum class VolumeState : uint32_t { MUTED = 0, HALF, MAX };
+		PlayerControls(QWidget* parent = nullptr);
 
 	public:
-		PlayerControlsWidget(QWidget* parent = nullptr);
+		void enableControls();
 
-	// Control Buttons:
+		void disableControls();
+
 	public:
-		void togglePlayButtonIcon(bool togglePlayingIcon);
+		void setPlaying(bool isPlaying);
 
-		void toggleVolumeButtonState(VolumeState state);
+		void setVolume(long long volume);
 
-		void toggleVolumeButtonFromVolume(int volume);
+		void setVolumeMaximum(int volumeMax);
 
-		void toggleRepeatButtonChecked(bool value);
+		void trySetPosition(long long position);
 
-	// Video Slider:
+		void setPosition(long long position);
+
+		void setDuration(long long duration);
+
 	public:
-		void setVideoSliderPosition(long long position);
-
-		void setVideoSliderMaximum(long long videoDuration);
-
-		void blockPlayerSliderSignals(bool value);
-
-		void onPlayerSliderPositionChanged();
-
-	// Volume Slider:
-		void toggleVolumeSliderEnabled(bool value);
-
-		int volume() const;
-
-	// Duration labels:
-	public:
-		void setCurrentDurationLabel(long long duration);
-
-		void setTotalDurationLabel(long long duration);
+		void blockPlayerSliderSignals(bool block);
 
 	private:
-		void setupAudioSlider();
+		void updatePlayingIcon();
+
+		void updateVolumeIcon();
+
+	private:
+		void handleEvents();
+
+	private:
+		void handlePreviousBtn();
+
+		void handlePlayBtn();
+
+		void handleStopBtn();
+
+		void handleNextBtn();
+
+		void handleRepeatBtn();
+
+		void handleVolumeBtn();
+
+	private:
+		void handleVolumeSlider(int volume);
+
+		void handlePositionSlider(long long position);
+
+	signals:
+		void previousBtnClicked();
+
+		void playBtnClicked();
+
+		void stopBtnClicked();
+
+		void nextBtnClicked();
+
+		void repeatBtnClicked();
+
+		void volumeBtnClicked(int volume);
+
+	signals:
+		void volumeChanged(int volume);
+	
+		void positionChanged(long long position);
 
 	public:
+		inline int currentVolume() const { return ui.volumeSlider->value(); }
+
+		inline int maximumVolume() const { return ui.volumeSlider->maximum(); }
+
+	private:
+		bool m_IsVideoPlaying = false;
+		bool m_IsMuted = false;
+		int m_PreviousVolume = 0;
 		Ui::PlayerControls ui;
+
+	private:
+		static constexpr const char* PlayingIcon = ":/Icons/icons/miftakhul/play.png";
+		static constexpr const char* PausedIcon = ":/Icons/icons/miftakhul/pause.png";
+
+		static constexpr const char* MaxVolumeIcon = ":/Icons/icons/miftakhul/volume_full.png";
+		static constexpr const char* NormalVolumeIcon = ":/Icons/icons/miftakhul/volume_two.png";
+		static constexpr const char* MutedVolumeIcon = ":/Icons/icons/miftakhul/volume_none.png";
 	};
 }

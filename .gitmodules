@@ -1,0 +1,3 @@
+[submodule "vendor/qass"]
+	path = vendor/qass
+	url = https://github.com/githubuser0xFFFF/Qt-Advanced-Stylesheets

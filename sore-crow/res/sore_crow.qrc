@@ -1,0 +1,22 @@
+<RCC>
+  <qresource prefix="SoreCrow">
+    <file>sore-crow.ico</file>
+  </qresource>
+  <qresource prefix="Icons">
+    <file>icons/ryan/search.png</file>
+    <file>icons/copy/copy.png</file>
+    <file>icons/copy/loop-arrow.png</file>
+    <file>icons/miftakhul/full-screen.png</file>
+    <file>icons/miftakhul/next.png</file>
+    <file>icons/miftakhul/pause.png</file>
+    <file>icons/miftakhul/play.png</file>
+    <file>icons/miftakhul/previous.png</file>
+    <file>icons/miftakhul/stop.png</file>
+    <file>icons/miftakhul/subtitles.png</file>
+    <file>icons/miftakhul/volume_full.png</file>
+    <file>icons/miftakhul/volume_minus.png</file>
+    <file>icons/miftakhul/volume_none.png</file>
+    <file>icons/miftakhul/volume_plus.png</file>
+    <file>icons/miftakhul/volume_two.png</file>
+  </qresource>
+</RCC>

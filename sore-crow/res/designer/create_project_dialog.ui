@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>674</width>
-    <height>454</height>
+    <height>465</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -71,8 +71,8 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../create_project_dialog_resource.qrc">
-           <normaloff>:/main/icons/ryan/search.png</normaloff>:/main/icons/ryan/search.png</iconset>
+          <iconset resource="../sore_crow.qrc">
+           <normaloff>:/Icons/icons/ryan/search.png</normaloff>:/Icons/icons/ryan/search.png</iconset>
          </property>
         </widget>
        </item>
@@ -94,37 +94,17 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
-           <property name="topMargin">
-            <number>0</number>
+          <widget class="QLabel" name="videosLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
-           <item>
-            <widget class="QLabel" name="videosLabel">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Videos found</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="moveEpisodesBtn">
-             <property name="toolTip">
-              <string>Moves all found episodes to a common folder</string>
-             </property>
-             <property name="text">
-              <string>Moves episodes</string>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
+           <property name="text">
+            <string>Videos found</string>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QListWidget" name="videosList"/>
@@ -163,28 +143,12 @@
     </layout>
    </item>
    <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Fixed</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
     <layout class="QVBoxLayout" name="statusBarLayout"/>
    </item>
   </layout>
  </widget>
  <resources>
-  <include location="../create_project_dialog_resource.qrc"/>
+  <include location="../sore_crow.qrc"/>
  </resources>
  <connections/>
 </ui>

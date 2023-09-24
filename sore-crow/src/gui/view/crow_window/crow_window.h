@@ -1,12 +1,9 @@
 #pragma once
-#include <QtWidgets/QMainWindow>
 #include "ui_crow_window.h"
-
-#include "gui/objects/subtitle_handler.h"
-#include "gui/objects/crow_media_handler.h"
-#include "core/project/project_data.h"
-#include "gui/widgets/episode_widget/episode_widget.h"
+#include "gui/model/episode_model.h"
 #include "gui/model/subtitle_model.h"
+#include "core/mpv/worker/workers.h"
+#include "gui/widgets/crow_subtitles/crow_subtitles.h"
 
 namespace sore
 {
@@ -16,97 +13,67 @@ namespace sore
 
     public:
         CrowWindow(QWidget* parent = nullptr);
-        
+
         ~CrowWindow() = default;
 
     public:
-        void updateData(const ProjectData& data);
-
-        void clearData();
+        void loadProjectData(const ProjectData& projectData);
 
     private:
-        void handleActions();
+        void onNewProjectAction();
 
-    protected:
-        void resizeEvent(QResizeEvent* event) override;
-
-    // Docks:
-    private slots:
-        void hideCrownsole();
-
-        void onShowEpisodeListDock();
-
-        void onShowSubtitleViewerDock();
-
-    // Video Player:
-    private slots:
-        void onVideoPositionPositionChanged();
-
-        void onVideoPlayerSliderChanged();
-
-        void onVolumeSliderChanged();
-
-        void onSectionRepeatStopped();
-
-        void onPlayButtonClicked();
-
-        void onStopButtonClicked();
-
-        void onVideoRepeatClicked();
-
-        void onVolumeButtonClicked();
-
-    // Devices:
-        void onAudioDevicesChanged();
-
-    // Episodes:
-    private slots:
-        void onEpisodeClicked();
-
-        void onPreviousButtonClick();
-
-        void onNextButtonClick();
-
-        void onRepeatButtonClick();
-
-    // Subtitles:
-    private slots:
-        void onSubtitleClicked();
-
-        void onSubtitleTextSelected();
-
-    // Actions:
-    private:
-        void toggleAudioTrackAction(bool value);
-
-        void toggleSubtitleTrackAction(bool value);
-
-        void toggleExternalSubtitleAction(bool value);
-
-        void populateAudioTrackAction();
-
-        void populateAudioDeviceAction();
-
-        void populateSubtitleTrackAction();
-
-        void onExternalSubtitleAction();
-
-    // Media & Controls Helpers:
-    private:
-        void setDurationSliders();
-
-    signals:
-        void projectMustChange(const std::string& section, const std::string& field, const nlohmann::json& object);
-
-    public:
-        long long currentPosition() const { return m_MediaHandler->mediaPlayer()->position(); }
+        void onOpenProjectAction();
 
     private:
-        CrowMediaHandler* m_MediaHandler = nullptr;
-        SubtitleHandler* m_SubtitleHandler = nullptr;
+        void connectEpisodeListSignals();
+
+        void connectPlayerControlSignals();
+
+        void connectActionSignals();
+
+        void connectSubtitleSignals();
+
+    // Track Utils:
+    private:
+        void setAudioTrackAction(bool enabled);
+
+        void setSubtitleTrackAction(bool enabled);
+
+        void setExternalSubtitleAction(bool enabled);
+
+        void populateAudioTracks(const std::vector<Track>& tracks);
+
+        void populateAudioDevices(const std::vector<AudioDevice>& devices);
+
+        void createDisabledSubtitleTrack();
+
+        void populateSubtitleTracks(const std::vector<Track>& tracks);
+
+    // Track Slots
+    private:
+        void onExternalTrackTriggered();
+
+        void onAudioTrackTriggered(QAction* action, const Track& track);
+
+        void onAudioDeviceTriggered(QAction* action, const AudioDevice& device);
+
+        void onSubtitleTrackTriggered(QAction* action, const Track& track);
+    
+    private:
+        Ui::CrowWindow ui;
+
+    private:
+        CrowSubtitles* m_CrowSubtitles;
+
+    private:
+        EpisodeModel m_EpisodeModel;
         SubtitleModel m_SubtitleModel;
 
-    public:
-        Ui::CrowWindow ui;
+    private:
+        MPVTrackWorker* m_TrackWorker;
+        MPVAudioDeviceWorker* m_AudioDeviceWorker;
+
+    private:
+        bool m_FirstSubtitlePopulateAction = true;
     };
 }
