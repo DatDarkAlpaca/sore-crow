@@ -49,6 +49,8 @@ namespace sore
 		ui.videoPlayer->setVolume(ui.playerControls->currentVolume());
 
 		// Episode Model:
+		m_EpisodeModel.clear();
+		m_SubtitleModel.clear();
 		m_EpisodeModel.populateData(projectData.mediaData);
 
 		// Load Playlist:
