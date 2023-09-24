@@ -304,7 +304,7 @@ namespace sore
 
 			QAction* action = new QAction(ui.menuSubtitleTrack);
 			action->setCheckable(true);
-			action->setText(track.title);
+			action->setText(getBestTrackTitle(track));
 
 			connect(action, &QAction::triggered, [&, track, action](bool checked) {
 				onSubtitleTrackTriggered(action, track);
