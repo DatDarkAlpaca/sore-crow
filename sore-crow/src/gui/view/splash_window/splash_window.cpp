@@ -10,7 +10,8 @@ namespace sore
 		: QMainWindow(parent)
 	{
 		ui.setupUi(this);
-		
+		setWindowTitle(windowTitle() + " v" + ProjectVersion);
+
 		setupStatusBar();
 		
 		setupStyle();

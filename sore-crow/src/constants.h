@@ -2,7 +2,7 @@
 
 namespace sore
 {
-	static constexpr const char* ProjectVersion = "0.1";
+	static constexpr const char* ProjectVersion = "0.3";
 
 	namespace links
 	{

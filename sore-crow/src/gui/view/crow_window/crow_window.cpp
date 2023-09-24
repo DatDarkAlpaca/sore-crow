@@ -13,6 +13,7 @@ namespace sore
 		: QMainWindow(parent)
 	{
 		ui.setupUi(this);
+		setWindowTitle(windowTitle() + " v" + ProjectVersion);
 
 		// Widgets:
 		m_CrowSubtitles = new CrowSubtitles(ui.videoPlayer);
