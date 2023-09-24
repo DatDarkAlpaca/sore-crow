@@ -102,6 +102,8 @@ namespace sore
 			ui.videoPlayer->playlistPlay(episodeIndex);
 			ui.playerControls->enableControls();
 
+			m_SubtitleModel.clear();
+
 			// Actions:
 			setAudioTrackAction(true);
 			setSubtitleTrackAction(true);
@@ -354,5 +356,6 @@ namespace sore
 	{
 		uncheckAllButOne(ui.menuSubtitleTrack, action);
 		ui.videoPlayer->setSubtitleTrack(track.id);
+		m_SubtitleModel.populateData(track.externalFilename);
 	}
 }
