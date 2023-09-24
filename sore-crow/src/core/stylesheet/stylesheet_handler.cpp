@@ -15,6 +15,68 @@ namespace sore
 		updateSettings();
 	}
 
+	bool StylesheetHandler::styleExists(const QString& styleName)
+	{
+		bool found = false;
+		for (const auto& style : stylesheet->styles())
+		{
+			if (styleName == style)
+			{
+				found = true;
+				break;
+			}
+		}
+
+		return found;
+	}
+
+	bool StylesheetHandler::themeExists(const QString& themeName)
+	{
+		bool found = false;
+		for (const auto& theme : stylesheet->themes())
+		{
+			if (themeName == theme)
+			{
+				found = true;
+				break;
+			}
+		}
+
+		return found;
+	}
+
+	void StylesheetHandler::selectStyle(const QString& styleName)
+	{
+		if (!styleExists(styleName))
+		{
+			errorBox("Stylesheet Handler", "This style does not exist.");
+			return;
+		}
+
+		stylesheet->setCurrentStyle(styleName);
+	}
+
+	void StylesheetHandler::selectTheme(const QString& themeName)
+	{
+		if (!themeExists(themeName))
+		{
+			errorBox("Stylesheet Handler", "This theme does not exist.");
+			return;
+		}
+
+		stylesheet->setCurrentTheme(themeName);
+	}
+
+	void StylesheetHandler::applyStylesheet()
+	{
+		stylesheet->updateStylesheet();
+		qApp->setStyleSheet(stylesheet->styleSheet());
+
+		auto& settings = SettingsHandler::settings;
+		settings->setValue("styles/themes/selected_style", stylesheet->currentStyle());
+		settings->setValue("styles/themes/selected_theme", stylesheet->currentTheme());
+	}
+
 	void StylesheetHandler::initializeDefaultStylesheet()
 	{
 		auto& settings = SettingsHandler::settings;

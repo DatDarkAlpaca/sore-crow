@@ -9,6 +9,8 @@ namespace sore
 	public:
 		static void initialize();
 
+		static void save();
+
 	private:
 		static void initializeDefaultSettings();
 

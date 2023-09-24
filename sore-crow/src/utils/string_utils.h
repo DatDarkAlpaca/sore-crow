@@ -62,4 +62,13 @@ namespace sore
 
         return hours * 3600000LL + minutes * 60000LL + seconds * 1000LL + milliseconds;
     }
+
+    inline QString toCamelCase(const QString& text)
+    {
+        QStringList parts = text.split(' ', Qt::SkipEmptyParts);
+        for (int i = 0; i < parts.size(); ++i)
+            parts[i].replace(0, 1, parts[i][0].toUpper());
+
+        return parts.join(" ");
+    }
 }

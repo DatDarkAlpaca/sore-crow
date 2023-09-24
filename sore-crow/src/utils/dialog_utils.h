@@ -5,7 +5,12 @@ namespace sore
 {
 	inline QString openProjectFolderDialog()
 	{
-		return QFileDialog::getExistingDirectory(nullptr, "Open project folder");
+		return QFileDialog::getExistingDirectory(nullptr, "Open Project folder");
+	}
+
+	inline QString openStylesFolderDialog()
+	{
+		return QFileDialog::getExistingDirectory(nullptr, "Open Styles folder");
 	}
 
 	inline QString openProjectFileDialog()

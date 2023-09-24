@@ -8,11 +8,14 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
+		Deploy|x64 = Deploy|x64
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{166CC68F-A074-470D-A1ED-7A074622A495}.Debug|x64.ActiveCfg = Debug|x64
 		{166CC68F-A074-470D-A1ED-7A074622A495}.Debug|x64.Build.0 = Debug|x64
+		{166CC68F-A074-470D-A1ED-7A074622A495}.Deploy|x64.ActiveCfg = Deploy|x64
+		{166CC68F-A074-470D-A1ED-7A074622A495}.Deploy|x64.Build.0 = Deploy|x64
 		{166CC68F-A074-470D-A1ED-7A074622A495}.Release|x64.ActiveCfg = Release|x64
 		{166CC68F-A074-470D-A1ED-7A074622A495}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection

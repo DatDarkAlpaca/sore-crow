@@ -165,6 +165,9 @@
     <ClInclude Include="src\gui\model\subtitle_delegate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\gui\view\preferences\appearance_page.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\gui\model\project_data.h">
@@ -215,6 +218,9 @@
     <QtMoc Include="src\gui\widgets\subtitle_list_view\subtitle_list_view.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\gui\view\preferences\preferences_dialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="res\sore_crow.qrc">
@@ -237,6 +243,12 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="res\designer\player_controls.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="res\designer\preferences\preferences.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="res\designer\preferences\appearance_page.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

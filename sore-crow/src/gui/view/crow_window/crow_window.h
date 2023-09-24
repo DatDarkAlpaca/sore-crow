@@ -24,6 +24,8 @@ namespace sore
 
         void onOpenProjectAction();
 
+        void onPreferencesAction();
+
     private:
         void connectEpisodeListSignals();
 

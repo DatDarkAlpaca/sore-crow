@@ -5,6 +5,7 @@
 #include "utils/action_utils.h"
 #include "gui/model/project_utils.h"
 #include "gui/model/subtitle_delegate.h"
+#include "gui/view/preferences/preferences_dialog.h"
 
 namespace sore
 {
@@ -82,6 +83,12 @@ namespace sore
 		loadProjectData(projectData.value());
 	}
 
+	void CrowWindow::onPreferencesAction()
+	{
+		PreferencesDialog preferencesDialog;
+		preferencesDialog.exec();
+	}
+
 	void CrowWindow::connectEpisodeListSignals()
 	{
 		// Episode List:
@@ -148,6 +155,7 @@ namespace sore
 		// File:
 		connect(ui.actionNewProject, &QAction::triggered, this, &CrowWindow::onNewProjectAction);
 		connect(ui.actionOpenProject, &QAction::triggered, this, &CrowWindow::onOpenProjectAction);
+		connect(ui.actionPreferences, &QAction::triggered, this, &CrowWindow::onPreferencesAction);
 
 		// Audio | Video | Sub Tracks:
 		connect(ui.videoPlayer, &CrowPlayer::trackListChanged, [&](long long trackAmount) {

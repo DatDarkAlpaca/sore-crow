@@ -17,6 +17,11 @@ namespace sore
 		initializeDefaultSettings();
 	}
 
+	void SettingsHandler::save()
+	{
+		settings->sync();
+	}
+
 	void SettingsHandler::initializeDefaultSettings()
 	{
 		settings->setValue("version", "0.1");
