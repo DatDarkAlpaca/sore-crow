@@ -151,6 +151,22 @@ namespace sore
 		connect(ui.playerControls, &PlayerControls::stopBtnClicked, ui.videoPlayer, &CrowPlayer::stop);
 		connect(ui.playerControls, &PlayerControls::nextBtnClicked, ui.videoPlayer, &CrowPlayer::playlistNext);
 		connect(ui.playerControls, &PlayerControls::volumeBtnClicked, ui.videoPlayer, &CrowPlayer::setVolume);
+		
+		connect(ui.playerControls, &PlayerControls::repeatBtnClicked, [&]() {
+			auto currentIndex = ui.subtitleList->currentIndex();
+			if (!currentIndex.isValid())
+			{
+				ui.playerControls->setRepeatChecked(false);
+				ui.videoPlayer->setRepeat(false);
+				return;
+			}
+
+			double start = m_SubtitleModel.data(currentIndex, SubtitleModel::Roles::StartRole).toDouble();
+			double end = m_SubtitleModel.data(currentIndex, SubtitleModel::Roles::EndRole).toDouble();
+
+			ui.videoPlayer->toggleRepeat();
+			ui.videoPlayer->setRepeatInterval(start, end);
+		});
 
 		connect(ui.playerControls, &PlayerControls::positionChanged, ui.videoPlayer, &CrowPlayer::seekAbsolute);
 		connect(ui.playerControls, &PlayerControls::volumeChanged, ui.videoPlayer, &CrowPlayer::setVolume);

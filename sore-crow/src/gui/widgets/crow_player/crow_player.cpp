@@ -10,6 +10,8 @@ namespace sore
 	{
 		setContextMenuPolicy(Qt::CustomContextMenu);
 		connect(this, &CrowPlayer::customContextMenuRequested, this, &CrowPlayer::showContextMenu);
+	
+		connect(this, &CrowPlayer::positionChanged, this, &CrowPlayer::handleRepeatOnPositionChange);
 	}
 
 	void CrowPlayer::openMedia(const QString& filepath, bool appendFile, const QStringList& options)
@@ -53,6 +55,22 @@ namespace sore
 	void CrowPlayer::togglePlay()
 	{
 		isPaused() ? play() : pause();
+	}
+
+	void CrowPlayer::toggleRepeat()
+	{
+		m_IsLooping = !m_IsLooping;
+	}
+
+	void CrowPlayer::setRepeat(bool repeating)
+	{
+		m_IsLooping = repeating;
+	}
+
+	void CrowPlayer::setRepeatInterval(double start, double end)
+	{
+		m_StartLoop = start;
+		m_EndLoop = end;
 	}
 
 	void CrowPlayer::playlistPlay(int index)
@@ -143,7 +161,7 @@ namespace sore
 		mpv::setPropertyAsync(mpvHandle(), "sid", stream);
 	}
 
-	QString CrowPlayer::getSubtitle()
+	QString CrowPlayer::getSubtitle() const
 	{
 		return mpv::getProperty(mpvHandle(), "sub-text").toString();
 	}
@@ -181,5 +199,14 @@ namespace sore
 
 		contextMenu.addAction(&copySubAction);
 		contextMenu.exec(mapToGlobal(position));
+	}
+
+	void CrowPlayer::handleRepeatOnPositionChange(double position)
+	{
+		if (!m_IsLooping || m_StartLoop == m_EndLoop || m_EndLoop == 0)
+			return;
+
+		if (position >= m_EndLoop)
+			seekAbsolute(m_StartLoop);
 	}
 }

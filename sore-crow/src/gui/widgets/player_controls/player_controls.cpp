@@ -41,6 +41,11 @@ namespace sore
 		ui.playerSlider->setEnabled(false);
 	}
 
+	void PlayerControls::setRepeatChecked(bool checked)
+	{
+		ui.repeatBtn->setChecked(checked);
+	}
+
 	void PlayerControls::setPlaying(bool isPlaying)
 	{
 		m_IsVideoPlaying = isPlaying;

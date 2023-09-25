@@ -20,6 +20,9 @@ namespace sore
 		void pause();
 		void stop();
 		void togglePlay();
+		void toggleRepeat();
+		void setRepeat(bool repeating);
+		void setRepeatInterval(double start, double end);
 
 		void playlistPlay(int index);
 		void playlistNext();
@@ -39,7 +42,7 @@ namespace sore
 		void setSubtitleVisibility(bool visible);
 		void setSubtitleTrack(int64_t id);
 		void setSubtitleTrack(const QString& stream);
-		QString getSubtitle();
+		QString getSubtitle() const;
 
 	signals:
 		void playingStatusChanged(bool isPlaying);
@@ -56,8 +59,11 @@ namespace sore
 	private:
 		void showContextMenu(const QPoint& pos);
 
+		void handleRepeatOnPositionChange(double position);
+
 	private:
-		bool m_IsMuted = false;
+		bool m_IsMuted = false, m_IsLooping = false;
+		double m_StartLoop = 0, m_EndLoop = 0;
 		int m_PreviousVolume = 0;
 	};
 }

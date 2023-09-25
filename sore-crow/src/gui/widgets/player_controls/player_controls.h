@@ -16,6 +16,8 @@ namespace sore
 		void disableControls();
 
 	public:
+		void setRepeatChecked(bool checked);
+
 		void setPlaying(bool isPlaying);
 
 		void setVolume(long long volume);
@@ -79,6 +81,8 @@ namespace sore
 		inline int currentVolume() const { return ui.volumeSlider->value(); }
 
 		inline int maximumVolume() const { return ui.volumeSlider->maximum(); }
+
+		inline bool isRepeatChecked() const { return ui.repeatBtn->isChecked(); }
 
 	private:
 		bool m_IsVideoPlaying = false;
