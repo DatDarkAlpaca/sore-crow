@@ -29,14 +29,11 @@ namespace sore
 
 	std::vector<QString> FilesystemHandler::getFilesInDirectory(const QString& directoryPath)
 	{
-		namespace fs = std::filesystem;
+		QDir directory(directoryPath);
 
 		std::vector<QString> filepaths = {};
-		for (const auto& entry : fs::recursive_directory_iterator(directoryPath.toStdString()))
-		{
-			if (entry.is_regular_file())
-				filepaths.push_back(entry.path().string().c_str());
-		}
+		for (const QFileInfo& fileInfo : directory.entryInfoList(QDir::Files))
+			filepaths.push_back(fileInfo.filePath());
 
 		return filepaths;
 	}

@@ -228,7 +228,7 @@ namespace sore
 
 			QAction* action = new QAction(ui.menuAudioTrack);
 			action->setCheckable(true);
-			action->setText(track.title);
+			action->setText(track.title + " [" + track.lang + ']');
 
 			// Defaults the first audio track:
 			if (first)
@@ -304,7 +304,7 @@ namespace sore
 
 			QAction* action = new QAction(ui.menuSubtitleTrack);
 			action->setCheckable(true);
-			action->setText(getBestTrackTitle(track));
+			action->setText(getBestTrackTitle(track) + " [" + track.lang + ']');
 
 			connect(action, &QAction::triggered, [&, track, action](bool checked) {
 				onSubtitleTrackTriggered(action, track);
