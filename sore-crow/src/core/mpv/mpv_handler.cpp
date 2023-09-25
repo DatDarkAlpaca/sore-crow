@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "mpv_handler.h"
+#include "core/handlers.h"
 #include "utils/message_box_utils.h"
 
 static void* getProcAddress(void* ctx, const char* name)
@@ -88,6 +89,7 @@ namespace sore
 
 	void MPVHandler::initializeMPV()
 	{
+		auto& settings = SettingsHandler::settings;
 		mpvHandle = mpv_create();
 		if (!mpvHandle)
 		{
@@ -95,6 +97,20 @@ namespace sore
 			return;
 		}
 
+		auto mpvEnableConfig = settings->getStdString("enable_config");
+		auto mpvConfigDir = settings->getStdString("config_path");
+
+		if (!mpvEnableConfig.empty() && !mpvConfigDir.empty())
+		{
+			mpv_set_option_string(mpvHandle, "config", mpvEnableConfig.c_str());
+			mpv_set_option_string(mpvHandle, "config-dir", mpvConfigDir.c_str());
+		}
+		else
+		{
+			mpv_set_option_string(mpvHandle, "config", "no");
+			mpv_set_option_string(mpvHandle, "config-dir", "");
+		}
+		
 		mpv_set_option_string(mpvHandle, "terminal", "yes");
 		mpv_set_option_string(mpvHandle, "keep-open", "yes");
 		mpv_set_option_string(mpvHandle, "force-seekable", "yes");
@@ -106,8 +122,6 @@ namespace sore
 			errorBox("Crow Player [MPV]", "Failed to initialize the mpv handler");
 			return;
 		}
-
-		mpv::setOption(mpvHandle, "hwdec", "auto");
 	}
 
 	void MPVHandler::handleMPVevent(mpv_event* event)

@@ -213,16 +213,6 @@
     <string>empty</string>
    </property>
   </action>
-  <action name="actionEpisodeList">
-   <property name="text">
-    <string>Episode List</string>
-   </property>
-  </action>
-  <action name="actionSubtitleViewer">
-   <property name="text">
-    <string>Subtitle Viewer</string>
-   </property>
-  </action>
   <action name="actionPlaceholderSubtitle">
    <property name="text">
     <string>Disable</string>

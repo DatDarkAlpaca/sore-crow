@@ -16,6 +16,7 @@ namespace sore
 
 	MPVWidget::~MPVWidget()
 	{
+		disconnect();
 		makeCurrent();
 	}
 
@@ -78,17 +79,17 @@ namespace sore
 
 	void MPVWidget::maybeUpdate()
 	{
-		if (!window()->isMinimized())
+		if (window()->isMinimized() || !updatesEnabled())
 		{
-			update();
+			makeCurrent();
+			paintGL();
+			context()->swapBuffers(context()->surface());
+			reportFrameSwap();
+			doneCurrent();
 			return;
 		}
 
-		makeCurrent();
-		paintGL();
-		context()->swapBuffers(context()->surface());
-		reportFrameSwap();
-		doneCurrent();
+		update();
 	}
 
 	void MPVWidget::reportFrameSwap()

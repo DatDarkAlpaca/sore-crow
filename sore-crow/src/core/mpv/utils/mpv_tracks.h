@@ -2,6 +2,7 @@
 #include <vector>
 #include <QVariantMap>
 #include "mpv_node.h"
+#include "utils/string_utils.h"
 
 namespace sore
 {
@@ -98,4 +99,15 @@ namespace sore
 
         return tracks;
 	}
+
+    inline QString getBestTrackTitle(const Track& track)
+    {
+        if (!track.title.isEmpty())
+            return track.title;
+
+        if (!track.externalFilename.isEmpty())
+            return toCamelCase(track.externalFilename);
+
+        return "Unnamed track";
+    }
 }

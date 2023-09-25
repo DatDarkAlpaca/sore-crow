@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include <QSettings>
 
 namespace sore
@@ -15,6 +16,11 @@ namespace sore
 		QString getString(const QString& entry) const
 		{
 			return value(entry).toString();
+		}
+
+		std::string getStdString(const QString& entry) const
+		{
+			return value(entry).toString().toStdString();
 		}
 	};
 }

@@ -49,6 +49,8 @@ namespace sore
 		ui.videoPlayer->setVolume(ui.playerControls->currentVolume());
 
 		// Episode Model:
+		m_EpisodeModel.clear();
+		m_SubtitleModel.clear();
 		m_EpisodeModel.populateData(projectData.mediaData);
 
 		// Load Playlist:
@@ -99,6 +101,8 @@ namespace sore
 			// Play Episode:
 			ui.videoPlayer->playlistPlay(episodeIndex);
 			ui.playerControls->enableControls();
+
+			m_SubtitleModel.clear();
 
 			// Actions:
 			setAudioTrackAction(true);
@@ -300,7 +304,7 @@ namespace sore
 
 			QAction* action = new QAction(ui.menuSubtitleTrack);
 			action->setCheckable(true);
-			action->setText(track.title);
+			action->setText(getBestTrackTitle(track));
 
 			connect(action, &QAction::triggered, [&, track, action](bool checked) {
 				onSubtitleTrackTriggered(action, track);
@@ -352,5 +356,6 @@ namespace sore
 	{
 		uncheckAllButOne(ui.menuSubtitleTrack, action);
 		ui.videoPlayer->setSubtitleTrack(track.id);
+		m_SubtitleModel.populateData(track.externalFilename);
 	}
 }
