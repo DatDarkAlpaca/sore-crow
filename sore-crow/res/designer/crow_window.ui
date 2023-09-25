@@ -80,6 +80,9 @@
      </property>
      <item>
       <widget class="sore::SubtitleListView" name="subtitleList">
+       <property name="autoScroll">
+        <bool>true</bool>
+       </property>
        <property name="editTriggers">
         <set>QAbstractItemView::NoEditTriggers</set>
        </property>
@@ -116,7 +119,11 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QListView" name="episodeList"/>
+      <widget class="QListView" name="episodeList">
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
