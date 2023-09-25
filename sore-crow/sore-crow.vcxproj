@@ -291,6 +291,7 @@
     <QtUic Include="res\designer\splash_window.ui" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.gitignore" />
     <None Include="res\mpv.conf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

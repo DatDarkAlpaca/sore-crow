@@ -22,9 +22,8 @@ mono_crash.*
 # Resource cache:
 sore-crow/resources/output
 
-# Projects:
-example-project
-test-project
+# Compile Score:
+*.scor
 
 # vcpkg
 vcpkg_installed

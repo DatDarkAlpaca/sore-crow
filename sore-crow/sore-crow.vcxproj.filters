@@ -168,6 +168,12 @@
     <ClInclude Include="src\gui\view\preferences\appearance_page.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\subtitle\parser\sbv_components.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\subtitle\parser\sbv_parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\gui\model\project_data.h">
@@ -254,5 +260,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\mpv.conf" />
+    <None Include="..\.gitignore" />
   </ItemGroup>
 </Project>
