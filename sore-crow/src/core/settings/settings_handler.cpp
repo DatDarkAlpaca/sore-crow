@@ -29,12 +29,16 @@ namespace sore
 		settings->setValue("project/extension", "prj");
 		settings->setValue("project/default_episodes_folder_name", "episodes");
 		settings->setValue("project/supported/video_formats", "mkv,mp4");
+		settings->setValue("project/supported/subtitle_formats", "srt,ass");
 		settings->setValue("project/directory", "");
-
+		
 		settings->setValue("paths/resources_folder", "res");
 		settings->setValue("paths/style_path", "res/styles");
 		settings->setValue("paths/style_output_path", "res/output");
 		settings->setValue("paths/plugin_path", "plugins");
+
+		settings->setValue("mpv/enable_config", "yes");
+		settings->setValue("mpv/config_path", "res/config.conf");
 
 		settings->setValue("styles/themes/selected_style", "crow_material");
 		settings->setValue("styles/themes/selected_theme", "dark_purple");
