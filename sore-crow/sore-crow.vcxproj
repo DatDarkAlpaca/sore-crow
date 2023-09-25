@@ -103,8 +103,7 @@
       <LanguageStandard>$(Qt_STDCPP_)</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>py $(ProjectDir)scripts/copy_resources.py $(ProjectDir) $(OutputPath) $(SolutionDir)vendor</Command>
     </PostBuildEvent>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)vendor\libmpv;</AdditionalLibraryDirectories>
@@ -118,8 +117,7 @@
       <LanguageStandard>$(Qt_STDCPP_)</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>py $(ProjectDir)scripts/copy_resources.py $(ProjectDir) $(OutputPath) $(SolutionDir)vendor</Command>
     </PostBuildEvent>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)vendor\libmpv;</AdditionalLibraryDirectories>
@@ -133,8 +131,7 @@
       <LanguageStandard>$(Qt_STDCPP_)</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>py $(ProjectDir)scripts/copy_resources.py $(ProjectDir) $(OutputPath) $(SolutionDir)vendor</Command>
     </PostBuildEvent>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)vendor\libmpv;</AdditionalLibraryDirectories>
@@ -293,6 +290,7 @@
   <ItemGroup>
     <None Include="..\.gitignore" />
     <None Include="res\mpv.conf" />
+    <None Include="scripts\copy_resources.py" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

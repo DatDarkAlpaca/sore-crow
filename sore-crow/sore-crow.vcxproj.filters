@@ -261,5 +261,6 @@
   <ItemGroup>
     <None Include="res\mpv.conf" />
     <None Include="..\.gitignore" />
+    <None Include="scripts\copy_resources.py" />
   </ItemGroup>
 </Project>
