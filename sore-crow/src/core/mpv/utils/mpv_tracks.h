@@ -100,14 +100,22 @@ namespace sore
         return tracks;
 	}
 
-    inline QString getBestTrackTitle(const Track& track)
+    inline QString getBestTrackTitle(const Track& track, size_t index)
     {
+        QString title, language;
+
         if (!track.title.isEmpty())
-            return track.title;
+            title = toCamelCase(track.title);
 
-        if (!track.externalFilename.isEmpty())
-            return toCamelCase(track.externalFilename);
+        else if (!track.externalFilename.isEmpty())
+            title = toCamelCase(track.externalFilename);
 
-        return "Unnamed track";
+        else
+            title = QString("Track %1").arg(index);
+        
+        if (!track.lang.isEmpty())
+            title += " [" + toCamelCase(track.lang) + ']';
+
+        return title;
     }
 }

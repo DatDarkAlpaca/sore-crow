@@ -221,6 +221,7 @@ namespace sore
 		ui.menuAudioTrack->clear();
 
 		bool first = true;
+		size_t index = 0;
 		for (const auto& track : tracks)
 		{
 			if (track.type != "audio")
@@ -228,7 +229,7 @@ namespace sore
 
 			QAction* action = new QAction(ui.menuAudioTrack);
 			action->setCheckable(true);
-			action->setText(track.title + " [" + track.lang + ']');
+			action->setText(getBestTrackTitle(track, index));
 
 			// Defaults the first audio track:
 			if (first)
@@ -242,6 +243,7 @@ namespace sore
 				onAudioTrackTriggered(action, track);
 			});
 
+			++index;
 			ui.menuAudioTrack->addAction(action);
 		}
 	}
@@ -297,6 +299,7 @@ namespace sore
 
 		QAction* lastAction = nullptr;
 		Track lastTrack;
+		size_t index = 0;
 		for (const auto& track : tracks)
 		{
 			if (track.type != "sub")
@@ -304,7 +307,7 @@ namespace sore
 
 			QAction* action = new QAction(ui.menuSubtitleTrack);
 			action->setCheckable(true);
-			action->setText(getBestTrackTitle(track) + " [" + track.lang + ']');
+			action->setText(getBestTrackTitle(track, index));
 
 			connect(action, &QAction::triggered, [&, track, action](bool checked) {
 				onSubtitleTrackTriggered(action, track);
@@ -313,6 +316,7 @@ namespace sore
 			lastAction = action;
 			lastTrack = track;
 
+			++index;
 			ui.menuSubtitleTrack->addAction(action);
 		}
 
