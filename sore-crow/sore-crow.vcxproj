@@ -103,9 +103,8 @@
       <LanguageStandard>$(Qt_STDCPP_)</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
-      <Command>ROBOCOPY "$(ProjectDir)res/styles" "$(OutputPath)res\styles" /MIR
-ROBOCOPY "$(ProjectDir)res" "$(OutputPath)res" mpv.conf /E
-ROBOCOPY "$(SolutionDir)vendor\libmpv" "$(OutputPath)A" libmpv-2.dll /MIR</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)vendor\libmpv;</AdditionalLibraryDirectories>
@@ -119,9 +118,8 @@ ROBOCOPY "$(SolutionDir)vendor\libmpv" "$(OutputPath)A" libmpv-2.dll /MIR</Comma
       <LanguageStandard>$(Qt_STDCPP_)</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
-      <Command>ROBOCOPY "$(ProjectDir)res/styles" "$(OutputPath)res\styles" /MIR
-ROBOCOPY "$(ProjectDir)res" "$(OutputPath)res" mpv.conf /E
-ROBOCOPY "$(SolutionDir)vendor\libmpv" "$(OutputPath)A" libmpv-2.dll /MIR</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)vendor\libmpv;</AdditionalLibraryDirectories>
@@ -135,9 +133,8 @@ ROBOCOPY "$(SolutionDir)vendor\libmpv" "$(OutputPath)A" libmpv-2.dll /MIR</Comma
       <LanguageStandard>$(Qt_STDCPP_)</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
-      <Command>ROBOCOPY "$(ProjectDir)res/styles" "$(OutputPath)res\styles" /MIR
-ROBOCOPY "$(ProjectDir)res" "$(OutputPath)res" mpv.conf /E
-ROBOCOPY "$(SolutionDir)vendor\libmpv" "$(OutputPath)A" libmpv-2.dll /MIR</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)vendor\libmpv;</AdditionalLibraryDirectories>
