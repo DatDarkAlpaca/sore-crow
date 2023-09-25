@@ -29,7 +29,7 @@ namespace sore
 		settings->setValue("project/extension", "prj");
 		settings->setValue("project/default_episodes_folder_name", "episodes");
 		settings->setValue("project/supported/video_formats", "mkv,mp4");
-		settings->setValue("project/supported/subtitle_formats", "srt,ass");
+		settings->setValue("project/supported/subtitle_formats", "srt,ass,sbv");
 		settings->setValue("project/directory", "");
 		
 		settings->setValue("paths/resources_folder", "res");
