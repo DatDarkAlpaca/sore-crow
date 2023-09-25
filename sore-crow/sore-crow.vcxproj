@@ -235,6 +235,8 @@
     <QtMoc Include="src\gui\widgets\player_controls\player_controls.h" />
     <ClInclude Include="src\core\subtitle\parser\ass_components.h" />
     <ClInclude Include="src\core\subtitle\parser\ass_parser.h" />
+    <ClInclude Include="src\core\subtitle\parser\sbv_components.h" />
+    <ClInclude Include="src\core\subtitle\parser\sbv_parser.h" />
     <ClInclude Include="src\core\subtitle\parser\srt_components.h" />
     <ClInclude Include="src\core\subtitle\parser\srt_parser.h" />
     <ClInclude Include="src\core\subtitle\subtitles.h" />

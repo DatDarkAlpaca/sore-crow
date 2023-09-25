@@ -3,6 +3,7 @@
 #include <memory>
 #include "parser/srt_parser.h"
 #include "parser/ass_parser.h"
+#include "parser/sbv_parser.h"
 
 namespace sore
 {
@@ -29,6 +30,9 @@ namespace sore
 
 			else if (info.suffix().toLower() == "ass")
 				return std::make_unique<ass::Subtitles>(parseASS(textStream));
+
+			else if (info.suffix().toLower() == "sbv")
+				return std::make_unique<sbv::Subtitles>(parseSBV(textStream));
 
 			return nullptr;
 		}

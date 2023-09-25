@@ -41,9 +41,9 @@ namespace sore
         return formattedTime.str().c_str();
     }
 
-    inline double timeToMilliseconds(const QString& timeString)
+    inline double timeToMilliseconds(const QString& timeString, const QRegularExpression& expression = QRegularExpression("[:,]"))
     {
-        QStringList timeComponents = timeString.split(QRegularExpression("[:,]"));
+        QStringList timeComponents = timeString.split(expression);
 
         double hours = 0, minutes = 0, seconds = 0, milliseconds = 0;
         if (timeComponents.size() == 4)

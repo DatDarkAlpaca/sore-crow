@@ -42,6 +42,10 @@ namespace sore
 				case SubtitleType::ASS:
 					populateASSData();
 					break;
+
+				case SubtitleType::SBV:
+					populateSBVData();
+					break;
 			}
 		}
 
@@ -94,6 +98,22 @@ namespace sore
 			}
 		}
 
+		void populateSBVData()
+		{
+			sbv::Subtitles* subtitles = sbv();
+
+			for (const auto& subtitle : subtitles->subtitles)
+			{
+				QStandardItem* item = new QStandardItem;
+				item->setData(subtitle.text, Roles::TextRole);
+				item->setData(subtitle.startTimeMs, Roles::StartRole);
+				item->setData(subtitle.endTimeMs, Roles::EndRole);
+				item->setData((int)SubtitleType::SBV, Roles::TypeRole);
+
+				appendRow(item);
+			}
+		}
+
 	public:
 		enum Roles
 		{
@@ -109,6 +129,8 @@ namespace sore
 		srt::Subtitles* srt() const { return static_cast<srt::Subtitles*>(m_Subtitles.get()); }
 
 		ass::Subtitles* ass() const { return static_cast<ass::Subtitles*>(m_Subtitles.get()); }
+
+		sbv::Subtitles* sbv() const { return static_cast<sbv::Subtitles*>(m_Subtitles.get()); }
 
 	private:
 		std::unique_ptr<ISubtitles> m_Subtitles;

@@ -2,7 +2,7 @@
 
 namespace sore
 {
-	enum class SubtitleType { NONE = 0, SRT, ASS };
+	enum class SubtitleType { NONE = 0, SRT, ASS, SBV };
 
 	class ISubtitles
 	{
