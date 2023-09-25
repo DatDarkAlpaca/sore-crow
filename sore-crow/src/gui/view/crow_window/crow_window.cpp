@@ -27,6 +27,7 @@ namespace sore
 		auto* mpvHandle = ui.videoPlayer->mpvHandle();
 		m_TrackWorker = new MPVTrackWorker(this, mpvHandle);
 		m_AudioDeviceWorker = new MPVAudioDeviceWorker(this, mpvHandle);
+		m_Worker = new SubtitleWorker(this, &m_SubtitleModel);
 
 		connectEpisodeListSignals();
 		connectPlayerControlSignals();
@@ -360,6 +361,8 @@ namespace sore
 	{
 		uncheckAllButOne(ui.menuSubtitleTrack, action);
 		ui.videoPlayer->setSubtitleTrack(track.id);
-		m_SubtitleModel.populateData(track.externalFilename);
+		
+		m_Worker->setFilepath(track.externalFilename);
+		m_Worker->run();
 	}
 }

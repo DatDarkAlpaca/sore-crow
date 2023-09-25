@@ -241,6 +241,7 @@
     <ClInclude Include="src\core\subtitle\parser\srt_parser.h" />
     <ClInclude Include="src\core\subtitle\subtitles.h" />
     <ClInclude Include="src\core\subtitle\subtitle_factory.h" />
+    <QtMoc Include="src\core\worker\subtitle_worker.h" />
     <ClInclude Include="src\gui\model\project_utils.h" />
     <QtMoc Include="src\gui\model\subtitle_model.h" />
     <ClInclude Include="src\gui\model\subtitle_delegate.h" />
@@ -255,9 +256,9 @@
     <QtMoc Include="src\core\mpv\mpv_handler.h" />
     <ClInclude Include="src\core\mpv\utils\mpv_node.h" />
     <ClInclude Include="src\core\mpv\utils\mpv_tracks.h" />
-    <QtMoc Include="src\core\mpv\worker\mpv_track_worker.h" />
-    <QtMoc Include="src\core\mpv\worker\mpv_audio_device_worker.h" />
-    <ClInclude Include="src\core\mpv\worker\workers.h" />
+    <QtMoc Include="src\core\worker\mpv_track_worker.h" />
+    <QtMoc Include="src\core\worker\mpv_audio_device_worker.h" />
+    <ClInclude Include="src\core\worker\workers.h" />
     <ClInclude Include="src\core\settings\crow_settings.h" />
     <ClInclude Include="src\core\handlers.h" />
     <ClInclude Include="src\core\settings\settings_handler.h" />

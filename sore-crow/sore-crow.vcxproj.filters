@@ -138,7 +138,7 @@
     <ClInclude Include="src\core\mpv\utils\mpv_audio_devices.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\mpv\worker\workers.h">
+    <ClInclude Include="src\core\worker\workers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\utils\action_utils.h">
@@ -209,10 +209,10 @@
     <QtMoc Include="src\gui\widgets\player_controls\player_controls.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\core\mpv\worker\mpv_track_worker.h">
+    <QtMoc Include="src\core\worker\mpv_track_worker.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\core\mpv\worker\mpv_audio_device_worker.h">
+    <QtMoc Include="src\core\worker\mpv_audio_device_worker.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\gui\widgets\crow_subtitles\crow_subtitles.h">
@@ -225,6 +225,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\gui\view\preferences\preferences_dialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\core\worker\subtitle_worker.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

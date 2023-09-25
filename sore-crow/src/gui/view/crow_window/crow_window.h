@@ -2,7 +2,7 @@
 #include "ui_crow_window.h"
 #include "gui/model/episode_model.h"
 #include "gui/model/subtitle_model.h"
-#include "core/mpv/worker/workers.h"
+#include "core/worker/workers.h"
 #include "gui/widgets/crow_subtitles/crow_subtitles.h"
 
 namespace sore
@@ -72,6 +72,7 @@ namespace sore
         SubtitleModel m_SubtitleModel;
 
     private:
+        SubtitleWorker* m_Worker;
         MPVTrackWorker* m_TrackWorker;
         MPVAudioDeviceWorker* m_AudioDeviceWorker;
 
