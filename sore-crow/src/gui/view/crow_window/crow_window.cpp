@@ -30,6 +30,7 @@ namespace sore
 		m_Worker = new SubtitleWorker(this, &m_SubtitleModel);
 
 		connectEpisodeListSignals();
+		connectEpisodeManagerSignals();
 		connectPlayerControlSignals();
 		connectActionSignals();
 		connectSubtitleSignals();
@@ -42,6 +43,7 @@ namespace sore
 	void CrowWindow::loadProjectData(const ProjectData& projectData)
 	{
 		show();
+		m_ProjectData = projectData;
 
 		// Initial Settings:
 		ui.playerControls->disableControls();
@@ -140,6 +142,30 @@ namespace sore
 				return;
 
 			ui.episodeList->setCurrentIndex(m_EpisodeModel.index(episodeIndex, 0));
+		});
+	}
+
+	void CrowWindow::connectEpisodeManagerSignals()
+	{
+		connect(ui.episodeManager, &EpisodeManager::episodesAddClicked, [&](const QStringList& episodeList) {
+			for (const auto& episode : episodeList)
+				m_ProjectData.addMedia(episode);
+
+			m_ProjectData.save(m_ProjectData.filepath);
+
+			// Refresh:
+			m_EpisodeModel.populateData(m_ProjectData.mediaData);
+		});
+
+		connect(ui.episodeManager, &EpisodeManager::episodeRemoveClicked, [&]() {
+			auto currentIndex = ui.episodeList->currentIndex();
+			auto id = currentIndex.data(EpisodeModel::Roles::IDRole).toUuid();
+
+			m_ProjectData.removeMedia(id);
+			m_ProjectData.save(m_ProjectData.filepath);
+
+			// Refresh:
+			m_EpisodeModel.populateData(m_ProjectData.mediaData);
 		});
 	}
 

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>699</width>
-    <height>401</height>
+    <height>444</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -106,6 +106,9 @@
    </attribute>
    <widget class="QWidget" name="episodesDockWidgetContents">
     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <property name="spacing">
+      <number>0</number>
+     </property>
      <property name="leftMargin">
       <number>0</number>
      </property>
@@ -123,7 +126,13 @@
        <property name="editTriggers">
         <set>QAbstractItemView::NoEditTriggers</set>
        </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::SingleSelection</enum>
+       </property>
       </widget>
+     </item>
+     <item>
+      <widget class="sore::EpisodeManager" name="episodeManager" native="true"/>
      </item>
     </layout>
    </widget>
@@ -276,6 +285,12 @@
    <class>sore::SubtitleListView</class>
    <extends>QListView</extends>
    <header>gui/widgets/subtitle_list_view/subtitle_list_view.h</header>
+  </customwidget>
+  <customwidget>
+   <class>sore::EpisodeManager</class>
+   <extends>QWidget</extends>
+   <header>gui/widgets/episode_manager/episode_manager.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

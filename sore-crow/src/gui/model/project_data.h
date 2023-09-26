@@ -47,7 +47,7 @@ namespace sore
 		Q_GADGET
 
 	public:
-		ProjectData(const ProjectHeader& header, const ProjectMediaData& mediaData);
+		ProjectData(const QString& filepath, const ProjectHeader& header, const ProjectMediaData& mediaData);
 
 		ProjectData(const QString& filepath);
 
@@ -60,6 +60,10 @@ namespace sore
 
 		void save(const QString& filepath) const;
 
+		void addMedia(const QString& filepath);
+
+		void removeMedia(const QUuid& id);
+
 	public:
 		QJsonObject toJSON() const;
 
@@ -71,6 +75,7 @@ namespace sore
 		static EpisodeData parseEpisodeData(const QJsonObject& object);
 
 	public:
+		QString filepath;
 		ProjectHeader header = {};
 		ProjectMediaData mediaData = {};
 	};

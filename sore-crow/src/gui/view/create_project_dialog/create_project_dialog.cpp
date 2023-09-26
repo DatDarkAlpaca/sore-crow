@@ -34,7 +34,7 @@ namespace sore
             mediaData.episodeData.push_back(episodeData);
         }
 
-        ProjectData projectData(header, mediaData);
+        ProjectData projectData(getFilepath(), header, mediaData);
         return projectData;
     }
 

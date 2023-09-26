@@ -233,6 +233,9 @@
     <QtMoc Include="src\core\stylesheet\stylesheet_handler.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\gui\widgets\episode_manager\episode_manager.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="res\sore_crow.qrc">
@@ -261,6 +264,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="res\designer\preferences\appearance_page.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="res\designer\episode_manager.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

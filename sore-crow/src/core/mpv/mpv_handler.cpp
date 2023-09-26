@@ -57,7 +57,7 @@ namespace sore
 
 		if (mpv_render_context_create(&mpvContext, mpvHandle, params) < 0)
 		{
-			errorBox("Crow Player [MPV]", "Failed to initialize a valid OpenGL Context for mpv");
+			messageBox("Crow Player [MPV]", "Failed to initialize a valid OpenGL Context for mpv");
 			return;
 		}
 	}
@@ -93,7 +93,7 @@ namespace sore
 		mpvHandle = mpv_create();
 		if (!mpvHandle)
 		{
-			errorBox("Crow Player [MPV]", "Failed to create a valid mpv handler");
+			messageBox("Crow Player [MPV]", "Failed to create a valid mpv handler");
 			return;
 		}
 
@@ -119,7 +119,7 @@ namespace sore
 
 		if (mpv_initialize(mpvHandle) < 0)
 		{
-			errorBox("Crow Player [MPV]", "Failed to initialize the mpv handler");
+			messageBox("Crow Player [MPV]", "Failed to initialize the mpv handler");
 			return;
 		}
 	}

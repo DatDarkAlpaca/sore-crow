@@ -32,6 +32,7 @@ namespace sore
 				item->setData(episodeName, Roles::NameRole);
 				item->setData(projectDirectory + episode.filepath, Roles::FilepathRole);
 				item->setData(index, Roles::IndexRole);
+				item->setData(episode.id, Roles::IDRole);
 
 				appendRow(item);
 				++index;
@@ -43,7 +44,8 @@ namespace sore
 		{
 			NameRole = Qt::DisplayRole,
 			FilepathRole = 10,
-			IndexRole = 20
+			IndexRole = 20,
+			IDRole = 30,
 		};
 	};
 }

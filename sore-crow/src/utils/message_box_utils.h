@@ -5,7 +5,7 @@
 
 namespace sore
 {
-	inline void errorBox(const QString& title, const QString& errorMessage)
+	inline void messageBox(const QString& title, const QString& errorMessage)
 	{
 		QMessageBox msgBox;
 		msgBox.setWindowIcon(QIcon(":/SoreCrow/sore-crow.ico"));
@@ -19,5 +19,22 @@ namespace sore
 		msgBox.setDefaultButton(QMessageBox::Ok);
 		msgBox.setText(errorMessage);
 		msgBox.exec();
+	}
+
+	inline int inquiryBox(const QString& title, const QString& errorMessage)
+	{
+		QMessageBox msgBox;
+		msgBox.setWindowIcon(QIcon(":/SoreCrow/sore-crow.ico"));
+
+		QString messageBoxTitle = "Sore Crow";
+
+		if (!title.isEmpty())
+			messageBoxTitle += " - " + title;
+
+		msgBox.setWindowTitle(messageBoxTitle);
+		msgBox.addButton(QMessageBox::Yes);
+		msgBox.addButton(QMessageBox::No);
+		msgBox.setText(errorMessage);
+		return msgBox.exec();
 	}
 }

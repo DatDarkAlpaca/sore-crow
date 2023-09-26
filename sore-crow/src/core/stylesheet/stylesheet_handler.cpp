@@ -63,7 +63,7 @@ namespace sore
 	{
 		if (!styleExists(styleName))
 		{
-			errorBox("Stylesheet Handler", "This style does not exist.");
+			messageBox("Stylesheet Handler", "This style does not exist.");
 			return;
 		}
 
@@ -74,7 +74,7 @@ namespace sore
 	{
 		if (!themeExists(themeName))
 		{
-			errorBox("Stylesheet Handler", "This theme does not exist.");
+			messageBox("Stylesheet Handler", "This theme does not exist.");
 			return;
 		}
 
@@ -149,7 +149,7 @@ namespace sore
 
 		if (currentStyle.isEmpty() || currentTheme.isEmpty())
 		{
-			errorBox("Stylesheet Handler", "No style or theme was found.");
+			messageBox("Stylesheet Handler", "No style or theme was found.");
 			return;
 		}
 

@@ -18,8 +18,34 @@ namespace sore
 	{
 		return QFileDialog::getOpenFileName(
 			nullptr,
-			"Open project file", "",
+			"Open Project", "",
 			"Project files (*.prj)"
+		);
+	}
+
+	inline QStringList openMediaSourcesDialog()
+	{
+		auto& settings = SettingsHandler::settings;
+		QStringList mediaExtensionList = settings->getString("project/supported/video_formats").split(",");
+
+		QString extensionString;
+		size_t index = 0;
+		for (const auto& extension : mediaExtensionList)
+		{
+			extensionString += QString("*.%1").arg(extension);
+
+			if (index - 1 != mediaExtensionList.size())
+				extensionString += ' ';
+
+			index++;
+		}
+
+		QString supportedSubtitles = QString("Media files (%1)").arg(extensionString);
+
+		return QFileDialog::getOpenFileNames(
+			nullptr,
+			"Open Media Tracks", "",
+			supportedSubtitles
 		);
 	}
 
@@ -44,7 +70,7 @@ namespace sore
 
 		return QFileDialog::getOpenFileName(
 			nullptr,
-			"Open project file", "",
+			"Open Subtitle Track", "",
 			supportedSubtitles
 		);
 	}

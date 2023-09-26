@@ -267,6 +267,7 @@
     <QtMoc Include="src\gui\model\episode_model.h" />
     <QtMoc Include="src\gui\widgets\crow_subtitles\crow_subtitles.h" />
     <QtMoc Include="src\gui\widgets\subtitle_list_view\subtitle_list_view.h" />
+    <QtMoc Include="src\gui\widgets\episode_manager\episode_manager.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\utils\action_utils.h" />
     <ClInclude Include="src\utils\dialog_utils.h" />
@@ -284,6 +285,7 @@
   <ItemGroup>
     <QtUic Include="res\designer\create_project_dialog.ui" />
     <QtUic Include="res\designer\crow_window.ui" />
+    <QtUic Include="res\designer\episode_manager.ui" />
     <QtUic Include="res\designer\player_controls.ui" />
     <QtUic Include="res\designer\preferences\appearance_page.ui" />
     <QtUic Include="res\designer\preferences\preferences.ui" />

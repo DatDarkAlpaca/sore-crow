@@ -4,14 +4,16 @@
 
 namespace sore 
 {
-	ProjectData::ProjectData(const ProjectHeader& header, const ProjectMediaData& mediaData)
-		: header(header)
+	ProjectData::ProjectData(const QString& filepath, const ProjectHeader& header, const ProjectMediaData& mediaData)
+		: filepath(filepath)
+		, header(header)
 		, mediaData(mediaData)
 	{
 	}
 
 	ProjectData::ProjectData(const QString& filepath)
 	{
+		this->filepath = filepath;
 		open(filepath);
 	}
 
@@ -33,6 +35,20 @@ namespace sore
 
 		QJsonDocument document(toJSON());
 		file.write(document.toJson());
+	}
+
+	void ProjectData::addMedia(const QString& filepath)
+	{
+		mediaData.episodeData.push_back(EpisodeData(filepath));
+	}
+
+	void ProjectData::removeMedia(const QUuid& id)
+	{
+		auto& episodeData = mediaData.episodeData;
+
+		episodeData.erase(std::remove_if(episodeData.begin(), episodeData.end(), [&](const EpisodeData& episode) {
+			return episode.id == id;
+		}));
 	}
 
 	QJsonObject ProjectData::toJSON() const

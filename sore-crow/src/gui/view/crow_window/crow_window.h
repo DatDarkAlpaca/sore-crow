@@ -29,6 +29,8 @@ namespace sore
     private:
         void connectEpisodeListSignals();
 
+        void connectEpisodeManagerSignals();
+
         void connectPlayerControlSignals();
 
         void connectActionSignals();
@@ -80,6 +82,7 @@ namespace sore
     private:
         EpisodeModel m_EpisodeModel;
         SubtitleModel m_SubtitleModel;
+        ProjectData m_ProjectData;
 
     private:
         SubtitleWorker* m_Worker;
