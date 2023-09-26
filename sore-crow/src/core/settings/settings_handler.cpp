@@ -24,7 +24,7 @@ namespace sore
 
 	void SettingsHandler::initializeDefaultSettings()
 	{
-		settings->setValue("version", "0.1");
+		settings->setValue("version", ProjectVersion);
 
 		settings->setValue("project/extension", "prj");
 		settings->setValue("project/default_episodes_folder_name", "episodes");
