@@ -110,57 +110,6 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="backgroundColorLayout">
-     <item>
-      <widget class="QLabel" name="backgroundColorLabel">
-       <property name="text">
-        <string>Background Color</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="backgroundColorSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QFrame" name="backgroundFrame">
-       <property name="minimumSize">
-        <size>
-         <width>32</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="backgroundColorBtn">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../sore_crow.qrc">
-         <normaloff>:/Icons/icons/copy/eyedropper-tool.png</normaloff>:/Icons/icons/copy/eyedropper-tool.png</iconset>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
     <layout class="QHBoxLayout" name="fontSizeLayout">
      <item>
       <widget class="QLabel" name="fontSizeLabel">
@@ -277,6 +226,57 @@
      </item>
      <item>
       <widget class="QPushButton" name="foregroundColorBtn">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../sore_crow.qrc">
+         <normaloff>:/Icons/icons/copy/eyedropper-tool.png</normaloff>:/Icons/icons/copy/eyedropper-tool.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="backgroundColorLayout">
+     <item>
+      <widget class="QLabel" name="backgroundColorLabel">
+       <property name="text">
+        <string>Background Color</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="backgroundColorSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QFrame" name="backgroundFrame">
+       <property name="minimumSize">
+        <size>
+         <width>32</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="backgroundColorBtn">
        <property name="text">
         <string/>
        </property>

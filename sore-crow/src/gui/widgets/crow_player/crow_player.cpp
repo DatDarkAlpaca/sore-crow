@@ -189,7 +189,7 @@ namespace sore
 
 	void CrowPlayer::overrideSubtitleStyles(bool shouldOverride)
 	{
-		mpv::setOption(mpvHandle(), "sub-ass-override", shouldOverride ? "force" : "no");
+		mpv::setPropertyAsync(mpvHandle(), "sub-ass-override", shouldOverride ? "force" : "no");
 	}
 
 	void CrowPlayer::setSubtitleStyle(const SubtitleFontStyles& style)
