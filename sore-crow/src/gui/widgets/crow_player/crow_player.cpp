@@ -9,6 +9,8 @@ namespace sore
 		: MPVWidget(parent)
 	{
 		setContextMenuPolicy(Qt::CustomContextMenu);
+		mpv::setOption(mpvHandle(), "sub-auto", "exact");
+
 		connect(this, &CrowPlayer::customContextMenuRequested, this, &CrowPlayer::showContextMenu);
 	
 		connect(this, &CrowPlayer::positionChanged, this, &CrowPlayer::handleRepeatOnPositionChange);
@@ -150,10 +152,21 @@ namespace sore
 		mpv::setPropertyAsync(mpvHandle(), "sub-visibility", visible);
 	}
 
+	void CrowPlayer::setSecondarySubtitleVisibility(bool visible)
+	{
+		mpv::setPropertyAsync(mpvHandle(), "secondary-sub-visibility", visible);
+	}
+
 	void CrowPlayer::setSubtitleTrack(int64_t id)
 	{
 		setSubtitleVisibility(true);
 		mpv::setPropertyAsync(mpvHandle(), "sid", id);
+	}
+
+	void CrowPlayer::setSecondarySubtitleTrack(int64_t id)
+	{
+		setSecondarySubtitleVisibility(true);
+		mpv::setPropertyAsync(mpvHandle(), "secondary-sid", id);
 	}
 
 	void CrowPlayer::setSubtitleTrack(const QString& stream)
@@ -161,9 +174,32 @@ namespace sore
 		mpv::setPropertyAsync(mpvHandle(), "sid", stream);
 	}
 
+	void CrowPlayer::setSecondarySubtitleTrack(const QString& stream)
+	{
+		mpv::setPropertyAsync(mpvHandle(), "secondary-sid", stream);
+	}
+
 	QString CrowPlayer::getSubtitle() const
 	{
 		return mpv::getProperty(mpvHandle(), "sub-text").toString();
+	}
+
+	QString CrowPlayer::getSecondarySubtitle() const
+	{
+		return mpv::getProperty(mpvHandle(), "seconadary-sub-text").toString();
+	}
+
+	void CrowPlayer::overrideSubtitleStyles(bool shouldOverride)
+	{
+		mpv::setPropertyAsync(mpvHandle(), "sub-ass-override", shouldOverride ? "force" : "no");
+	}
+
+	void CrowPlayer::setSubtitleStyle(const SubtitleFontStyles& style)
+	{
+		mpv::setPropertyAsync(mpvHandle(), "sub-font", style.family);
+		mpv::setPropertyAsync(mpvHandle(), "sub-font-size", style.size);
+		mpv::setPropertyAsync(mpvHandle(), "sub-color", style.color);
+		mpv::setPropertyAsync(mpvHandle(), "sub-back-color", style.backgroundColor);
 	}
 
 	int CrowPlayer::volumeMax() const
@@ -191,13 +227,20 @@ namespace sore
 		QMenu contextMenu(tr("Video Tools"), this);
 
 		QAction copySubAction("Copy Subtitle", this);
+		QAction copySecondarySubAction("Copy Secondary Subtitle", this);
 
 		connect(&copySubAction, &QAction::triggered, [&]() {
 			QClipboard* clipboard = qApp->clipboard();
 			clipboard->setText(getSubtitle());
 		});
 
+		connect(&copySecondarySubAction, &QAction::triggered, [&]() {
+			QClipboard* clipboard = qApp->clipboard();
+			clipboard->setText(getSecondarySubtitle());
+		});
+
 		contextMenu.addAction(&copySubAction);
+		contextMenu.addAction(&copySecondarySubAction);
 		contextMenu.exec(mapToGlobal(position));
 	}
 

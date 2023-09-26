@@ -1,5 +1,6 @@
 #pragma once
 #include "core/mpv/mpv_widget.h"
+#include "core/stylesheet/subtitle_font_styles.h"
 
 namespace sore
 {
@@ -38,11 +39,21 @@ namespace sore
 		void setAudioTrack(int64_t id);
 		void setAudioDevice(const QString& name);
 
+		// Subtitles:
 		void addExternalSubtitle(const QString& filepath);
 		void setSubtitleVisibility(bool visible);
+		void setSecondarySubtitleVisibility(bool visible);
+
 		void setSubtitleTrack(int64_t id);
+		void setSecondarySubtitleTrack(int64_t id);
+
 		void setSubtitleTrack(const QString& stream);
+		void setSecondarySubtitleTrack(const QString& stream);
 		QString getSubtitle() const;
+		QString getSecondarySubtitle() const;
+
+		void overrideSubtitleStyles(bool shouldOverride);
+		void setSubtitleStyle(const SubtitleFontStyles& style);
 
 	signals:
 		void playingStatusChanged(bool isPlaying);

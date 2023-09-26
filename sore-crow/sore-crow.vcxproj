@@ -233,6 +233,7 @@
     <ClInclude Include="src\app\crow_app.h" />
     <ClInclude Include="src\constants.h" />
     <QtMoc Include="src\gui\widgets\player_controls\player_controls.h" />
+    <ClInclude Include="src\core\stylesheet\subtitle_font_styles.h" />
     <ClInclude Include="src\core\subtitle\parser\ass_components.h" />
     <ClInclude Include="src\core\subtitle\parser\ass_parser.h" />
     <ClInclude Include="src\core\subtitle\parser\sbv_components.h" />
@@ -262,7 +263,7 @@
     <ClInclude Include="src\core\settings\crow_settings.h" />
     <ClInclude Include="src\core\handlers.h" />
     <ClInclude Include="src\core\settings\settings_handler.h" />
-    <ClInclude Include="src\core\stylesheet\stylesheet_handler.h" />
+    <QtMoc Include="src\core\stylesheet\stylesheet_handler.h" />
     <QtMoc Include="src\gui\model\episode_model.h" />
     <QtMoc Include="src\gui\widgets\crow_subtitles\crow_subtitles.h" />
     <QtMoc Include="src\gui\widgets\subtitle_list_view\subtitle_list_view.h" />

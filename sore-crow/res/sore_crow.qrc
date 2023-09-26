@@ -3,6 +3,7 @@
     <file>sore-crow.ico</file>
   </qresource>
   <qresource prefix="Icons">
+    <file>icons/copy/eyedropper-tool.png</file>
     <file>icons/ryan/search.png</file>
     <file>icons/copy/copy.png</file>
     <file>icons/copy/loop-arrow.png</file>

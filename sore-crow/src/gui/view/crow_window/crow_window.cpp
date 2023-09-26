@@ -33,6 +33,10 @@ namespace sore
 		connectPlayerControlSignals();
 		connectActionSignals();
 		connectSubtitleSignals();
+		connectHandlerSignals();
+
+		// Handlers:
+		StylesheetHandler::initializePlayerStyles();
 	}
 
 	void CrowWindow::loadProjectData(const ProjectData& projectData)
@@ -108,6 +112,7 @@ namespace sore
 			// Actions:
 			setAudioTrackAction(true);
 			setSubtitleTrackAction(true);
+			setSecondarySubtitleTrackAction(true);
 			setExternalSubtitleAction(true);
 		});
 
@@ -199,6 +204,7 @@ namespace sore
 		// Track Worker:
 		connect(m_TrackWorker, &MPVTrackWorker::jobFinished, this, &CrowWindow::populateAudioTracks);
 		connect(m_TrackWorker, &MPVTrackWorker::jobFinished, this, &CrowWindow::populateSubtitleTracks);
+		connect(m_TrackWorker, &MPVTrackWorker::jobFinished, this, &CrowWindow::populateSecondarySubtitleTracks);
 		connect(m_AudioDeviceWorker, &MPVAudioDeviceWorker::jobFinished, this, &CrowWindow::populateAudioDevices);
 	}
 
@@ -218,6 +224,15 @@ namespace sore
 		connect(ui.subtitleList, &SubtitleListView::jumpedToTimestamp, ui.videoPlayer, &CrowPlayer::seekAbsolute);
 	}
 
+	void CrowWindow::connectHandlerSignals()
+	{
+		connect(StylesheetHandler::instance(), &StylesheetHandler::overrideStylesChanged, 
+				ui.videoPlayer, &CrowPlayer::overrideSubtitleStyles);
+
+		connect(StylesheetHandler::instance(), &StylesheetHandler::subtitleStyleChanged,
+			ui.videoPlayer, &CrowPlayer::setSubtitleStyle);
+	}
+
 	void CrowWindow::setAudioTrackAction(bool enabled)
 	{
 		ui.menuAudioTrack->setEnabled(enabled);
@@ -226,6 +241,11 @@ namespace sore
 	void CrowWindow::setSubtitleTrackAction(bool enabled)
 	{
 		ui.menuSubtitleTrack->setEnabled(enabled);
+	}
+
+	void CrowWindow::setSecondarySubtitleTrackAction(bool enabled)
+	{
+		ui.menuSecondarySubtitle->setEnabled(enabled);
 	}
 
 	void CrowWindow::setExternalSubtitleAction(bool enabled)
@@ -308,6 +328,22 @@ namespace sore
 		ui.menuSubtitleTrack->addAction(action);
 	}
 
+	void CrowWindow::createDisabledSecondarySubtitleTrack()
+	{
+		QAction* action = new QAction(ui.menuSecondarySubtitle);
+		action->setCheckable(true);
+		action->setChecked(true);
+		action->setText("Disabled");
+		ui.videoPlayer->setSecondarySubtitleVisibility(false);
+
+		connect(action, &QAction::triggered, [&, action](bool checked) {
+			uncheckAllButOne(ui.menuSecondarySubtitle, action);
+			ui.videoPlayer->setSecondarySubtitleVisibility(false);
+		});
+
+		ui.menuSecondarySubtitle->addAction(action);
+	}
+
 	void CrowWindow::populateSubtitleTracks(const std::vector<Track>& tracks)
 	{
 		ui.menuSubtitleTrack->clear();
@@ -342,6 +378,36 @@ namespace sore
 			uncheckAll(ui.menuSubtitleTrack);
 			lastAction->setChecked(true);
 			ui.videoPlayer->setSubtitleTrack(lastTrack.id);
+		}
+	}
+
+	void CrowWindow::populateSecondarySubtitleTracks(const std::vector<Track>& tracks)
+	{
+		ui.menuSecondarySubtitle->clear();
+
+		createDisabledSecondarySubtitleTrack();
+
+		QAction* lastAction = nullptr;
+		Track lastTrack;
+		size_t index = 0;
+		for (const auto& track : tracks)
+		{
+			if (track.type != "sub")
+				continue;
+
+			QAction* action = new QAction(ui.menuSecondarySubtitle);
+			action->setCheckable(true);
+			action->setText(getBestTrackTitle(track, index));
+
+			connect(action, &QAction::triggered, [&, track, action](bool checked) {
+				onSecondarySubtitleTrackTriggered(action, track);
+			});
+
+			lastAction = action;
+			lastTrack = track;
+
+			++index;
+			ui.menuSecondarySubtitle->addAction(action);
 		}
 	}
 
@@ -380,5 +446,11 @@ namespace sore
 		
 		m_Worker->setFilepath(track.externalFilename);
 		m_Worker->run();
+	}
+	
+	void CrowWindow::onSecondarySubtitleTrackTriggered(QAction* action, const Track& track)
+	{
+		uncheckAllButOne(ui.menuSecondarySubtitle, action);
+		ui.videoPlayer->setSecondarySubtitleTrack(track.id);
 	}
 }
