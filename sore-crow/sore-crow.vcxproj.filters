@@ -93,9 +93,6 @@
     <ClInclude Include="..\vendor\qass\src\acss_globals.h">
       <Filter>Vendor Files\QASS</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\stylesheet\stylesheet_handler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\core\handlers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -174,6 +171,9 @@
     <ClInclude Include="src\core\subtitle\parser\sbv_parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\stylesheet\subtitle_font_styles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\gui\model\project_data.h">
@@ -228,6 +228,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\core\worker\subtitle_worker.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\core\stylesheet\stylesheet_handler.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

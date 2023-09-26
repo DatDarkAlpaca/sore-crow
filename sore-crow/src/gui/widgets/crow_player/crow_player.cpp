@@ -166,6 +166,19 @@ namespace sore
 		return mpv::getProperty(mpvHandle(), "sub-text").toString();
 	}
 
+	void CrowPlayer::overrideSubtitleStyles(bool shouldOverride)
+	{
+		mpv::setOption(mpvHandle(), "sub-ass-override", shouldOverride ? "force" : "no");
+	}
+
+	void CrowPlayer::setSubtitleStyle(const SubtitleFontStyles& style)
+	{
+		mpv::setPropertyAsync(mpvHandle(), "sub-font", style.family);
+		mpv::setPropertyAsync(mpvHandle(), "sub-font-size", style.size);
+		mpv::setPropertyAsync(mpvHandle(), "sub-color", style.color);
+		mpv::setPropertyAsync(mpvHandle(), "sub-back-color", style.backgroundColor);
+	}
+
 	int CrowPlayer::volumeMax() const
 	{
 		return mpv::getProperty(mpvHandle(), "volume-max").toInt();

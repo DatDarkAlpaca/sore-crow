@@ -35,6 +35,8 @@ namespace sore
 
         void connectSubtitleSignals();
 
+        void connectHandlerSignals();
+
     // Track Utils:
     private:
         void setAudioTrackAction(bool enabled);

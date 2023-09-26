@@ -33,6 +33,10 @@ namespace sore
 		connectPlayerControlSignals();
 		connectActionSignals();
 		connectSubtitleSignals();
+		connectHandlerSignals();
+
+		// Handlers:
+		StylesheetHandler::initializePlayerStyles();
 	}
 
 	void CrowWindow::loadProjectData(const ProjectData& projectData)
@@ -216,6 +220,15 @@ namespace sore
 		});
 
 		connect(ui.subtitleList, &SubtitleListView::jumpedToTimestamp, ui.videoPlayer, &CrowPlayer::seekAbsolute);
+	}
+
+	void CrowWindow::connectHandlerSignals()
+	{
+		connect(StylesheetHandler::instance(), &StylesheetHandler::overrideStylesChanged, 
+				ui.videoPlayer, &CrowPlayer::overrideSubtitleStyles);
+
+		connect(StylesheetHandler::instance(), &StylesheetHandler::subtitleStyleChanged,
+			ui.videoPlayer, &CrowPlayer::setSubtitleStyle);
 	}
 
 	void CrowWindow::setAudioTrackAction(bool enabled)

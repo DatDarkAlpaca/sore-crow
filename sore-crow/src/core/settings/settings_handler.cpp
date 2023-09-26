@@ -43,7 +43,13 @@ namespace sore
 		settings->setValue("styles/themes/selected_style", "crow_material");
 		settings->setValue("styles/themes/selected_theme", "dark_purple");
 		settings->setValue("styles/themes/is_theme_dark", true);
-		settings->setValue("styles/subtitles/point_size", 20);
+
+		settings->setValue("styles/subtitles/override_styles", false);
+		settings->setValue("styles/subtitles/primary/font_family", "segoe ui");
+		settings->setValue("styles/subtitles/primary/font_size", 12);
+		settings->setValue("styles/subtitles/primary/font_color", "#FFFFFFFF");
+		settings->setValue("styles/subtitles/primary/font_background_color", "#000000C0");
+
 		settings->sync();
 	}
 }
