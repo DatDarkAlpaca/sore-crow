@@ -182,7 +182,17 @@
      </property>
      <addaction name="actionPlaceholderSubtitle"/>
     </widget>
+    <widget class="QMenu" name="menuSecondarySubtitle">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="title">
+      <string>Secondary Subtitle...</string>
+     </property>
+     <addaction name="actionempty"/>
+    </widget>
     <addaction name="menuSubtitleTrack"/>
+    <addaction name="menuSecondarySubtitle"/>
     <addaction name="actionAddExternalTrack"/>
    </widget>
    <addaction name="menuFile"/>
@@ -236,6 +246,11 @@
   <action name="actionPreferences">
    <property name="text">
     <string>Preferences</string>
+   </property>
+  </action>
+  <action name="actionempty">
+   <property name="text">
+    <string>Disable</string>
    </property>
   </action>
  </widget>

@@ -43,6 +43,8 @@ namespace sore
 
         void setSubtitleTrackAction(bool enabled);
 
+        void setSecondarySubtitleTrackAction(bool enabled);
+
         void setExternalSubtitleAction(bool enabled);
 
         void populateAudioTracks(const std::vector<Track>& tracks);
@@ -51,7 +53,11 @@ namespace sore
 
         void createDisabledSubtitleTrack();
 
+        void createDisabledSecondarySubtitleTrack();
+
         void populateSubtitleTracks(const std::vector<Track>& tracks);
+
+        void populateSecondarySubtitleTracks(const std::vector<Track>& tracks);
 
     // Track Slots
     private:
@@ -63,6 +69,8 @@ namespace sore
 
         void onSubtitleTrackTriggered(QAction* action, const Track& track);
     
+        void onSecondarySubtitleTrackTriggered(QAction* action, const Track& track);
+
     private:
         Ui::CrowWindow ui;
 
