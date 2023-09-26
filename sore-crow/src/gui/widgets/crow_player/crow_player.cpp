@@ -9,6 +9,8 @@ namespace sore
 		: MPVWidget(parent)
 	{
 		setContextMenuPolicy(Qt::CustomContextMenu);
+		mpv::setOption(mpvHandle(), "sub-auto", "exact");
+
 		connect(this, &CrowPlayer::customContextMenuRequested, this, &CrowPlayer::showContextMenu);
 	
 		connect(this, &CrowPlayer::positionChanged, this, &CrowPlayer::handleRepeatOnPositionChange);
