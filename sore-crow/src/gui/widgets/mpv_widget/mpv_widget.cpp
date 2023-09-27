@@ -22,7 +22,6 @@ namespace sore
 
 	void MPVWidget::initializeGL()
 	{
-		qDebug() << "hi";
 		m_Handler.initializeMPVGL();
 
 		mpv_render_context_set_update_callback(

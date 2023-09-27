@@ -1,5 +1,5 @@
 #pragma once
-#include "core/mpv/mpv_widget.h"
+#include "gui/widgets/mpv_widget/mpv_widget.h"
 #include "core/stylesheet/subtitle_font_styles.h"
 
 namespace sore

@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 {
     using namespace sore;
 
-    qApp->setAttribute(Qt::AA_ShareOpenGLContexts);
+    preInitializeApp();
     CrowApp application(argc, argv);
 
     // Instances:

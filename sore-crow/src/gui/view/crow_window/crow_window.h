@@ -2,7 +2,7 @@
 #include "ui_crow_window.h"
 #include "gui/model/episode_model.h"
 #include "gui/model/subtitle_model.h"
-#include "core/worker/workers.h"
+#include "gui/worker/workers.h"
 #include "gui/widgets/crow_subtitles/crow_subtitles.h"
 
 namespace sore

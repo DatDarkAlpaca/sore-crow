@@ -13,4 +13,6 @@ namespace sore
 
 		void setupHandlers();
 	};
+
+	 void preInitializeApp();
 }

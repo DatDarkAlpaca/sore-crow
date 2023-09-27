@@ -30,4 +30,9 @@ namespace sore
 		FilesystemHandler::initialize();
 		StylesheetHandler::initialize();
 	}
+
+	void preInitializeApp()
+	{
+		qApp->setAttribute(Qt::AA_ShareOpenGLContexts);
+	}
 }

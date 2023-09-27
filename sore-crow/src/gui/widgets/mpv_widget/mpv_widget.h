@@ -1,8 +1,8 @@
 #pragma once
 #include <array>
 #include <QOpenGLWidget>
-#include "mpv_handler.h"
-#include "utils/mpv_tracks.h"
+#include "core/mpv/mpv_handler.h"
+#include "core/mpv/utils/mpv_tracks.h"
 
 namespace sore
 {
