@@ -1,6 +1,6 @@
 #pragma once
 #include <QStandardItemModel>
-#include "project_data.h"
+#include "core/project/project_data.h"
 #include "core/handlers.h"
 
 namespace sore

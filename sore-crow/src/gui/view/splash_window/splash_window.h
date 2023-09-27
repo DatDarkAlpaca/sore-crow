@@ -1,7 +1,7 @@
 #pragma once
 #include <QMainWindow>
 #include "ui_splash_window.h"
-#include "gui/model/project_data.h"
+#include "core/project/project_data.h"
 
 namespace sore
 {

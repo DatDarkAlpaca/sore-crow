@@ -3,7 +3,7 @@
 
 #include "core/handlers.h"
 #include "utils/action_utils.h"
-#include "gui/model/project_utils.h"
+#include "core/project/project_utils.h"
 #include "gui/model/subtitle_delegate.h"
 #include "gui/view/preferences/preferences_dialog.h"
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "gui/model/project_data.h"
+#include "core/project/project_data.h"
 #include "ui_create_project_dialog.h"
 
 namespace sore

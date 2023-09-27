@@ -2,7 +2,7 @@
 #include "constants.h"
 #include "splash_window.h"
 #include "core/handlers.h"
-#include "gui/model/project_utils.h"
+#include "core/project/project_utils.h"
 
 namespace sore
 {

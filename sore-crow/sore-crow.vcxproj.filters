@@ -43,7 +43,7 @@
     <ClCompile Include="src\gui\view\splash_window\splash_window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\model\project_data.cpp">
+    <ClCompile Include="src\core\project\project_data.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\app\crow_app.cpp">
@@ -123,7 +123,7 @@
     <ClInclude Include="src\core\mpv\utils\mpv_commands.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\model\project_utils.h">
+    <ClInclude Include="src\core\project\project_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\widgets\crow_slider\crow_slider.h">
@@ -179,7 +179,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="src\gui\model\project_data.h">
+    <QtMoc Include="src\core\project\project_data.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\vendor\qass\src\QtAdvancedStylesheet.h">

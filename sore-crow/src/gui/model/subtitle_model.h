@@ -2,7 +2,7 @@
 #include <memory>
 #include <optional>
 #include <QStandardItemModel>
-#include "project_data.h"
+#include "core/project/project_data.h"
 #include "core/subtitle/subtitle_factory.h"
 
 namespace sore

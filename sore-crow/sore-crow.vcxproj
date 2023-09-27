@@ -212,7 +212,7 @@
     <ClCompile Include="src\core\settings\settings_handler.cpp" />
     <ClCompile Include="src\core\stylesheet\stylesheet_handler.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\gui\model\project_data.cpp" />
+    <ClCompile Include="src\core\project\project_data.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -227,7 +227,7 @@
     <QtMoc Include="src\gui\widgets\crow_player\crow_player.h" />
     <QtMoc Include="src\gui\widgets\hideable_dock\hideable_dock.h" />
     <QtMoc Include="src\gui\view\crow_window\crow_window.h" />
-    <QtMoc Include="src\gui\model\project_data.h" />
+    <QtMoc Include="src\core\project\project_data.h" />
     <ClInclude Include="..\vendor\qass\src\acss_globals.h" />
     <QtMoc Include="..\vendor\qass\src\QtAdvancedStylesheet.h" />
     <ClInclude Include="src\app\crow_app.h" />
@@ -243,7 +243,7 @@
     <ClInclude Include="src\core\subtitle\subtitles.h" />
     <ClInclude Include="src\core\subtitle\subtitle_factory.h" />
     <QtMoc Include="src\gui\worker\subtitle_worker.h" />
-    <ClInclude Include="src\gui\model\project_utils.h" />
+    <ClInclude Include="src\core\project\project_utils.h" />
     <QtMoc Include="src\gui\model\subtitle_model.h" />
     <ClInclude Include="src\gui\model\subtitle_delegate.h" />
     <QtMoc Include="src\gui\view\preferences\preferences_dialog.h" />
