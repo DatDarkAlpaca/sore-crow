@@ -186,7 +186,7 @@ namespace sore
 
 	QString CrowPlayer::getSecondarySubtitle() const
 	{
-		return mpv::getProperty(mpvHandle(), "seconadary-sub-text").toString();
+		return mpv::getProperty(mpvHandle(), "secondary-sub-text").toString();
 	}
 
 	void CrowPlayer::overrideSubtitleStyles(bool shouldOverride)
