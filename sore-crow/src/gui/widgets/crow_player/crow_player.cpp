@@ -159,13 +159,11 @@ namespace sore
 
 	void CrowPlayer::setSubtitleTrack(int64_t id)
 	{
-		setSubtitleVisibility(true);
 		mpv::setPropertyAsync(mpvHandle(), "sid", id);
 	}
 
 	void CrowPlayer::setSecondarySubtitleTrack(int64_t id)
 	{
-		setSecondarySubtitleVisibility(true);
 		mpv::setPropertyAsync(mpvHandle(), "secondary-sid", id);
 	}
 
