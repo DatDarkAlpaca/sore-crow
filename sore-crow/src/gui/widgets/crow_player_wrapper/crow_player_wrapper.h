@@ -52,8 +52,7 @@ namespace sore
 			controls->show();
 			m_UserInactive = false;
 
-			QCursor cursor(Qt::ArrowCursor);
-			qApp->setOverrideCursor(cursor);
+			qApp->restoreOverrideCursor();
 
 			m_HideControlTimer->start();
 		}
