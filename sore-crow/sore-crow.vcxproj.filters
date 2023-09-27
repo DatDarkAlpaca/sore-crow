@@ -85,6 +85,9 @@
     <ClCompile Include="src\gui\widgets\crow_player_wrapper\crow_player_wrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\widgets\episode_manager\episode_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">

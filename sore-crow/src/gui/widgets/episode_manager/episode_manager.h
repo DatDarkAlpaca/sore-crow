@@ -10,28 +10,12 @@ namespace sore
 		Q_OBJECT
 
 	public:
-		EpisodeManager(QWidget* parent = nullptr)
-			: QWidget(parent)
-		{
-			ui.setupUi(this);
-
-			connect(ui.addEpisodeBtn, &QPushButton::released, this, &EpisodeManager::onAddEpisodeClicked);
-			connect(ui.removeEpisodeBtn, &QPushButton::released, this, &EpisodeManager::onRemoveEpisodeClicked);
-		}
+		EpisodeManager(QWidget* parent = nullptr);
 
 	public:
-		void onAddEpisodeClicked()
-		{
-			auto episodesSelected = openMediaSourcesDialog();
-			emit episodesAddClicked(episodesSelected);
-		}
+		void onAddEpisodeClicked();
 
-		void onRemoveEpisodeClicked()
-		{
-			int reply = inquiryBox("SoreCrow", "Do you really want to remove this media file from the project?");
-			if (reply == QMessageBox::Yes)
-				emit episodeRemoveClicked();
-		}
+		void onRemoveEpisodeClicked();
 
 	signals:
 		void episodesAddClicked(const QStringList&);

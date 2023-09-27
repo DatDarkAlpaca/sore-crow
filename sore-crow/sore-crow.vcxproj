@@ -207,6 +207,7 @@
     <ClCompile Include="src\app\crow_app.cpp" />
     <ClCompile Include="src\gui\view\crow_window\crow_window_actions.cpp" />
     <ClCompile Include="src\gui\widgets\crow_player_wrapper\crow_player_wrapper.cpp" />
+    <ClCompile Include="src\gui\widgets\episode_manager\episode_manager.cpp" />
     <ClCompile Include="src\gui\widgets\player_controls\player_controls.cpp" />
     <ClCompile Include="src\core\filesystem\filesystem_handler.cpp" />
     <ClCompile Include="src\core\mpv\mpv_handler.cpp" />

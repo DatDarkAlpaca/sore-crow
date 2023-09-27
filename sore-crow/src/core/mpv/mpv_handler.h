@@ -2,7 +2,6 @@
 #include <mpv/client.h>
 #include <QOpenGLContext>
 #include <mpv/render_gl.h>
-
 #include "utils/mpv_node.h"
 #include "utils/mpv_commands.h"
 

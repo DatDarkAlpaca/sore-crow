@@ -1,11 +1,6 @@
 #pragma once
-#include <string>
-#include <vector>
 #include <sstream>
 #include <iomanip>
-#include <algorithm>
-#include <filesystem>
-
 #include <QString>
 #include <QRegularExpression>
 

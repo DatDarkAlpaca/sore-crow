@@ -2,7 +2,6 @@
 #include <vector>
 #include <QString>
 #include <QStringList>
-
 #include "ass_components.h"
 #include "utils/string_utils.h"
 
