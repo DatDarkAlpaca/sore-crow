@@ -12,12 +12,7 @@ namespace sore
 
 	inline void uncheckAllButOne(QMenu* menu, QAction* ignoredAction)
 	{
-		for (QAction* action : menu->actions())
-		{
-			if (action == ignoredAction)
-				continue;
-
-			action->setChecked(false);
-		}
+		uncheckAll(menu);
+		ignoredAction->setChecked(true);
 	}
 }

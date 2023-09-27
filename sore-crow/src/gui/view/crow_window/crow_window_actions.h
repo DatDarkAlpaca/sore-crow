@@ -53,7 +53,9 @@ namespace sore
 		void onSecondarySubtitleTrackTriggered(QAction* action, const Track& track);
 
 	private:
-		void createDisabledSubtitleTrack(QMenu* menu, bool isSecondary);
+		void createDisabledSubtitleTrack();
+
+		void createDisabledSecondarySubtitleTrack();
 
 	private:
 		CrowWindow* m_CrowWindow = nullptr;

@@ -22,7 +22,8 @@ namespace sore
 
         void run() override
         {
-            m_Subtitle->populateData(m_Filepath);
+            if(!m_Filepath.isEmpty())
+                m_Subtitle->populateData(m_Filepath);
         }
 
     private:
