@@ -11,146 +11,34 @@ namespace sore
 	class CrowPlayerWrapper : public CrowPlayer
 	{
 	public:
-		CrowPlayerWrapper(QWidget* parent = nullptr)
-			: CrowPlayer(parent)
-		{
-			setupUI();
-			setupTimer();
-			setupFullscreen();
-		}
+		CrowPlayerWrapper(QWidget* parent = nullptr);
 
 	protected:
-		bool event(QEvent* event) override
-		{
-			switch (event->type())
-			{
-				case QEvent::HoverEnter:
-				{
-					onHoverEnter(static_cast<QHoverEvent*>(event));
-					return true;
-				}
-
-				case QEvent::HoverLeave:
-				{
-					onHoverLeave(static_cast<QHoverEvent*>(event));
-					return true;
-				}
-
-				case QEvent::HoverMove:
-				{
-					onHoverEnter(static_cast<QHoverEvent*>(event));
-					return true;
-				}
-			}
-
-			return QWidget::event(event);
-		}
+		bool event(QEvent* event) override;
 
 	private:
-		void onHoverEnter(QHoverEvent* hoverEvent)
-		{
-			controls->show();
-			m_UserInactive = false;
+		void onHoverEnter(QHoverEvent* hoverEvent);
 
-			qApp->restoreOverrideCursor();
+		void onHoverLeave(QHoverEvent* hoverEvent);
 
-			m_HideControlTimer->start();
-		}
-
-		void onHoverLeave(QHoverEvent* hoverEvent)
-		{
-			controls->hide();
-		}
-
-		void onHoverMove(QHoverEvent* hoverEvent)
-		{
-			onHoverEnter(hoverEvent);
-		}
+		void onHoverMove(QHoverEvent* hoverEvent);
 
 	private:
-		void setupFullscreen()
-		{
-			auto& settings = SettingsHandler::settings;
-			
-			// Toggle Fullscreen:
-			auto shortcutStrings = settings->getStrings("shortcuts/toggle_fullscreen");
-			for (const auto& shortcutString : shortcutStrings)
-			{
-				QShortcut* shortcut = new QShortcut(QKeySequence(shortcutString), this);
-				connect(shortcut, &QShortcut::activated, this, &CrowPlayerWrapper::toggleFullscreen);
-			}
+		void setupFullscreen();
 
-			// Leave Fullscreen:
-			shortcutStrings = settings->getStrings("shortcuts/exit_fullscreen");
-			for (const auto& shortcutString : shortcutStrings)
-			{
-				QShortcut* shortcut = new QShortcut(QKeySequence(shortcutString), this);
-				connect(shortcut, &QShortcut::activated, this, &CrowPlayerWrapper::leaveFullscreen);
-			}
-		}
+		void toggleFullscreen();
+		
+		void enterFullscreen();
 
-		void toggleFullscreen()
-		{
-			if (isFullScreen())
-				leaveFullscreen();
-			else 
-				enterFullscreen();
-		}
-
-		void enterFullscreen()
-		{
-			if (isFullScreen())
-				return;
-
-			setWindowFlags(Qt::Window);
-			setWindowState(Qt::WindowFullScreen);
-			show();
-		}
-
-		void leaveFullscreen()
-		{
-			if (!isFullScreen())
-				return;
-
-			setWindowState(Qt::WindowActive);
-			setWindowFlags(Qt::Widget);
-			show();
-		}
+		void leaveFullscreen();
 
 	private:
-		void setupTimer()
-		{
-			m_HideControlTimer = new QTimer;
-			m_HideControlTimer->setInterval(1000);
+		void setupTimer();
 
-			connect(m_HideControlTimer, &QTimer::timeout, this, &CrowPlayerWrapper::onUserInactive);
-		}
-
-		void onUserInactive()
-		{
-			if (m_UserInactive)
-				return;
-
-			m_UserInactive = true;
-			controls->hide();
-
-			if (isFullScreen())
-			{
-				QCursor cursor(Qt::BlankCursor);
-				qApp->setOverrideCursor(cursor);
-			}
-		}
+		void onUserInactive();
 
 	private:
-		void setupUI()
-		{
-			setAttribute(Qt::WA_Hover);
-			controls = new PlayerControls(this);
-
-			QVBoxLayout* layout = new QVBoxLayout(this);
-			layout->addWidget(controls);
-			layout->setAlignment(controls, Qt::AlignBottom);
-		}
+		void setupUI();
 
 	public:
 		PlayerControls* controls = nullptr;
