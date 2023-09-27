@@ -11,6 +11,7 @@ namespace sore
 		SubtitleDelegate(QObject* parent = nullptr)
 			: QStyledItemDelegate(parent) 
 		{
+
 		}
 
 	public:

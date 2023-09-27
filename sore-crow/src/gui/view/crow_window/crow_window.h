@@ -1,15 +1,15 @@
 #pragma once
 #include "ui_crow_window.h"
+#include "crow_window_actions.h"
 #include "gui/model/episode_model.h"
 #include "gui/model/subtitle_model.h"
-#include "gui/worker/workers.h"
-#include "gui/widgets/crow_subtitles/crow_subtitles.h"
 
 namespace sore
 {
     class CrowWindow : public QMainWindow
     {
         Q_OBJECT
+        friend class CrowWindowActions;
 
     public:
         CrowWindow(QWidget* parent = nullptr);
@@ -20,64 +20,18 @@ namespace sore
         void loadProjectData(const ProjectData& projectData);
 
     private:
-        void onNewProjectAction();
-
-        void onOpenProjectAction();
-
-        void onPreferencesAction();
-
-    private:
         void connectEpisodeListSignals();
 
         void connectEpisodeManagerSignals();
 
         void connectPlayerControlSignals();
 
-        void connectActionSignals();
-
         void connectSubtitleSignals();
 
         void connectHandlerSignals();
 
-    // Track Utils:
-    private:
-        void setAudioTrackAction(bool enabled);
-
-        void setSubtitleTrackAction(bool enabled);
-
-        void setSecondarySubtitleTrackAction(bool enabled);
-
-        void setExternalSubtitleAction(bool enabled);
-
-        void populateAudioTracks(const std::vector<Track>& tracks);
-
-        void populateAudioDevices(const std::vector<AudioDevice>& devices);
-
-        void createDisabledSubtitleTrack();
-
-        void createDisabledSecondarySubtitleTrack();
-
-        void populateSubtitleTracks(const std::vector<Track>& tracks);
-
-        void populateSecondarySubtitleTracks(const std::vector<Track>& tracks);
-
-    // Track Slots
-    private:
-        void onExternalTrackTriggered();
-
-        void onAudioTrackTriggered(QAction* action, const Track& track);
-
-        void onAudioDeviceTriggered(QAction* action, const AudioDevice& device);
-
-        void onSubtitleTrackTriggered(QAction* action, const Track& track);
-    
-        void onSecondarySubtitleTrackTriggered(QAction* action, const Track& track);
-
     private:
         Ui::CrowWindow ui;
-
-    private:
-        CrowSubtitles* m_CrowSubtitles;
 
     private:
         EpisodeModel m_EpisodeModel;
@@ -85,11 +39,6 @@ namespace sore
         ProjectData m_ProjectData;
 
     private:
-        SubtitleWorker* m_Worker;
-        MPVTrackWorker* m_TrackWorker;
-        MPVAudioDeviceWorker* m_AudioDeviceWorker;
-
-    private:
-        bool m_FirstSubtitlePopulateAction = true;
+        CrowWindowActions* m_Actions;
     };
 }

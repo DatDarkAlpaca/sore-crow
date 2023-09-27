@@ -79,6 +79,9 @@
     <ClCompile Include="src\gui\widgets\player_controls\player_controls.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\view\crow_window\crow_window_actions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
@@ -218,9 +221,6 @@
     <QtMoc Include="src\gui\worker\mpv_audio_device_worker.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\gui\widgets\crow_subtitles\crow_subtitles.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\gui\model\subtitle_model.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -237,6 +237,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\gui\widgets\episode_manager\episode_manager.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gui\view\crow_window\crow_window_actions.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

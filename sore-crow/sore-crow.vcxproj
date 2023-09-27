@@ -205,6 +205,7 @@
       </PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\app\crow_app.cpp" />
+    <ClCompile Include="src\gui\view\crow_window\crow_window_actions.cpp" />
     <ClCompile Include="src\gui\widgets\player_controls\player_controls.cpp" />
     <ClCompile Include="src\core\filesystem\filesystem_handler.cpp" />
     <ClCompile Include="src\core\mpv\mpv_handler.cpp" />
@@ -247,6 +248,7 @@
     <QtMoc Include="src\gui\model\subtitle_model.h" />
     <ClInclude Include="src\gui\model\subtitle_delegate.h" />
     <QtMoc Include="src\gui\view\preferences\preferences_dialog.h" />
+    <QtMoc Include="src\gui\view\crow_window\crow_window_actions.h" />
     <ClInclude Include="src\gui\view\preferences\appearance_page.h" />
     <ClInclude Include="src\gui\widgets\crow_player_wrapper\crow_player_wrapper.h" />
     <ClInclude Include="src\gui\widgets\crow_slider\crow_slider.h" />
@@ -266,7 +268,6 @@
     <ClInclude Include="src\core\settings\settings_handler.h" />
     <QtMoc Include="src\core\stylesheet\stylesheet_handler.h" />
     <QtMoc Include="src\gui\model\episode_model.h" />
-    <QtMoc Include="src\gui\widgets\crow_subtitles\crow_subtitles.h" />
     <QtMoc Include="src\gui\widgets\subtitle_list_view\subtitle_list_view.h" />
     <QtMoc Include="src\gui\widgets\episode_manager\episode_manager.h" />
     <ClInclude Include="src\pch.h" />
