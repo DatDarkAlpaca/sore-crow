@@ -46,14 +46,14 @@ namespace sore
 		m_ProjectData = projectData;
 
 		// Initial Settings:
-		ui.playerControls->disableControls();
+		ui.videoPlayer->controls->disableControls();
 		ui.videoPlayer->clearPlaylist();
 		ui.videoPlayer->pause();
 		m_FirstSubtitlePopulateAction = true;
 
 		// Volume:
-		ui.playerControls->setVolumeMaximum(ui.videoPlayer->volumeMax());
-		ui.videoPlayer->setVolume(ui.playerControls->currentVolume());
+		ui.videoPlayer->controls->setVolumeMaximum(ui.videoPlayer->volumeMax());
+		ui.videoPlayer->setVolume(ui.videoPlayer->controls->currentVolume());
 
 		// Episode Model:
 		m_EpisodeModel.clear();
@@ -107,7 +107,7 @@ namespace sore
 			
 			// Play Episode:
 			ui.videoPlayer->playlistPlay(episodeIndex);
-			ui.playerControls->enableControls();
+			ui.videoPlayer->controls->enableControls();
 
 			m_SubtitleModel.clear();
 
@@ -119,7 +119,7 @@ namespace sore
 		});
 
 		// Player Controls:
-		connect(ui.playerControls, &PlayerControls::previousBtnClicked, [&]() {
+		connect(ui.videoPlayer->controls, &PlayerControls::previousBtnClicked, [&]() {
 			auto currentIndex = ui.episodeList->currentIndex();
 
 			int episodeIndex = m_EpisodeModel.data(currentIndex, EpisodeModel::Roles::IndexRole).toInt();
@@ -131,7 +131,7 @@ namespace sore
 			ui.episodeList->setCurrentIndex(m_EpisodeModel.index(episodeIndex, 0));
 		});
 
-		connect(ui.playerControls, &PlayerControls::nextBtnClicked, [&]() {
+		connect(ui.videoPlayer->controls, &PlayerControls::nextBtnClicked, [&]() {
 			auto currentIndex = ui.episodeList->currentIndex();
 			auto rowCount = m_EpisodeModel.rowCount();
 
@@ -172,22 +172,22 @@ namespace sore
 	void CrowWindow::connectPlayerControlSignals()
 	{
 		// Video Controls:
-		connect(ui.videoPlayer, &CrowPlayer::playingStatusChanged, ui.playerControls, &PlayerControls::setPlaying);
-		connect(ui.videoPlayer, &CrowPlayer::positionChanged, ui.playerControls, &PlayerControls::trySetPosition);
-		connect(ui.videoPlayer, &CrowPlayer::durationChanged, ui.playerControls, &PlayerControls::setDuration);
+		connect(ui.videoPlayer, &CrowPlayer::playingStatusChanged, ui.videoPlayer->controls, &PlayerControls::setPlaying);
+		connect(ui.videoPlayer, &CrowPlayer::positionChanged, ui.videoPlayer->controls, &PlayerControls::trySetPosition);
+		connect(ui.videoPlayer, &CrowPlayer::durationChanged, ui.videoPlayer->controls, &PlayerControls::setDuration);
 		
 		// Player Controls:
-		connect(ui.playerControls, &PlayerControls::previousBtnClicked, ui.videoPlayer, &CrowPlayer::playlistPrev);
-		connect(ui.playerControls, &PlayerControls::playBtnClicked, ui.videoPlayer, &CrowPlayer::togglePlay);
-		connect(ui.playerControls, &PlayerControls::stopBtnClicked, ui.videoPlayer, &CrowPlayer::stop);
-		connect(ui.playerControls, &PlayerControls::nextBtnClicked, ui.videoPlayer, &CrowPlayer::playlistNext);
-		connect(ui.playerControls, &PlayerControls::volumeBtnClicked, ui.videoPlayer, &CrowPlayer::setVolume);
+		connect(ui.videoPlayer->controls, &PlayerControls::previousBtnClicked, ui.videoPlayer, &CrowPlayer::playlistPrev);
+		connect(ui.videoPlayer->controls, &PlayerControls::playBtnClicked, ui.videoPlayer, &CrowPlayer::togglePlay);
+		connect(ui.videoPlayer->controls, &PlayerControls::stopBtnClicked, ui.videoPlayer, &CrowPlayer::stop);
+		connect(ui.videoPlayer->controls, &PlayerControls::nextBtnClicked, ui.videoPlayer, &CrowPlayer::playlistNext);
+		connect(ui.videoPlayer->controls, &PlayerControls::volumeBtnClicked, ui.videoPlayer, &CrowPlayer::setVolume);
 		
-		connect(ui.playerControls, &PlayerControls::repeatBtnClicked, [&]() {
+		connect(ui.videoPlayer->controls, &PlayerControls::repeatBtnClicked, [&]() {
 			auto currentIndex = ui.subtitleList->currentIndex();
 			if (!currentIndex.isValid())
 			{
-				ui.playerControls->setRepeatChecked(false);
+				ui.videoPlayer->controls->setRepeatChecked(false);
 				ui.videoPlayer->setRepeat(false);
 				return;
 			}
@@ -199,8 +199,8 @@ namespace sore
 			ui.videoPlayer->setRepeatInterval(start, end);
 		});
 
-		connect(ui.playerControls, &PlayerControls::positionChanged, ui.videoPlayer, &CrowPlayer::seekAbsolute);
-		connect(ui.playerControls, &PlayerControls::volumeChanged, ui.videoPlayer, &CrowPlayer::setVolume);
+		connect(ui.videoPlayer->controls, &PlayerControls::positionChanged, ui.videoPlayer, &CrowPlayer::seekAbsolute);
+		connect(ui.videoPlayer->controls, &PlayerControls::volumeChanged, ui.videoPlayer, &CrowPlayer::setVolume);
 	}
 	
 	void CrowWindow::connectActionSignals()

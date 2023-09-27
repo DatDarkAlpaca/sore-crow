@@ -25,7 +25,7 @@
     <item>
      <layout class="QVBoxLayout" name="rightLayout">
       <item>
-       <widget class="sore::CrowPlayer" name="videoPlayer">
+       <widget class="sore::CrowPlayerWrapper" name="videoPlayer">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -34,16 +34,6 @@
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="sore::PlayerControls" name="playerControls" native="true">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
         </property>
        </widget>
       </item>
@@ -271,15 +261,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>sore::CrowPlayer</class>
+   <class>sore::CrowPlayerWrapper</class>
    <extends>QOpenGLWidget</extends>
-   <header>gui/widgets/crow_player/crow_player.h</header>
-  </customwidget>
-  <customwidget>
-   <class>sore::PlayerControls</class>
-   <extends>QWidget</extends>
-   <header>gui/widgets/player_controls/player_controls.h</header>
-   <container>1</container>
+   <header>gui/widgets/crow_player_wrapper/crow_player_wrapper.h</header>
   </customwidget>
   <customwidget>
    <class>sore::SubtitleListView</class>

@@ -248,6 +248,7 @@
     <ClInclude Include="src\gui\model\subtitle_delegate.h" />
     <QtMoc Include="src\gui\view\preferences\preferences_dialog.h" />
     <ClInclude Include="src\gui\view\preferences\appearance_page.h" />
+    <ClInclude Include="src\gui\widgets\crow_player_wrapper\crow_player_wrapper.h" />
     <ClInclude Include="src\gui\widgets\crow_slider\crow_slider.h" />
     <ClInclude Include="src\core\filesystem\filesystem_handler.h" />
     <QtMoc Include="src\core\mpv\mpv_widget.h" />

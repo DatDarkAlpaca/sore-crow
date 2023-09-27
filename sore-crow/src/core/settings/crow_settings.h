@@ -18,6 +18,11 @@ namespace sore
 			return value(entry).toString();
 		}
 
+		QStringList getStrings(const QString& entry) const
+		{
+			return value(entry).toString().split(",");
+		}
+
 		std::string getStdString(const QString& entry) const
 		{
 			return value(entry).toString().toStdString();

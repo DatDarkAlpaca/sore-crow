@@ -50,6 +50,9 @@ namespace sore
 		settings->setValue("styles/subtitles/primary/font_color", "#FFFFFFFF");
 		settings->setValue("styles/subtitles/primary/font_background_color", "#000000C0");
 
+		settings->setValue("shortcuts/toggle_fullscreen", "F11");
+		settings->setValue("shortcuts/exit_fullscreen", "ESC");
+
 		settings->sync();
 	}
 }
