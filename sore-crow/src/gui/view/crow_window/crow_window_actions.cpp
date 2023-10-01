@@ -172,7 +172,8 @@ namespace sore
 	{
 		ui.menuSubtitleTrack->clear();
 
-		createDisabledSubtitleTrack(ui.menuSubtitleTrack, false);
+		createDisabledSubtitleTrack();
+		ui.videoPlayer->setSubtitleVisibility(false);
 
 		QAction* lastAction = nullptr;
 		Track lastTrack;
@@ -187,6 +188,7 @@ namespace sore
 			action->setText(getBestTrackTitle(track, index));
 
 			connect(action, &QAction::triggered, [&, track, action](bool checked) {
+				ui.videoPlayer->setSubtitleVisibility(true);
 				onSubtitleTrackTriggered(action, track);
 			});
 
@@ -209,7 +211,7 @@ namespace sore
 	{
 		ui.menuSecondarySubtitle->clear();
 
-		createDisabledSubtitleTrack(ui.menuSecondarySubtitle, true);
+		createDisabledSecondarySubtitleTrack();
 
 		QAction* lastAction = nullptr;
 		Track lastTrack;
@@ -224,8 +226,9 @@ namespace sore
 			action->setText(getBestTrackTitle(track, index));
 
 			connect(action, &QAction::triggered, [&, track, action](bool checked) {
+				ui.videoPlayer->setSecondarySubtitleVisibility(true);
 				onSecondarySubtitleTrackTriggered(action, track);
-				});
+			});
 
 			lastAction = action;
 			lastTrack = track;
@@ -249,8 +252,16 @@ namespace sore
 
 	void CrowWindowActions::onSubtitleTrackTriggered(QAction* action, const Track& track)
 	{
+		if (track.id == m_SecondarySubtitleTrackID)
+		{
+			action->setChecked(false);
+			return;
+		}
+
 		uncheckAllButOne(ui.menuSubtitleTrack, action);
 		ui.videoPlayer->setSubtitleTrack(track.id);
+
+		m_MainSubtitleTrackID = track.id;
 
 		m_Worker->setFilepath(track.externalFilename);
 		m_Worker->run();
@@ -258,31 +269,46 @@ namespace sore
 
 	void CrowWindowActions::onSecondarySubtitleTrackTriggered(QAction* action, const Track& track)
 	{
+		if (track.id == m_MainSubtitleTrackID)
+		{
+			action->setChecked(false);
+			return;
+		}
+
 		uncheckAllButOne(ui.menuSecondarySubtitle, action);
 		ui.videoPlayer->setSecondarySubtitleTrack(track.id);
+
+		m_SecondarySubtitleTrackID = track.id;
 	}
 
-	void CrowWindowActions::createDisabledSubtitleTrack(QMenu* menu, bool isSecondary)
+	void CrowWindowActions::createDisabledSubtitleTrack()
 	{
-		QAction* action = new QAction(menu);
+		QAction* action = new QAction(ui.menuSubtitleTrack);
 		action->setCheckable(true);
 		action->setChecked(true);
 		action->setText("Disabled");
 
-		auto setVisibility = [&](bool enabled) {
-			if (!isSecondary)
-				ui.videoPlayer->setSubtitleVisibility(false);
-			else
-				ui.videoPlayer->setSecondarySubtitleVisibility(false);
-		};
-
-		setVisibility(false);
-
 		connect(action, &QAction::triggered, [&, action](bool checked) {
-			uncheckAllButOne(menu, action);
-			setVisibility(false);
+			uncheckAllButOne(ui.menuSubtitleTrack, action);
+			ui.videoPlayer->setSubtitleVisibility(false);
 		});
 
-		menu->addAction(action);
+		ui.menuSubtitleTrack->addAction(action);
+	}
+
+	void CrowWindowActions::createDisabledSecondarySubtitleTrack()
+	{
+		QAction* action = new QAction(ui.menuSecondarySubtitle);
+		action->setCheckable(true);
+		action->setChecked(true);
+		action->setText("Disabled");
+		ui.videoPlayer->setSecondarySubtitleVisibility(false);
+
+		connect(action, &QAction::triggered, [&, action](bool checked) {
+			uncheckAllButOne(ui.menuSecondarySubtitle, action);
+			ui.videoPlayer->setSecondarySubtitleVisibility(false);
+			});
+
+		ui.menuSecondarySubtitle->addAction(action);
 	}
 }
