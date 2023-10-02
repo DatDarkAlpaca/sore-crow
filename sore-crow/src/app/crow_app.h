@@ -1,5 +1,6 @@
 #pragma once
 #include <QtWidgets/QApplication>
+#include "core/plugin/plugin_handler.h"
 
 namespace sore
 {
@@ -12,6 +13,9 @@ namespace sore
 		void setupAttributes();
 
 		void setupHandlers();
+
+	private:
+		PluginHandler* m_PluginHandler = nullptr;
 	};
 
 	 void preInitializeApp();

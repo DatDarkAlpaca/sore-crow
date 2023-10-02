@@ -38,6 +38,17 @@ namespace sore
 		return filepaths;
 	}
 
+	std::vector<QString> FilesystemHandler::getFoldersInDirectory(const QString& directoryPath)
+	{
+		QDir directory(directoryPath);
+
+		std::vector<QString> folderPaths = {};
+		for (const QFileInfo& fileInfo : directory.entryInfoList(QDir::AllDirs | QDir::NoDotAndDotDot))
+			folderPaths.push_back(fileInfo.filePath());
+
+		return folderPaths;
+	}
+
 	QJsonObject FilesystemHandler::loadFromJsonFile(const QString& filepath)
 	{
 		QFile file(filepath);

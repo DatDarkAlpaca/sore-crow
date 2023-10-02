@@ -29,6 +29,8 @@ namespace sore
 		SettingsHandler::initialize();
 		FilesystemHandler::initialize();
 		StylesheetHandler::initialize();
+	
+		m_PluginHandler = new PluginHandler();
 	}
 
 	void preInitializeApp()

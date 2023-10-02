@@ -1,0 +1,41 @@
+#pragma once
+#include "plugin_type.h"
+#include "manifest.h"
+
+namespace sore
+{
+	class IPlugin
+	{
+	public:
+		IPlugin(PluginType type, const Manifest& manifest)
+			: type(type)
+			, manifest(manifest) 
+		{
+			setupLibrary();
+		}
+
+		virtual ~IPlugin() = default;
+
+		IPlugin() = default;
+
+	public:
+		virtual void execute() = 0;
+
+	private:
+		void setupLibrary()
+		{
+			/*QFileInfo fileInfo(manifest.sources.mainSource);
+			QString mainFilepath = fileInfo.absoluteFilePath();
+
+			library.setFileName(mainFilepath);
+			library.setLoadHints(QLibrary::ResolveAllSymbolsHint);*/
+		}
+
+	public:
+		PluginType type = PluginType::NONE;
+		Manifest manifest = {};
+
+	protected:
+		//QLibrary library;
+	};
+}
