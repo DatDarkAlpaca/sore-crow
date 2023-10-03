@@ -27,6 +27,9 @@ namespace sore
 		if (const QJsonValue value = object["dependencies"]; value.isArray())
 		{
 			for (const auto& dependency : value.toArray()) {
+				if (dependency.toString().isEmpty())
+					continue;
+
 				QString folder = pluginFolder + QDir::separator() + dependency.toString();
 				sources.dependencies.push_back(folder);
 			}

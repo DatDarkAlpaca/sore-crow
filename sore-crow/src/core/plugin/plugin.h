@@ -24,11 +24,12 @@ namespace sore
 	private:
 		void setupLibrary()
 		{
-			/*QFileInfo fileInfo(manifest.sources.mainSource);
-			QString mainFilepath = fileInfo.absoluteFilePath();
+			QFileInfo fileInfo(manifest.sources.mainSource);
+			QString mainFile = fileInfo.absoluteFilePath();
 
-			library.setFileName(mainFilepath);
-			library.setLoadHints(QLibrary::ResolveAllSymbolsHint);*/
+			library.setFileName(mainFile);
+			library.setLoadHints(QLibrary::ResolveAllSymbolsHint);
+			library.load();
 		}
 
 	public:
@@ -36,6 +37,6 @@ namespace sore
 		Manifest manifest = {};
 
 	protected:
-		//QLibrary library;
+		QLibrary library;
 	};
 }

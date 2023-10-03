@@ -22,6 +22,12 @@ namespace sore
 			}
 		}
 
+	public:
+		IPlugin* getPlugin(size_t index)
+		{
+			return m_Plugins[index].get();
+		}
+
 	private:
 		bool loadPlugin(const QString& pluginFolderPath)
 		{
@@ -43,7 +49,16 @@ namespace sore
 			Manifest manifestFile(manifestFilepath);
 			try {
 				manifestFile.initialize();
-				m_Plugins.push_back(m_Factory.createPlugin(manifestFile));
+				auto plugin = m_Factory.createPlugin(manifestFile);
+
+				if (plugin)
+				{
+					m_Plugins.push_back(std::move(plugin));
+					return true;
+				}
+
+				messageBox("Plugin Handler", "Failed to import plugin");
+				return false;
 			}
 			catch (const std::exception& e) {
 				messageBox("Plugin Handler", e.what());

@@ -10,8 +10,8 @@ namespace sore
 		setupAttributes();
 
 		setupHandlers();
-
-		setlocale(LC_NUMERIC, "C");
+		setlocale(LC_ALL, "en_US.utf8");
+		//setlocale(LC_NUMERIC, "C");
 	}
 
 	void CrowApp::setupAttributes()
