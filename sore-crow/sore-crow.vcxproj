@@ -103,7 +103,7 @@
       <LanguageStandard>$(Qt_STDCPP_)</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
-      <Command>py $(ProjectDir)scripts/copy_resources.py $(ProjectDir) $(OutputPath) $(SolutionDir)vendor</Command>
+      <Command>py $(ProjectDir)scripts/copy_resources.py $(OutputPath) $(ProjectName)</Command>
     </PostBuildEvent>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)vendor\libmpv;</AdditionalLibraryDirectories>
@@ -117,7 +117,7 @@
       <LanguageStandard>$(Qt_STDCPP_)</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
-      <Command>py $(ProjectDir)scripts/copy_resources.py $(ProjectDir) $(OutputPath) $(SolutionDir)vendor</Command>
+      <Command>py $(ProjectDir)scripts/copy_resources.py $(OutputPath) $(ProjectName)</Command>
     </PostBuildEvent>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)vendor\libmpv;</AdditionalLibraryDirectories>
@@ -131,7 +131,7 @@
       <LanguageStandard>$(Qt_STDCPP_)</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
-      <Command>py $(ProjectDir)scripts/copy_resources.py $(ProjectDir) $(OutputPath) $(SolutionDir)vendor</Command>
+      <Command>py $(ProjectDir)scripts/copy_resources.py $(OutputPath) $(ProjectName)</Command>
     </PostBuildEvent>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)vendor\libmpv;</AdditionalLibraryDirectories>
@@ -236,6 +236,14 @@
     <ClInclude Include="src\app\crow_app.h" />
     <ClInclude Include="src\constants.h" />
     <QtMoc Include="src\gui\widgets\player_controls\player_controls.h" />
+    <ClInclude Include="src\core\plugin\concrete\dictionary_plugin.h" />
+    <ClInclude Include="src\core\plugin\concrete\dict_importer.h" />
+    <ClInclude Include="src\core\plugin\concrete\dict_parser.h" />
+    <ClInclude Include="src\core\plugin\manifest.h" />
+    <ClInclude Include="src\core\plugin\plugin.h" />
+    <ClInclude Include="src\core\plugin\plugin_factory.h" />
+    <ClInclude Include="src\core\plugin\plugin_handler.h" />
+    <ClInclude Include="src\core\plugin\plugin_type.h" />
     <ClInclude Include="src\core\stylesheet\subtitle_font_styles.h" />
     <ClInclude Include="src\core\subtitle\parser\ass_components.h" />
     <ClInclude Include="src\core\subtitle\parser\ass_parser.h" />
@@ -299,6 +307,7 @@
     <None Include="..\.gitignore" />
     <None Include="res\mpv.conf" />
     <None Include="scripts\copy_resources.py" />
+    <None Include="scripts\deploy.cmd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

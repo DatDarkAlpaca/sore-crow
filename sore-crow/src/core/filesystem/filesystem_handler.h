@@ -15,6 +15,8 @@ namespace sore
 
 		static std::vector<QString> getFilesInDirectory(const QString& directoryPath);
 
+		static std::vector<QString> getFoldersInDirectory(const QString& directoryPath);
+
 	public:
 		static QJsonObject loadFromJsonFile(const QString& filepath);
 

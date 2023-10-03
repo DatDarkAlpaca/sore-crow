@@ -10,8 +10,8 @@ namespace sore
 		setupAttributes();
 
 		setupHandlers();
-
-		setlocale(LC_NUMERIC, "C");
+		setlocale(LC_ALL, "en_US.utf8");
+		//setlocale(LC_NUMERIC, "C");
 	}
 
 	void CrowApp::setupAttributes()
@@ -29,6 +29,8 @@ namespace sore
 		SettingsHandler::initialize();
 		FilesystemHandler::initialize();
 		StylesheetHandler::initialize();
+	
+		m_PluginHandler = new PluginHandler();
 	}
 
 	void preInitializeApp()

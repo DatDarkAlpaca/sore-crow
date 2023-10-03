@@ -1,0 +1,13 @@
+{
+	"version": "0.3",
+	"plugin-name": "XMLParser",
+	"plugin-type": "DictParser",
+	"author": "DatDarkAlpaca",
+	"url": "https://github.com/DatDarkAlpaca/sore-crow",
+	"sources": {
+		"main": "crow-jmdict-parser.dll",
+		"dependencies": [
+			"pugixml.dll"
+		]
+	}
+}

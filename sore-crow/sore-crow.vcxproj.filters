@@ -186,6 +186,30 @@
     <ClInclude Include="src\gui\widgets\crow_player_wrapper\crow_player_wrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\plugin\plugin_handler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\plugin\plugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\plugin\plugin_type.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\plugin\manifest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\plugin\plugin_factory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\plugin\concrete\dictionary_plugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\plugin\concrete\dict_importer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\plugin\concrete\dict_parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\core\project\project_data.h">
@@ -286,5 +310,6 @@
     <None Include="res\mpv.conf" />
     <None Include="..\.gitignore" />
     <None Include="scripts\copy_resources.py" />
+    <None Include="scripts\deploy.cmd" />
   </ItemGroup>
 </Project>
