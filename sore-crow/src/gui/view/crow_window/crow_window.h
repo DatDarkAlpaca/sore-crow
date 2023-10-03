@@ -31,6 +31,9 @@ namespace sore
         void connectHandlerSignals();
 
     private:
+        void setupWindowTitles();
+
+    private:
         Ui::CrowWindow ui;
 
     private:

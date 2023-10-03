@@ -9,7 +9,7 @@ namespace sore
 		: QMainWindow(parent)
 	{
 		ui.setupUi(this);
-		setWindowTitle(windowTitle() + " v" + ProjectVersion);
+		setupWindowTitles();
 
 		// Widgets:
 		m_Actions = new CrowWindowActions(this);
@@ -190,5 +190,12 @@ namespace sore
 
 		connect(StylesheetHandler::instance(), &StylesheetHandler::subtitleStyleChanged,
 			ui.videoPlayer, &CrowPlayer::setSubtitleStyle);
+	}
+
+	void CrowWindow::setupWindowTitles()
+	{
+		QString title = windowTitle() + " v" + ProjectVersion;
+		setWindowTitle(title);
+		ui.videoPlayer->setWindowTitle(title);
 	}
 }

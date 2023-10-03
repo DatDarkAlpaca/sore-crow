@@ -14,23 +14,23 @@ namespace sore
 	{
 		switch (event->type())
 		{
-		case QEvent::HoverEnter:
-		{
-			onHoverEnter(static_cast<QHoverEvent*>(event));
-			return true;
-		}
+			case QEvent::HoverEnter:
+			{
+				onHoverEnter(static_cast<QHoverEvent*>(event));
+				return true;
+			}
 
-		case QEvent::HoverLeave:
-		{
-			onHoverLeave(static_cast<QHoverEvent*>(event));
-			return true;
-		}
+			case QEvent::HoverLeave:
+			{
+				onHoverLeave(static_cast<QHoverEvent*>(event));
+				return true;
+			}
 
-		case QEvent::HoverMove:
-		{
-			onHoverEnter(static_cast<QHoverEvent*>(event));
-			return true;
-		}
+			case QEvent::HoverMove:
+			{
+				onHoverEnter(static_cast<QHoverEvent*>(event));
+				return true;
+			}
 		}
 
 		return QWidget::event(event);
