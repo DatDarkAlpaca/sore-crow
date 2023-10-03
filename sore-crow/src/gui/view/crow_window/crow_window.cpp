@@ -74,6 +74,7 @@ namespace sore
 			// Play Episode:
 			ui.videoPlayer->playlistPlay(episodeIndex);
 			ui.videoPlayer->controls->enableControls();
+			m_Actions->reset();
 
 			m_SubtitleModel.clear();
 

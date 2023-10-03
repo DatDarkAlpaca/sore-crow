@@ -27,6 +27,14 @@ namespace sore
 	void CrowWindowActions::reset()
 	{
 		m_FirstSubtitlePopulateAction = true;
+		m_MainSubtitleTrackID = -1;
+		m_SecondarySubtitleTrackID = -1;
+		
+		uncheckAllButOne(ui.menuSubtitleTrack, ui.menuSubtitleTrack->actions()[0]);
+		ui.videoPlayer->setSubtitleVisibility(false);
+
+		uncheckAllButOne(ui.menuSecondarySubtitle, ui.menuSecondarySubtitle->actions()[0]);
+		ui.videoPlayer->setSecondarySubtitleVisibility(false);
 	}
 
 	void CrowWindowActions::setupWorkers()
@@ -188,7 +196,6 @@ namespace sore
 			action->setText(getBestTrackTitle(track, index));
 
 			connect(action, &QAction::triggered, [&, track, action](bool checked) {
-				ui.videoPlayer->setSubtitleVisibility(true);
 				onSubtitleTrackTriggered(action, track);
 			});
 
@@ -200,11 +207,7 @@ namespace sore
 		}
 
 		if (!m_FirstSubtitlePopulateAction && lastAction)
-		{
-			uncheckAll(ui.menuSubtitleTrack);
-			lastAction->setChecked(true);
-			ui.videoPlayer->setSubtitleTrack(lastTrack.id);
-		}
+			onSubtitleTrackTriggered(lastAction, lastTrack);
 	}
 
 	void CrowWindowActions::populateSecondarySubtitleTracks(const std::vector<Track>& tracks)
@@ -226,7 +229,6 @@ namespace sore
 			action->setText(getBestTrackTitle(track, index));
 
 			connect(action, &QAction::triggered, [&, track, action](bool checked) {
-				ui.videoPlayer->setSecondarySubtitleVisibility(true);
 				onSecondarySubtitleTrackTriggered(action, track);
 			});
 
@@ -260,6 +262,7 @@ namespace sore
 
 		uncheckAllButOne(ui.menuSubtitleTrack, action);
 		ui.videoPlayer->setSubtitleTrack(track.id);
+		ui.videoPlayer->setSubtitleVisibility(true);
 
 		m_MainSubtitleTrackID = track.id;
 
@@ -276,7 +279,9 @@ namespace sore
 		}
 
 		uncheckAllButOne(ui.menuSecondarySubtitle, action);
+
 		ui.videoPlayer->setSecondarySubtitleTrack(track.id);
+		ui.videoPlayer->setSecondarySubtitleVisibility(true);
 
 		m_SecondarySubtitleTrackID = track.id;
 	}
@@ -307,7 +312,7 @@ namespace sore
 		connect(action, &QAction::triggered, [&, action](bool checked) {
 			uncheckAllButOne(ui.menuSecondarySubtitle, action);
 			ui.videoPlayer->setSecondarySubtitleVisibility(false);
-			});
+		});
 
 		ui.menuSecondarySubtitle->addAction(action);
 	}
