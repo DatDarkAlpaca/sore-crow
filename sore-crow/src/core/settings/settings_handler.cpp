@@ -53,6 +53,10 @@ namespace sore
 		settings->setValue("shortcuts/toggle_fullscreen", "F11");
 		settings->setValue("shortcuts/exit_fullscreen", "ESC");
 
+		settings->setValue("shortcuts/video/play_pause", "SPACE");
+		settings->setValue("shortcuts/video/seek_back", "LEFT");
+		settings->setValue("shortcuts/video/seek_forward", "RIGHT");
+
 		settings->sync();
 	}
 }

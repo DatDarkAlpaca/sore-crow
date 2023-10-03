@@ -15,6 +15,7 @@ namespace sore
 		void openMedia(const QString& filepath, bool appendFile = false, const QStringList& options = QStringList());
 
 		void seek(double positionMs, SeekFlag flag = SeekFlag::SEEK_ABSOLUTE);
+		void seek(double positionMs, SeekFlag flag, SeekFlag option);
 		void seekAbsolute(double positionMs);
 
 		void play();

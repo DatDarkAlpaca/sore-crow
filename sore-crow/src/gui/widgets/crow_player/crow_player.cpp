@@ -30,6 +30,12 @@ namespace sore
 		executeCommandAsync(mpvHandle(), QVariantList() << "seek" << positionMs / 1000 << seekFlagString(flag));
 	}
 
+	void CrowPlayer::seek(double positionMs, SeekFlag flag, SeekFlag option)
+	{
+		QString flagString = QString("%1+%2").arg(seekFlagString(flag), seekFlagString(option));
+		executeCommandAsync(mpvHandle(), QVariantList() << "seek" << positionMs / 1000 << flagString);
+	}
+
 	void CrowPlayer::seekAbsolute(double positionMs)
 	{
 		seek(positionMs);

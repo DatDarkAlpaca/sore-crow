@@ -10,11 +10,15 @@ namespace sore
 {
 	class CrowPlayerWrapper : public CrowPlayer
 	{
+		Q_OBJECT
+
 	public:
 		CrowPlayerWrapper(QWidget* parent = nullptr);
 
 	protected:
 		bool event(QEvent* event) override;
+
+		bool eventFilter(QObject* object, QEvent* event) override;
 
 	private:
 		void onHoverEnter(QHoverEvent* hoverEvent);
@@ -38,7 +42,15 @@ namespace sore
 		void onUserInactive();
 
 	private:
+		void setupShortcuts();
+
+		void handleShortcuts(const QString& shortcut);
+
+	private:
 		void setupUI();
+
+	signals:
+		void keyPressed(int keyCode);
 
 	public:
 		PlayerControls* controls = nullptr;

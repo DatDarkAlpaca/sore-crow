@@ -8,6 +8,7 @@ namespace sore
 		setupUI();
 		setupTimer();
 		setupFullscreen();
+		setupShortcuts();
 	}
 
 	bool CrowPlayerWrapper::event(QEvent* event)
@@ -34,6 +35,19 @@ namespace sore
 		}
 
 		return QWidget::event(event);
+	}
+
+	bool CrowPlayerWrapper::eventFilter(QObject* object, QEvent* event)
+	{
+		if (event->type() != QEvent::KeyPress)
+			return false;
+
+		if (!isVisible())
+			return false;
+
+		auto keyEvent = static_cast<QKeyEvent*>(event);
+		emit keyPressed(keyEvent->key());
+		return true;
 	}
 
 	void CrowPlayerWrapper::onHoverEnter(QHoverEvent* hoverEvent)
@@ -126,6 +140,43 @@ namespace sore
 			QCursor cursor(Qt::BlankCursor);
 			qApp->setOverrideCursor(cursor);
 		}
+	}
+
+	void CrowPlayerWrapper::setupShortcuts()
+	{
+		qApp->installEventFilter(this);
+		
+		connect(this, &CrowPlayerWrapper::keyPressed, [&](int keyCode) {
+			auto& settings = SettingsHandler::settings;
+			settings->beginGroup("shortcuts/video");
+
+			for (const auto& groupKey : settings->childKeys())
+			{
+				QString shortcutString = settings->value(groupKey).toString();
+
+				QKeySequence sequence(shortcutString);
+				if (sequence[0].key() == keyCode)
+				{
+					handleShortcuts(groupKey);
+					break;
+				}
+			}
+			settings->endGroup();
+		});
+	}
+
+	void CrowPlayerWrapper::handleShortcuts(const QString& shortcut)
+	{
+		// TODO: use a hash table if this gets troublesome.
+
+		if (shortcut == "play_pause")
+			this->togglePlay();
+
+		else if (shortcut == "seek_back")
+			this->seek(-1000, SeekFlag::SEEK_RELATIVE);
+
+		else if (shortcut == "seek_forward")
+			this->seek(1000, SeekFlag::SEEK_RELATIVE);
 	}
 
 	void CrowPlayerWrapper::setupUI()

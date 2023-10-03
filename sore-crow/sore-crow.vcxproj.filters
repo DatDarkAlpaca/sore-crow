@@ -183,9 +183,6 @@
     <ClInclude Include="src\core\stylesheet\subtitle_font_styles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\widgets\crow_player_wrapper\crow_player_wrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\core\plugin\plugin_handler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -270,6 +267,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\gui\view\crow_window\crow_window_actions.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gui\widgets\crow_player_wrapper\crow_player_wrapper.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
