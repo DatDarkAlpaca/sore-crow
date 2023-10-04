@@ -1,6 +1,5 @@
 ﻿# sore-crow
 
-<img src="crow_image.png" alt="SoreCrow">
 ![SoreCrow Logo](sore-crow.png)
 
 > それCrow (SoreCrow) is an open-source video player based on mpv and crafted for language learners.
