@@ -1,7 +1,7 @@
 import subprocess
 from constants import *
-from premake_utils import PremakeProjectConfig
 from command.command import Command, CommandType
+from premake_utils import PremakeProjectConfig, get_project_premake_project_configs
 
 
 # Helpers:
@@ -27,6 +27,12 @@ class QtConfigureCommand(Command):
 
     def execute(self, arguments: list[str] = None) -> None:
         print('Running Qt6 Configuration...')
+
+        if self.has_argument(arguments, ['--project']) and  len(arguments) >= 2:
+            project_name = arguments[1]
+            for project in get_project_premake_project_configs():
+                if project.project_name == project_name:
+                    self.set_project_config(project)
 
         self.__build_uic()
         self.__build_moc()

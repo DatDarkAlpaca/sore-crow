@@ -93,3 +93,7 @@ project "sore-crow"
         flags { "NoPCH" }
 
     filter { }
+
+    prebuildcommands {
+        "cd ../ && build configure-qt --project sore-crow"
+    }

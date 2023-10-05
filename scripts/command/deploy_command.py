@@ -1,6 +1,6 @@
 import shutil
 from constants import *
-from premake_utils import PremakeProjectConfig
+from premake_utils import PremakeProjectConfig, get_project_premake_project_configs
 from command.command import Command, CommandType
 
 
@@ -14,7 +14,13 @@ class DeployCommand(Command):
         self.project_config = project_config
 
     def execute(self, arguments: list[str] = None) -> None:
-        print('Running Qt6 Configuration...')
+        print('Deploing Resources...')
+
+        if self.has_argument(arguments, ['--project']) and  len(arguments) >= 2:
+            project_name = arguments[1]
+            for project in get_project_premake_project_configs():
+                if project.project_name == project_name:
+                    self.set_project_config(project)
 
         self.__copy_resources_path()
         self.__copy_libmpv_dll()

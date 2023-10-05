@@ -4,6 +4,7 @@ from command.command_holder import CommandHolder
 from command.premake_command import register_premake_actions
 from command.help_command import HelpCommand
 from command.qt_command import QtConfigureCommand
+from command.deploy_command import DeployCommand
 
 
 def main():
@@ -14,6 +15,7 @@ def main():
     register_premake_actions(command_holder)
     command_holder.register(HelpCommand(command_holder))
     command_holder.register(QtConfigureCommand())
+    command_holder.register(DeployCommand())
 
     # Input:
     if len(sys.argv) < 2:

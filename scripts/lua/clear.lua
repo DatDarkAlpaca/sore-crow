@@ -11,6 +11,7 @@ newaction {
         os.rmdir("./intermediate")
         os.rmdir("./.vs")
         os.rmdir("./scripts/__pycache__")
+        os.rmdir("./scripts/command/__pycache__")
         os.remove('**.sln')
         os.remove('**.vcxproj')
         os.remove('**.vcxproj.filters')
