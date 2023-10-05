@@ -15,7 +15,8 @@ project "sore-crow"
         "src/**.cpp",
         "src/**.h",
         "**.rc",
-        "**.ui"
+        "**.ui",
+        "**.qrc"
     }
     removefiles { '../intermediate/QtTemp/moc/moc_QtAdvancedStylesheet.cpp' }
     
