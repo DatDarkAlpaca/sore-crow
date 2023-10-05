@@ -10,6 +10,7 @@ newaction {
         os.rmdir("./bin")
         os.rmdir("./intermediate")
         os.rmdir("./.vs")
+        os.rmdir("./scripts/__pycache__")
         os.remove('**.sln')
         os.remove('**.vcxproj')
         os.remove('**.vcxproj.filters')

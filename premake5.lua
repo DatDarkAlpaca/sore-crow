@@ -1,5 +1,5 @@
-require "scripts/clear"
-require "scripts/info"
+require "scripts/lua/clear"
+require "scripts/lua/info"
 
 workspace "sore-crow"
     architecture "x64"

@@ -1,12 +1,37 @@
 import os
 import subprocess
+from constants import qt_output_folder_path
 from dataclasses import dataclass, field
 
-qt_output_folder_path = 'QtTemp'
+
+def get_premake_actions() -> list[tuple[str, str]]:
+    process = subprocess.run(["premake5", "--help"], capture_output=True)
+    output = process.stdout.decode("utf-8")
+    actions_index = output.find('ACTIONS') + len('ACTIONS')
+    actions_output = output[actions_index:]
+    actions = []
+    for action_string in actions_output.splitlines():
+        if action_string.find('https://premake.github.io') != -1:
+            continue
+
+        action_args = action_string.split(' ')
+        filtered = list(filter(lambda x: len(x) > 0, action_args))
+        if len(filtered) <= 0:
+            continue
+
+        # Ignores clean:
+        action = filtered[0]
+        if action == 'clean':
+            continue
+
+        action_description = ' '.join(filtered[1:])
+        actions.append((filtered[0], action_description))
+
+    return actions
 
 
 @dataclass
-class ProjectConfig:
+class PremakeProjectConfig:
     project_name: str
     architecture: str
     system: str
@@ -17,7 +42,15 @@ class ProjectConfig:
     files: field(default_factory=list)
 
 
-def get_project_premake_project_configs() -> list[ProjectConfig]:
+def prepare_binary_directories(project_config: PremakeProjectConfig):
+    os.makedirs(project_config.bin_path, exist_ok=True)
+    os.makedirs(project_config.int_path, exist_ok=True)
+
+    # Qt Output folder:
+    os.makedirs(os.path.join(project_config.int_path, qt_output_folder_path), exist_ok=True)
+
+
+def get_project_premake_project_configs() -> list[PremakeProjectConfig]:
     process = subprocess.run(["premake5", "info"], capture_output=True)
     output = process.stdout.decode("utf-8")
 
@@ -25,7 +58,7 @@ def get_project_premake_project_configs() -> list[ProjectConfig]:
     current_project = None
     for line in output.splitlines():
         if line.startswith('<>'):
-            projects.append(ProjectConfig('', '', '', '', '', '', [], []))
+            projects.append(PremakeProjectConfig('', '', '', '', '', '', [], []))
             current_project = projects[len(projects) - 1]
 
         if not line.startswith('>'):
@@ -58,11 +91,3 @@ def get_project_premake_project_configs() -> list[ProjectConfig]:
             current_project.files = list(filter(lambda x: len(x) > 0, current_project.files))
 
     return projects
-
-
-def prepare_binary_directories(project_config: ProjectConfig):
-    os.makedirs(project_config.bin_path, exist_ok=True)
-    os.makedirs(project_config.int_path, exist_ok=True)
-    
-    # Qt Output folder:
-    os.makedirs(os.path.join(project_config.int_path, qt_output_folder_path), exist_ok=True)
