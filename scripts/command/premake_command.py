@@ -18,7 +18,7 @@ class PremakeCommand(Command):
 class PremakeActionsCommand(Command):
     def __init__(self, name: str, description: str):
         super().__init__(name, description)
-        self.type = CommandType.PREMAKE_COMMAND
+        self.type = CommandType.GENERAL_COMMAND
 
     def execute(self, _: list[str] = None) -> None:
         process = subprocess.run(["premake5", "--help"], capture_output=True)
