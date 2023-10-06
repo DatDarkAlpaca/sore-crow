@@ -113,7 +113,10 @@ namespace sore
 	{
 		connect(ui.episodeManager, &EpisodeManager::episodesAddClicked, [&](const QStringList& episodeList) {
 			for (const auto& episode : episodeList)
+			{
 				m_ProjectData.addMedia(episode);
+				ui.videoPlayer->openMedia(episode, true);
+			}
 
 			m_ProjectData.save(m_ProjectData.filepath);
 

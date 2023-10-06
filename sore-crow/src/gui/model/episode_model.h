@@ -30,7 +30,7 @@ namespace sore
 
 				QStandardItem* item = new QStandardItem;
 				item->setData(episodeName, Roles::NameRole);
-				item->setData(projectDirectory + episode.filepath, Roles::FilepathRole);
+				item->setData(FilesystemHandler::getMediaFilepath(episode.filepath), Roles::FilepathRole);
 				item->setData(index, Roles::IndexRole);
 				item->setData(episode.id, Roles::IDRole);
 

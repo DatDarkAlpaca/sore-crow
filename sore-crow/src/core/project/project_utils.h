@@ -17,7 +17,7 @@ namespace sore
 
 		if (!FilesystemHandler::isValidFilePath(projectFilepath))
 		{
-			messageBox("Project Data", "Invalid filepath provided");
+			messageBox("Project Data", QString("Invalid filepath provided: ").arg(projectFilepath));
 			return std::nullopt;
 		}
 		
