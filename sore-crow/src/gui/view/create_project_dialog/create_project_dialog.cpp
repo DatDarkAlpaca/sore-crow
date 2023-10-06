@@ -86,6 +86,11 @@ namespace sore
         clear();
 
         populateEpisodeList();
+
+        if (ui.videosList->count() <= 0)
+            m_StatusBar->showMessage("Warning: this directory has no video files.");
+        else
+            m_StatusBar->clearMessage();
     }
 
     void CreateProjectDialog::setupStatusBar()

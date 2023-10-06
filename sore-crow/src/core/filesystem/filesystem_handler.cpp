@@ -88,13 +88,20 @@ namespace sore
 
 	QString FilesystemHandler::getFilename(const QString& filepath)
 	{
-		QFileInfo fileInfo(filepath);
+		QString temp = filepath;
+		QFileInfo fileInfo(temp.replace("\\", "/"));
 		return fileInfo.fileName();
 	}
 
 	QString FilesystemHandler::getMediaFilepath(const QString& mediaFilepath)
 	{
 		auto& settings = SettingsHandler::settings;
+
+		QFileInfo fileInfo(mediaFilepath);
+		fileInfo.absolutePath();
+
+		if (fileInfo.isAbsolute())
+			return fileInfo.absoluteFilePath();
 
 		QString filepath = settings->getString("project/directory") + mediaFilepath;
 		return filepath;
