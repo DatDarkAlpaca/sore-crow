@@ -2,7 +2,7 @@ project "QASS"
     kind "StaticLib"
     language "C++"
     cppdialect "C++17"
-    staticruntime "on"
+    staticruntime "off"
 
     targetdir(binaries_path .. "/%{prj.name}")
     objdir(intermediate_path .. "/%{prj.name}")
@@ -36,14 +36,17 @@ project "QASS"
     }
 
     filter { "configurations:Debug" }
-        buildoptions "/MDd"
         runtime "Debug"
         symbols "on"
 
     filter { "configurations:Release" }
-        buildoptions "/MD"
         runtime "Release"
         optimize "on"
+
+    filter { "configurations:Deploy" }
+        runtime "Release"
+        optimize "on"
+        inlining "auto"
 
     filter "action:vs*"
         buildoptions "/Zc:__cplusplus"

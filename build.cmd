@@ -1,2 +1,2 @@
 @echo off
-py scripts/build.py %*
+py scripts/crowtools.py %*

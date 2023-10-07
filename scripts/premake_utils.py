@@ -91,3 +91,22 @@ def get_project_premake_project_configs() -> list[PremakeProjectConfig]:
             current_project.files = list(filter(lambda x: len(x) > 0, current_project.files))
 
     return projects
+
+
+# Project Helpers:
+def get_premake_projects():
+    projects = []
+    project_configs = [x.project_name for x in get_project_premake_project_configs()]
+    for project_name in project_configs:
+        projects.append(project_name)
+    return projects
+
+
+def list_premake_projects() -> str:
+    help_string = 'Available projects: '
+    project_configs = [x.project_name for x in get_project_premake_project_configs()]
+    for index, project_name in enumerate(project_configs):
+        help_string += f"{project_name}"
+        if index + 1 < len(project_configs):
+            help_string += ', '
+    return help_string

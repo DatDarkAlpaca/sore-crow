@@ -2,7 +2,7 @@ project "sore-crow"
     kind "ConsoleApp"
     language "C++"
     cppdialect "C++17"
-    staticruntime "on"
+    staticruntime "off"
 
     targetdir(binaries_path .. "/%{prj.name}")
     objdir(intermediate_path .. "/%{prj.name}")
@@ -18,6 +18,7 @@ project "sore-crow"
         "**.ui",
         "**.qrc"
     }
+
     removefiles { '../intermediate/QtTemp/moc/moc_QtAdvancedStylesheet.cpp' }
     
     includedirs {
@@ -46,7 +47,6 @@ project "sore-crow"
     }
 
     filter { "configurations:Debug" }
-        buildoptions "/MDd"
         runtime "Debug"
         symbols "on"
 
@@ -61,9 +61,23 @@ project "sore-crow"
         }
 
     filter { "configurations:Release" }
-        buildoptions "/MD"
         runtime "Release"
         optimize "on"
+
+        links {
+            "Qt6OpenGLWidgets.lib",
+            "Qt6Widgets.lib",
+            "Qt6OpenGL.lib",
+            "Qt6Svg.lib",
+            "Qt6Gui.lib",
+            "Qt6Core.lib",
+            "Qt6EntryPoint.lib"
+        }
+
+    filter { "configurations:Deploy" }
+        runtime "Release"
+        optimize "on"
+        inlining "auto"
 
         links {
             "Qt6OpenGLWidgets.lib",
@@ -93,7 +107,3 @@ project "sore-crow"
         flags { "NoPCH" }
 
     filter { }
-
-    prebuildcommands {
-        "cd ../ && build configure-qt --project sore-crow"
-    }
