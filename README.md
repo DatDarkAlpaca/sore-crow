@@ -49,7 +49,7 @@ Sore-crow uses submodules, so follow these steps - otherwise, things might break
     If you're building on a Windows machine, you can use the `build.cmd` file to execute the Python script. If you don't use arguments, it'll show a list of available premake actions and commands.
 
     ```bash
-    build vs2022
+    build generate -a vs2022
     ```
 
     If you want to work on plugin development, and all you need is to copy the generated resources to the binaries, you can use the deploy command:
