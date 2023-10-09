@@ -52,7 +52,7 @@ namespace sore
 	public:
 		std::optional<QModelIndex> getClosestSubtitle(double position)
 		{
-			for (size_t i = 0; i < rowCount(); ++i)
+			for (int i = 0; i < rowCount(); ++i)
 			{
 				auto currentIndex = index(i, 0);
 				double startSubtitle = currentIndex.data(Roles::StartRole).toDouble();

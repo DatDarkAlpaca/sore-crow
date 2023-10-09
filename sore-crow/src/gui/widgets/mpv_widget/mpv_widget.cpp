@@ -35,8 +35,8 @@ namespace sore
 	{
 		mpv_opengl_fbo mpvFBO{ static_cast<int>(
 			defaultFramebufferObject()),
-			m_Dimensions[0],
-			m_Dimensions[1], 
+			(int)m_Dimensions[0],
+			(int)m_Dimensions[1], 
 			0
 		};
 

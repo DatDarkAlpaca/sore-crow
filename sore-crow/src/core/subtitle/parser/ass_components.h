@@ -11,35 +11,35 @@ namespace sore::ass
 	{
 		QString styleName;
 		QString fontName;
-		int fontSize;
+		int fontSize = 12;
 		QColor primaryColor;
 		QColor secondaryColor;
 		QColor outlineColor;
 		QColor backgroundColor;
 
-		bool bold, italic, underline, strikeout;
-		double scaleX, scaleY;
-		int64_t spacing, angle;
+		bool bold = false, italic = false, underline = false, strikeout = false;
+		double scaleX = 1, scaleY = 1;
+		int64_t spacing = 0, angle = 0;
 
 		BorderStyle borderStyle = BorderStyle::NONE;
-		short outline, shadow;
-		int alignment;
+		short outline = 0, shadow = 0;
+		int alignment = 0;
 
-		double marginL, marginR, marginV;
-		double alphaLevel;
-		int encoding;
+		double marginL = 0, marginR = 0, marginV = 0;
+		double alphaLevel = 0;
+		int encoding = 0;
 	};
 
 	struct Dialogue
 	{
-		bool marked;
-		int layer;
-		double startMs, endMs;
+		bool marked = false;
+		int layer = 0;
+		double startMs = 0, endMs = 0;
 		QString styleName;
 		QString characterName;
 
-		short marginL, marginR, marginV;
-		bool effect; // not used.
+		short marginL = 0, marginR = 0, marginV = 0;
+		//bool effect = false; // not used.
 
 		QString text;
 	};

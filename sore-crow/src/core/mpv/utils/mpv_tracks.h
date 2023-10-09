@@ -6,43 +6,43 @@
 
 namespace sore
 {
-	struct Track
-	{
-        int64_t id;
+    struct Track
+    {
+        int64_t id = -1;
         QString type;
         int64_t srcID = 0;
         QString title;
         QString lang;
-        bool image;
-        bool albumArt;
-        bool defaultFlag;
-        bool forced;
-        bool selected;
-        int64_t mainSelection;
-        bool external;
+        bool image = false;
+        bool albumArt = false;
+        bool defaultFlag = false;
+        bool forced = false;
+        bool selected = false;
+        int64_t mainSelection = 0;
+        bool external = false;
         QString externalFilename;
         QString codec;
-        int64_t ffIndex;
+        int64_t ffIndex = 0;
         QString decoderDesc;
-        int64_t demuxWidth;
-        int64_t demuxHeight;
-        int64_t demuxCropX;
-        int64_t demuxCropY;
-        int64_t demuxCropWidth;
-        int64_t demuxCropHeight;
-        int64_t demuxChannelCount;
+        int64_t demuxWidth = 0;
+        int64_t demuxHeight = 0;
+        int64_t demuxCropX = 0;
+        int64_t demuxCropY = 0;
+        int64_t demuxCropWidth = 0;
+        int64_t demuxCropHeight = 0;
+        int64_t demuxChannelCount = 0;
         QString demuxChannels;
-        int64_t demuxSamplerate;
-        double demuxFPS;
-        int64_t demuxBitrate;
-        int64_t demuxRotation;
-        double demuxPar;
-        int64_t audioChannels;
-        double replaygainTrackPeak;
-        double replaygainTrackGain;
-        double replaygainAlbumPeak;
-        double replaygainAlbumGain;
-	};
+        int64_t demuxSamplerate = 0;
+        double demuxFPS = 0;
+        int64_t demuxBitrate = 0;
+        int64_t demuxRotation = 0;
+        double demuxPar = 0;
+        int64_t audioChannels = 0;
+        double replaygainTrackPeak = 0;
+        double replaygainTrackGain = 0;
+        double replaygainAlbumPeak = 0;
+        double replaygainAlbumGain = 0;
+    };
 
     static inline Track parseTrack(const QVariantMap& trackMap)
     {

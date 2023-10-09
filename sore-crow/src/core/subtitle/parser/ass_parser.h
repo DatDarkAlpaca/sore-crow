@@ -38,19 +38,19 @@ namespace sore
 
 	static inline QStringList parseFormat(QString& formatLine)
 	{
-		formatLine.remove(0, 6 + 1); // Removes "Format:"
+		formatLine.remove(0, 7); // Removes "Format:"
 		return formatLine.simplified().replace(" ", "").split(",");
 	}
 
 	static inline ass::SubtitleStyle parseStyle(QString& styleLine, const QStringList& formatList)
 	{
-		styleLine.remove(0, 5 + 1); // Removes "Style:"
+		styleLine.remove(0, 6); // Removes "Style:"
 		styleLine = styleLine.simplified().replace(" ", "");
 
 		QStringList styleElements = styleLine.split(",");
 
 		ass::SubtitleStyle style;
-		for (size_t i = 0; i < formatList.size(); ++i)
+		for (qsizetype i = 0; i < formatList.size(); ++i)
 		{
 			if (formatList[i] == "Name")
 				style.styleName = styleElements[i];
@@ -114,13 +114,13 @@ namespace sore
 
 	static inline ass::Dialogue parseDialogue(QString& dialogueLine, const QStringList& formatList)
 	{
-		dialogueLine.remove(0, 8 + 1); // Removes "Dialogue:"
+		dialogueLine.remove(0, 9); // Removes "Dialogue:"
 		dialogueLine = dialogueLine.simplified().replace(" ", "");
 
 		QStringList dialogueElements = dialogueLine.split(",");
 
 		ass::Dialogue dialogue;
-		for (size_t i = 0; i < formatList.size(); ++i)
+		for (qsizetype i = 0; i < formatList.size(); ++i)
 		{
 			if (formatList[i] == "Marked")
 				dialogue.marked = parseASSBool(dialogueElements[i]);

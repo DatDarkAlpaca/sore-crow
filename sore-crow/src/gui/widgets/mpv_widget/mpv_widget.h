@@ -89,7 +89,7 @@ namespace sore
 		inline mpv_render_context* mpvContext() const { return m_Handler.mpvContext; }
 
 	private:
-		std::array<int, 2> m_Dimensions = {};
+		std::array<double, 2> m_Dimensions = {};
 		double m_DevicePixelRatio = 1.0;
 		bool m_FirstScreenShow = true;
 

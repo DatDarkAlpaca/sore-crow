@@ -55,7 +55,7 @@ namespace sore
 	void PlayerControls::setVolume(long long volume)
 	{
 		m_PreviousVolume = currentVolume();
-		ui.volumeSlider->setValue(volume);
+		ui.volumeSlider->setValue((int)volume);
 		updateVolumeIcon();
 	}
 
@@ -76,7 +76,7 @@ namespace sore
 	{
 		QString positionString = getDurationString(position);
 		ui.currentPositionLabel->setText(positionString);
-		ui.playerSlider->setValue(position);
+		ui.playerSlider->setValue((int)position);
 	}
 
 	void PlayerControls::setDuration(long long duration)

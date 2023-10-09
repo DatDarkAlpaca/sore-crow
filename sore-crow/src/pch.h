@@ -1,3 +1,5 @@
+#pragma once
+
 #include <array>
 #include <string>
 #include <memory>
@@ -10,4 +12,6 @@
 #include <mpv/client.h>
 #include <mpv/render_gl.h>
 
+#pragma warning(push, 0)
 #include <QtWidgets>
+#pragma warning (pop)

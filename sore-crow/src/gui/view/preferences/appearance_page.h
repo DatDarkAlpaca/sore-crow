@@ -44,7 +44,7 @@ namespace sore
 			auto& stylesheet = StylesheetHandler::stylesheet;
 			auto currentStyle = stylesheet->currentStyle();
 
-			size_t index = 0;
+			int index = 0;
 			for (const QString& style : stylesheet->styles())
 			{
 				QString title = style;
@@ -68,7 +68,7 @@ namespace sore
 			auto& stylesheet = StylesheetHandler::stylesheet;
 			auto currentTheme = stylesheet->currentTheme();
 
-			size_t index = 0;
+			int index = 0;
 			for (const QString& theme : stylesheet->themes())
 			{
 				QString title = theme;

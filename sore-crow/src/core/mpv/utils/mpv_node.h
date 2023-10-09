@@ -3,6 +3,9 @@
 #include <mpv/render_gl.h>
 #include "core/mpv/mpv_error.h"
 
+#pragma warning (push)
+#pragma warning (disable: 4996)
+
 // Helpers
 namespace
 {
@@ -144,11 +147,14 @@ namespace
         {
             QVariantList qlist = variant.toList();
 
-            mpv_node_list* list = createNodeList(node, false, qlist.size());
+            mpv_node_list* list = createNodeList(node, false, (int)qlist.size());
             if (!list)
+            {
                 node->format = MPV_FORMAT_NONE;
+                return;
+            }
 
-            list->num = qlist.size();
+            list->num = (int)qlist.size();
 
             for (int i = 0; i < qlist.size(); ++i)
                 set(&list->values[i], qlist[i]);
@@ -157,12 +163,15 @@ namespace
         else if (variant.canConvert<QVariantMap>())
         {
             QVariantMap qmap = variant.toMap();
-            mpv_node_list* list = createNodeList(node, true, qmap.size());
+            mpv_node_list* list = createNodeList(node, true, (int)qmap.size());
 
             if (!list)
+            {
                 node->format = MPV_FORMAT_NONE;
+                return;
+            }
 
-            list->num = qmap.size();
+            list->num = (int)qmap.size();
 
             for (int i = 0; i < qmap.size(); ++i)
             {
@@ -325,3 +334,5 @@ namespace sore::mpv
         return data;
     }
 }
+
+#pragma warning (pop)
