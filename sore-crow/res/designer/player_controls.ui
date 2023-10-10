@@ -274,7 +274,7 @@
   <customwidget>
    <class>sore::CrowSlider</class>
    <extends>QSlider</extends>
-   <header>gui/widgets/crow_slider/crow_slider.h</header>
+   <header>gui/components/crow_slider/crow_slider.h</header>
   </customwidget>
  </customwidgets>
  <resources>
