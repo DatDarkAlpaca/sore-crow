@@ -105,6 +105,20 @@ namespace sore
 		return settings->value("styles/subtitles/override_styles", false).toBool();
 	}
 
+	void StylesheetHandler::setSelectableSubtitle(bool enabled)
+	{
+		auto& settings = SettingsHandler::settings;
+		settings->setValue("styles/subtitles/selectable_subtitles", enabled);
+
+		emit overrideSelectableSubtiles(enabled);
+	}
+
+	bool StylesheetHandler::getSelectableSubtitles()
+	{
+		auto& settings = SettingsHandler::settings;
+		return settings->value("styles/subtitles/selectable_subtitles", false).toBool();
+	}
+
 	SubtitleFontStyles StylesheetHandler::getSubtitleFontStyles()
 	{
 		auto& settings = SettingsHandler::settings;

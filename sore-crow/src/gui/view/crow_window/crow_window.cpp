@@ -172,6 +172,7 @@ namespace sore
 	
 	void CrowWindow::connectSubtitleSignals()
 	{
+		// Subtitle List:
 		connect(ui.videoPlayer, &CrowPlayer::positionChanged, [&](double position) {
 			if (ui.subtitleList->contextMenuOpen())
 				return;
@@ -183,16 +184,42 @@ namespace sore
 			ui.subtitleList->setCurrentIndex(closestIndex.value());
 		});
 
+		// Selectable Subtitles:
+		connect(ui.videoPlayer, &CrowPlayer::subtitleChanged, [&](const QString& text, double, double, double) {
+			ui.videoPlayer->subtitles->setPrimarySubtitle(text);
+		});
+
+		connect(ui.videoPlayer, &CrowPlayer::subtitleChangedSecondary, [&](const QString& text, double, double, double) {
+			ui.videoPlayer->subtitles->setSecondarySubtitle(text);
+		});
+
 		connect(ui.subtitleList, &SubtitleListView::jumpedToTimestamp, ui.videoPlayer, &CrowPlayer::seekAbsolute);
 	}
 
 	void CrowWindow::connectHandlerSignals()
 	{
+		// Video Player:
 		connect(StylesheetHandler::instance(), &StylesheetHandler::overrideStylesChanged, 
-				ui.videoPlayer, &CrowPlayer::overrideSubtitleStyles);
+			ui.videoPlayer, &CrowPlayer::overrideSubtitleStyles);
+
+		connect(StylesheetHandler::instance(), &StylesheetHandler::overrideSelectableSubtiles, [&](bool enabledDefault) {
+			ui.videoPlayer->setSubtitleVisibility(!enabledDefault);
+			ui.videoPlayer->setSecondarySubtitleVisibility(!enabledDefault);
+		});
 
 		connect(StylesheetHandler::instance(), &StylesheetHandler::subtitleStyleChanged,
 			ui.videoPlayer, &CrowPlayer::setSubtitleStyle);
+
+		// Subtitles:
+		connect(StylesheetHandler::instance(), &StylesheetHandler::overrideSelectableSubtiles,
+			ui.videoPlayer->subtitles, &SelectableSubtitles::toggleSubtitles);
+
+		connect(StylesheetHandler::instance(), &StylesheetHandler::overrideSelectableSubtiles, [&](bool enabledDefault) {
+			ui.videoPlayer->subtitles->toggleSubtitles(enabledDefault);
+		});
+
+		connect(StylesheetHandler::instance(), &StylesheetHandler::subtitleStyleChanged,
+			ui.videoPlayer->subtitles, &SelectableSubtitles::setSubtitleStyles);
 	}
 
 	void CrowWindow::setupWindowTitles()

@@ -85,6 +85,9 @@
        <property name="text">
         <string>&lt;b&gt;Subtitle&lt;/b&gt;</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
       </widget>
      </item>
      <item>
@@ -101,11 +104,31 @@
       </spacer>
      </item>
      <item>
-      <widget class="QRadioButton" name="overrideStyleButton">
-       <property name="text">
-        <string>Override Font Styles</string>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="rightMargin">
+        <number>0</number>
        </property>
-      </widget>
+       <item>
+        <widget class="QRadioButton" name="overrideStyleButton">
+         <property name="text">
+          <string>Override Font Styles</string>
+         </property>
+         <property name="autoExclusive">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="useSelectableButton">
+         <property name="text">
+          <string>Use Selectable</string>
+         </property>
+         <property name="autoExclusive">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>

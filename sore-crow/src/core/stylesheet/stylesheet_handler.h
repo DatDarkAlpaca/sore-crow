@@ -33,6 +33,10 @@ namespace sore
 
 		bool getSubtitleOverride();
 
+		void setSelectableSubtitle(bool enabled);
+
+		bool getSelectableSubtitles();
+
 		SubtitleFontStyles getSubtitleFontStyles();
 
 		void setSubtitleFontStyles(const SubtitleFontStyles& styles);
@@ -44,6 +48,8 @@ namespace sore
 
 	signals:
 		void overrideStylesChanged(bool overrideEnabled);
+
+		void overrideSelectableSubtiles(bool overrideEnabled);
 
 		void subtitleStyleChanged(const SubtitleFontStyles&);
 

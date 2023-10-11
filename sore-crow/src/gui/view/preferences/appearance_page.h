@@ -31,6 +31,8 @@ namespace sore
 
 			// Font Styles:
 			populateOverrideSubtitleStyles();
+			populateSelectableButton();
+
 			populateSubtitleOptions();
 			connectSubtitleOptions();
 		}
@@ -117,6 +119,20 @@ namespace sore
 			connect(ui.overrideStyleButton, &QRadioButton::released, [&, stylesheet]() {
 				stylesheet->setSubtitleOverride(ui.overrideStyleButton->isChecked());
 			});
+
+			emit stylesheet->overrideStylesChanged(ui.overrideStyleButton->isChecked());
+		}
+
+		void populateSelectableButton()
+		{
+			auto* stylesheet = StylesheetHandler::instance();
+			ui.useSelectableButton->setChecked(stylesheet->getSelectableSubtitles());
+
+			connect(ui.useSelectableButton, &QRadioButton::released, [&, stylesheet]() {
+				stylesheet->setSelectableSubtitle(ui.useSelectableButton->isChecked());
+			});
+
+			emit stylesheet->overrideSelectableSubtiles(ui.useSelectableButton->isChecked());
 		}
 
 		void populateSubtitleOptions()

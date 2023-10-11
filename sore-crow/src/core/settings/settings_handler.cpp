@@ -45,6 +45,7 @@ namespace sore
 		settings->setValue("styles/themes/is_theme_dark", true);
 
 		settings->setValue("styles/subtitles/override_styles", false);
+		settings->setValue("styles/subtitles/selectable_subtitles", false);
 		settings->setValue("styles/subtitles/primary/font_family", "segoe ui");
 		settings->setValue("styles/subtitles/primary/font_size", 12);
 		settings->setValue("styles/subtitles/primary/font_color", "#FFFFFFFF");
