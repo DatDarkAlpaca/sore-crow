@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "crow_player_wrapper.h"
 
+
 namespace sore
 {
 	CrowPlayerWrapper::CrowPlayerWrapper(QWidget* parent)
@@ -183,9 +184,13 @@ namespace sore
 	{
 		setAttribute(Qt::WA_Hover);
 		controls = new PlayerControls(this);
+		subtitles = new SelectableSubtitles(this);
 
 		QVBoxLayout* layout = new QVBoxLayout(this);
-		layout->addWidget(controls);
-		layout->setAlignment(controls, Qt::AlignBottom);
+		layout->setContentsMargins(0, 0, 0, 0);
+		layout->addWidget(subtitles);
+
+		QVBoxLayout* playerLayout = new QVBoxLayout(subtitles);
+		playerLayout->addWidget(controls, 0, Qt::AlignBottom);
 	}
 }

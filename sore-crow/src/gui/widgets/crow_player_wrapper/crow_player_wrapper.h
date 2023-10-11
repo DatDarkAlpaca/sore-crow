@@ -5,6 +5,7 @@
 #include "core/handlers.h"
 #include "gui/widgets/crow_player/crow_player.h"
 #include "gui/widgets/player_controls/player_controls.h"
+#include "gui/widgets/selectable_subtitles/selectable_subtitles.h"
 
 namespace sore
 {
@@ -54,6 +55,7 @@ namespace sore
 
 	public:
 		PlayerControls* controls = nullptr;
+		SelectableSubtitles* subtitles = nullptr;
 
 	private:
 		QTimer* m_HideControlTimer;
