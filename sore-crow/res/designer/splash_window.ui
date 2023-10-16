@@ -51,7 +51,7 @@
        <string notr="true">font: 24pt &quot;Segoe UI Variable Text&quot;;</string>
       </property>
       <property name="text">
-       <string>Kore Crow</string>
+       <string>Sore Crow</string>
       </property>
       <property name="textFormat">
        <enum>Qt::AutoText</enum>
